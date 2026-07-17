@@ -1,0 +1,14 @@
+version: 2
+
+sources:
+  - name: raw_finances
+    tables:
+      - name: accounts
+      - name: budget_2026
+      - name: budget_2026_fixed_costs
+      - name: investments_price
+      - name: investments_transactions
+      - name: savings_goals
+      - name: savings_goals_details
+      - name: transactions
+      - name: type_category
