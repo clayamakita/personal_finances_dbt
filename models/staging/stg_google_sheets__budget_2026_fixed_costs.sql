@@ -1,0 +1,18 @@
+select
+    _fivetran_synced, 
+    _row as budget_fixed_costs_id, 
+    category as budget_category, 
+    item as budget_item, 
+    cast( january_2026 as numeric ) as january_2026, 
+    cast( february_2026 as numeric ) as february_2026, 
+    cast( march_2026 as numeric ) as march_2026, 
+    cast( april_2026 as numeric ) as april_2026, 
+    cast( may_2026 as numeric ) as may_2026, 
+    cast( june_2026 as numeric ) as june_2026, 
+    cast( july_2026 as numeric ) as july_2026, 
+    cast( august_2026 as numeric ) as august_2026, 
+    cast( september_2026 as numeric ) as september_2026, 
+    cast( october_2026 as numeric ) as october_2026, 
+    cast( november_2026 as numeric ) as november_2026, 
+    cast( december_2026 as numeric ) as december_2026,
+from {{ source('src_google_sheets', 'budget_2026_fixed_costs') }}
