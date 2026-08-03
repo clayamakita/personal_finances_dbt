@@ -1,0 +1,68 @@
+version: 2
+
+sources:
+  - name: src_google_sheets
+    tables:
+      - name: accounts
+        columns:
+          - name: _row
+            data_tests:
+              - unique
+              - not_null
+              
+      - name: budget_2026
+        columns:
+          - name: _row
+            data_tests:
+            - unique
+            - not_null
+             
+      - name: budget_2026_fixed_costs
+        columns:
+          - name: _row
+            data_tests:
+              - unique
+              - not_null
+              
+      - name: investments_price
+        columns:
+          - name: _row
+            data_tests:
+              - unique
+              - not_null
+              
+      - name: investments_transactions
+        columns:
+          - name: _row
+            data_tests:
+              - unique
+              - not_null
+              
+      - name: savings_goals
+        columns:
+          - name: _row
+            data_tests:
+              - unique
+              - not_null
+              
+      - name: savings_goals_details
+        columns:
+          - name: _row
+            data_tests:
+              - unique
+              - not_null
+              
+      - name: cashflow_transactions
+        columns:
+          - name: _row
+            data_tests:
+              - unique
+              - not_null
+              
+      - name: cashflow_type_category
+        columns:
+          - name: _row
+            data_tests:
+              - unique
+              - not_null
+              
