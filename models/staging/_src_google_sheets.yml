@@ -1,7 +1,7 @@
 version: 2
 
 sources:
-  - name: raw_finances
+  - name: src_google_sheets
     tables:
       - name: accounts
         columns:
@@ -52,14 +52,14 @@ sources:
               - unique
               - not_null
               
-      - name: transactions
+      - name: cashflow_transactions
         columns:
           - name: _row
             data_tests:
               - unique
               - not_null
               
-      - name: type_category
+      - name: cashflow_type_category
         columns:
           - name: _row
             data_tests:
