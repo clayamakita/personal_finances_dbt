@@ -12,4 +12,4 @@ select
     cast( total_value as numeric ) as total_value, 
     coalesce( dividends, 0 ) as dividends, 
     cast( net_qty as numeric ) as net_qty
-from {{ source('src_google_sheets', 'investments_transactions') }}
+from {{ source('google_sheets', 'investments_transactions') }}

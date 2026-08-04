@@ -5,4 +5,4 @@ select
     goal_name, 
     item as goal_item, 
     cast( amount as numeric) as goal_amount
-from {{ source('src_google_sheets', 'savings_goals_details') }}
+from {{ source('google_sheets', 'savings_goals_details') }}

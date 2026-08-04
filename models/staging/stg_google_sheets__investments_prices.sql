@@ -6,4 +6,4 @@ select
     live_price as latest_price, 
     last_trade_time, 
     time_delay
-from {{ source('src_google_sheets', 'investments_price') }}
+from {{ source('google_sheets', 'investments_price') }}

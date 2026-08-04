@@ -15,4 +15,4 @@ select
     cast( october_2026 as numeric ) as october_2026, 
     cast( november_2026 as numeric ) as november_2026, 
     cast( december_2026 as numeric ) as december_2026,
-from {{ source('src_google_sheets', 'budget_2026_fixed_costs') }}
+from {{ source('google_sheets', 'budget_2026_fixed_costs') }}

@@ -11,4 +11,4 @@ select
     qty, 
     unit, 
     notes
-from {{ source('src_google_sheets', 'cashflow_transactions') }}
+from {{ source('google_sheets', 'cashflow_transactions') }}
