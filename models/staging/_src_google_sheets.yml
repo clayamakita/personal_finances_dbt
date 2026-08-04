@@ -1,7 +1,9 @@
 version: 2
 
 sources:
-  - name: src_google_sheets
+  - name: google_sheets
+    database: personal-finances-501019
+    schema: src_google_sheets
     tables:
       - name: accounts
         columns:

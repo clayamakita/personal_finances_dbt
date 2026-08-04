@@ -5,4 +5,4 @@ select
     priority as goal_priority, 
     initial_target_date, 
     actual_date
-from {{ source('src_google_sheets', 'savings_goals') }}
+from {{ source('google_sheets', 'savings_goals') }}

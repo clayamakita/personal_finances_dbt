@@ -6,5 +6,5 @@ select
     cast( coalesce( current_balance, 0 ) as numeric ) as current_balance, 
     account_type, 
     account_category
-from {{ source('src_google_sheets', 'accounts') }}
+from {{ source('google_sheets', 'accounts') }}
 where account is not null

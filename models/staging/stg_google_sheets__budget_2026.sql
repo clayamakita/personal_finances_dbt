@@ -14,7 +14,7 @@ select
     cast( coalesce( october_2026, 0 ) as numeric ) as october_2026, 
     cast( coalesce( november_2026, 0 ) as numeric ) as november_2026, 
     cast( coalesce( december_2026, 0 ) as numeric ) as december_2026
-from {{ source('src_google_sheets', 'budget_2026') }}
+from {{ source('google_sheets', 'budget_2026') }}
 where not (
     type is null 
     and january_2026 is null 
