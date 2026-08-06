@@ -9,10 +9,10 @@ selected_columns as (
     select 
         transaction_id, 
         account_name, 
-        transaction_location, 
-        transaction_item, 
         transaction_type, 
         transaction_category, 
+        transaction_location, 
+        transaction_item, 
         transaction_amount, 
         qty, 
         unit, 
