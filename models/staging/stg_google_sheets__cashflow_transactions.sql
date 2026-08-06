@@ -1,14 +1,25 @@
-select
-    _fivetran_synced, 
-    _row as transaction_id, 
-    account as account_name, 
-    date as transaction_date, 
-    'where' as transaction_location, 
-    item as transaction_item, 
-    type as transaction_type, 
-    category as transaction_category, 
-    cast( amount as numeric ) as transaction_amount, 
-    qty, 
-    unit, 
-    notes
-from {{ source('google_sheets', 'cashflow_transactions') }}
+with source as (
+
+    select * from {{ source('google_sheets', 'cashflow_transactions') }}
+
+), 
+
+cleaned_columns as (
+
+    select 
+        transaction_id, 
+        account as account_name, 
+        type as transaction_type, 
+        category as transaction_category,
+        notes,  
+        'where' as transaction_location,
+        item as transaction_item, 
+        cast( amount as numeric ) as transaction_amount, 
+        qty, 
+        unit, 
+        safe.parse_date( '%d/%b/%Y', date ) as transaction_date, 
+        _fivetran_synced as _loaded_at
+    from source
+)
+
+select * from cleaned_columns
