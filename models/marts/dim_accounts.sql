@@ -3,11 +3,13 @@ with accounts as (
     select * from {{ ref('stg_google_sheets__accounts') }}
 
 ), 
+
 transactions as (
 
     select * from {{ ref('stg_google_sheets__cashflow_transactions') }}
 
 ),
+
 transactions_total as (
 
     select
@@ -17,9 +19,11 @@ transactions_total as (
     group by account_name
 
 ),
+
 final as (
 
     select 
+        accounts.account_id, 
         accounts.account_name,
         accounts.account_type, 
         accounts.account_category, 
@@ -30,4 +34,5 @@ final as (
     on transactions_total.account_name = accounts.account_name
 
 )
+
 select * from final
