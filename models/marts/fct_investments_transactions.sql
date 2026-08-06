@@ -7,7 +7,7 @@ with investments_transactions as (
 selected_columns as (
 
     select 
-        investments_transactions_id, 
+        investment_transaction_id, 
         account_name, 
         investment_type, 
         investment_event, 
@@ -20,6 +20,7 @@ selected_columns as (
         net_qty, 
         event_date
     from investments_transactions
+
 )
 
 select * from selected_columns
