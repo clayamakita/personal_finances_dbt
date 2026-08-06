@@ -13,6 +13,7 @@ cleaned_columns as (
         account_category, 
         cast( coalesce( beginning_balance, 0 ) as numeric ) as beginning_balance, 
         cast( coalesce( current_balance, 0 ) as numeric ) as current_balance_sheet, 
+        _fivetran_synced as _loaded_at
     from source
 
 )
