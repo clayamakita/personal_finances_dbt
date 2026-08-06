@@ -38,7 +38,7 @@ start_date as (
 
 end_date as (
 
-    select last_day( transaction_date, year ) as max_transaction_date
+    select last_day( max( transaction_date ), year ) as max_transaction_date
     from cashflow_transactions
 ),
 
