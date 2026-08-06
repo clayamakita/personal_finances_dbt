@@ -45,7 +45,7 @@ end_date as (
 final as (
 
     select
-        cast( format_date('%Y%m%d', single_date) as INT64) as date_key,
+        cast( format_date('%Y%m%d', single_date) as INT64) as date_id,
         single_date as calendar_date,
         extract(year from single_date) AS calendar_year,
         extract(quarter from single_date) AS calendar_quarter,
