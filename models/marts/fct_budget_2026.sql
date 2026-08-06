@@ -7,7 +7,7 @@ with budget as (
 added_key as (
 
     select
-        {{ dbt_utils.generate_surrogate_key(['budget_type', 'budget_month']) }} as fct_budget_id,
+        replace( budget_type, ' ', '_' ) || '-' || cast( budget_month as string ) as budget_fct_id,
         budget_type, 
         budget_month, 
         budget_amount
