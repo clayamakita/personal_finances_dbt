@@ -20,5 +20,18 @@ unpivoted as (
         )
     where budget_category is not null
 
+),
+
+added_key as (
+
+    select
+        lower( replace( budget_item, ' ', '' ) ) || '_' || cast( budget_month as string ) AS budget_fixed_costs_item_id, 
+        budget_category, 
+        budget_item,
+        budget_month, 
+        budget_amount
+    from unpivoted
+
 )
-select * from unpivoted
+
+select * from added_key
