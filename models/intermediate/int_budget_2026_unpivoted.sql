@@ -18,5 +18,17 @@ unpivoted as (
             )
         )
     where budget_type is not null
+), 
+
+added_key as (
+
+    select 
+        lower( replace( replace( budget_type, '-', '' ), ' ', '' ) ) || '_' || cast( budget_month as string ) AS budget_month_id, 
+        budget_type, 
+        budget_month, 
+        budget_amount
+    from unpivoted
+
 )
-select * from unpivoted
+
+select * from added_key
