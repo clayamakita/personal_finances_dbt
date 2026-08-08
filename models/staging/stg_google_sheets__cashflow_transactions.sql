@@ -11,13 +11,13 @@ cleaned_columns as (
         account as account_name, 
         type as transaction_type, 
         category as transaction_category,
-        notes,  
         'where' as transaction_location,
-        item, 
+        item as transaction_item, 
         cast( amount as numeric ) as transaction_amount, 
-        quanity, 
+        qty as quantity, 
         unit, 
         safe.parse_date( '%d/%b/%Y', date ) as transaction_date, 
+        notes,  
         _fivetran_synced as _loaded_at
     from source
 )
