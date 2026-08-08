@@ -8,7 +8,7 @@ cleaned_columns as (
 
     select
         investment_price_id, 
-        ticker as investment_ticker, 
+        ticker, 
         investment_name, 
         cast( live_price as numeric ) as latest_price, 
         time_delay, 
