@@ -11,13 +11,13 @@ selected_columns as (
         account_name, 
         investment_type, 
         investment_event, 
-        investment_ticker, 
+        ticker, 
         investment_name, 
-        qty, 
+        quantity, 
         price, 
         total_value, 
         dividends, 
-        net_qty, 
+        net_quantity, 
         event_date
     from investments_transactions
 
