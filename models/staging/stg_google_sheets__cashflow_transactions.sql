@@ -13,9 +13,9 @@ cleaned_columns as (
         category as transaction_category,
         notes,  
         'where' as transaction_location,
-        item as transaction_item, 
+        item, 
         cast( amount as numeric ) as transaction_amount, 
-        qty, 
+        quanity, 
         unit, 
         safe.parse_date( '%d/%b/%Y', date ) as transaction_date, 
         _fivetran_synced as _loaded_at
