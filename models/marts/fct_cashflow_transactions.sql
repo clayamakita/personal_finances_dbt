@@ -14,7 +14,7 @@ selected_columns as (
         transaction_location, 
         transaction_item, 
         transaction_amount, 
-        qty, 
+        quantity, 
         unit, 
         transaction_date, 
         notes
