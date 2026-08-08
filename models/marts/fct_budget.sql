@@ -4,10 +4,10 @@ with budget as (
 
 ), 
 
-added_key as (
+final as (
 
     select
-        replace( budget_type, ' ', '_' ) || '-' || cast( budget_month as string ) as budget_fct_id,
+        budget_month_id, 
         budget_type, 
         budget_month, 
         budget_amount
@@ -15,4 +15,4 @@ added_key as (
 
 )
 
-select * from added_key
+select * from final
