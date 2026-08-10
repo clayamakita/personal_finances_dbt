@@ -146,7 +146,7 @@ goals_months_until_saved as (
         case 
             when goal_amount_needed = 0 then 0 
             else ceil( safe_divide( running_goal_amount_needed, budget_savings_amount) ) + 1 
-        end as months_until_saved
+        end as months_to_goal
     from goals_remaining_needed
 
 ), 
@@ -166,9 +166,13 @@ goals_funding_month as (
         goal_amount_needed, 
         running_goal_amount_needed, 
         budget_savings_amount, 
-        months_until_saved, 
-        date_add( date_trunc( current_date('America/Toronto'), month ), 
-interval cast( months_until_saved as integer) month) as funding_month
+        months_to_goal, 
+        case 
+            when months_to_goal = 0 then null 
+            else date_add( 
+                date_trunc( current_date('America/Toronto'), month ), 
+                interval cast( months_to_goal as integer) month )
+        end as funding_month
     from goals_months_until_saved
 
 )
