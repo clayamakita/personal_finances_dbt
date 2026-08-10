@@ -16,6 +16,12 @@ accounts as (
 
 ),
 
+latest_budget as (
+
+    select * from {{ ref('int_budget_latest_month') }}
+
+),
+
 goals_amount as (
 
     select 
@@ -88,6 +94,87 @@ goals_status as (
             else goal_amount - goal_amount_saved 
          end as goal_amount_needed
     from goals_amount_saved
+), 
+
+latest_budget_savings as (
+
+    select
+        budget_type, 
+        budget_month,
+        budget_amount
+    from latest_budget
+    where budget_type = 'Savings'
+
+),
+
+goals_remaining_needed as (
+
+    select 
+        goal_name, 
+        goal_priority, 
+        goal_amount, 
+        running_goal_amount, 
+        account_name, 
+        account_current_balance, 
+        goal_amount_saved, 
+        goal_status, 
+        goal_status_id,
+        goal_amount_needed, 
+        sum( goal_amount_needed ) over( order by goal_status_id, goal_priority ) as running_goal_amount_needed, 
+        case 
+            when goal_amount_needed = 0 then 0 
+            else ( select budget_amount from latest_budget_savings )
+        end as budget_savings_amount
+    from goals_status
+),
+
+goals_months_until_saved as (
+
+    select 
+        goal_name, 
+        goal_priority, 
+        goal_amount, 
+        running_goal_amount, 
+        account_name, 
+        account_current_balance, 
+        goal_amount_saved, 
+        goal_status, 
+        goal_status_id,
+        goal_amount_needed, 
+        running_goal_amount_needed, 
+        budget_savings_amount, 
+        case 
+            when goal_amount_needed = 0 then 0 
+            else ceil( safe_divide( running_goal_amount_needed, budget_savings_amount) ) + 1 
+        end as months_to_goal
+    from goals_remaining_needed
+
+), 
+
+goals_funding_month as (
+
+    select 
+        goal_name, 
+        goal_priority, 
+        goal_amount, 
+        running_goal_amount, 
+        account_name, 
+        account_current_balance, 
+        goal_amount_saved, 
+        goal_status, 
+        goal_status_id,
+        goal_amount_needed, 
+        running_goal_amount_needed, 
+        budget_savings_amount, 
+        months_to_goal, 
+        case 
+            when months_to_goal = 0 then null 
+            else date_add( 
+                date_trunc( current_date('America/Toronto'), month ), 
+                interval cast( months_to_goal as integer) month )
+        end as funding_month
+    from goals_months_until_saved
+
 )
 
-select * from goals_status
+select * from goals_funding_month
