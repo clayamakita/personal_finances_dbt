@@ -1,10 +1,10 @@
-with investments_transactions as (
+with transactions as (
 
     select * from {{ ref('stg_google_sheets__investments_transactions') }}
 
 ), 
 
-investments_prices as (
+prices as (
 
     select * from {{ ref('stg_google_sheets__investments_prices') }}
 
@@ -17,12 +17,12 @@ aggregated_transactions as (
         ticker, 
         investment_name, 
         sum( net_quantity ) as total_quantity 
-    from investments_transactions
+    from transactions
     group by 1, 2, 3 
 
 ),
 
-joined_investments_prices as (
+current_position as (
 
     select 
         transactions.investment_type, 
@@ -32,8 +32,8 @@ joined_investments_prices as (
         prices.latest_price, 
         round( transactions.total_quantity * prices.latest_price, 2 ) as total_value
     from aggregated_transactions as transactions 
-    left join investments_prices as prices 
+    left join prices as prices 
     on prices.ticker = transactions.ticker 
 )
 
-select * from joined_investments_prices
+select * from current_position
