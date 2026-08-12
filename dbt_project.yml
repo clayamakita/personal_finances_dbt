@@ -45,3 +45,7 @@ models:
 
     marts:
       +materialized: table
+
+
+on-run-start:
+  - "{{ calculate_annualized_return() }}"
