@@ -67,4 +67,10 @@ sources:
             data_tests:
               - unique
               - not_null
-              
+
+      - name: retirement_assumptions
+        columns:
+          - name: _row
+            data_tests:
+              - unique
+              - not_null              
