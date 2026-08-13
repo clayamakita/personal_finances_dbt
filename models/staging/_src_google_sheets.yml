@@ -19,12 +19,20 @@ sources:
 
           - name: account_id 
             description: Unique identifier for the account. Added manually in Google Sheets.
+            data_tests:
+              - unique
+              - not_null
             
           - name: account
             description: Account name, often including the type of account (e.g. Chequing, Credit Card, Savings) and the account holder (e.g. Chequing Kenji, Savings Family).
+            data_tests:
+              - unique
+              - not_null
 
           - name: beginning_balance 
             description: Balance recorded when the account was first added to the file.
+            data_tests:
+              - not_null
 
           - name: current_balance 
             description: Most recent known balance for the account. Calculated on the file, based on Beginning Balance and Transactions data.
