@@ -41,3 +41,83 @@ models:
       - name: _loaded_at
         description: Timestamp when data was last successfully synced that specific row.
           
+  - name: stg_google_sheets__budget_2026
+    description:  Staging model for the 2026 monthly budget. Each row represents a budget type and its budgeted amount for each of the twelve months of 2026. 
+    columns:
+      - name: budget_id
+        description: Unique identifier for the budget type, sourced from the Google Sheets row number.
+        data_tests:
+          - unique
+          - not_null
+
+      - name: type 
+        description: Label identifying the top-level buckets (e.g. "Income," "Fixed Costs," "Savings, "Investments"), individual discretionary "Guilt-Free" allowances per person or purpose (e.g. "Guilt-Free Mei," "Guilt-Free Kenji", "Guilt-Free Family," "Guilt-Free Pet") and a subtotal row ("Guilt-Free Total").
+        data_tests:
+        - unique
+        - not_null
+        - accepted_values:
+            arguments: 
+              values: ['Income', 'Fixed Costs', 'Investments', 'Savings', 'Guilt-Free Total', 'Guilt-Free Family', 'Guilt-Free Kenji', 'Guilt-Free Mei', 'Guilt-Free Pet']
+
+      - name: january_2026 
+        description: Budgeted amount for this type in January 2026.
+        data_tests:
+          - not_null
+
+      - name: february_2026 
+        description: Budgeted amount for this type in February 2026.
+        data_tests:
+          - not_null
+          
+      - name: march_2026 
+        description: Budgeted amount for this type in March 2026.
+        data_tests:
+          - not_null
+
+      - name: april_2026 
+        description: Budgeted amount for this type in April 2026.
+        data_tests:
+          - not_null
+
+      - name: may_2026 
+        description: Budgeted amount for this type in May 2026.
+        data_tests:
+          - not_null
+
+      - name: june_2026 
+        description: Budgeted amount for this type in June 2026.
+        data_tests:
+          - not_null
+
+      - name: july_2026 
+        description: Budgeted amount for this type in July 2026.
+        data_tests:
+          - not_null
+
+      - name: august_2026 
+        description: Budgeted amount for this type in August 2026.
+        data_tests:
+          - not_null
+
+      - name: september_2026 
+        description: Budgeted amount for this type in September 2026.
+        data_tests:
+          - not_null
+
+      - name: october_2026 
+        description: Budgeted amount for this type in October 2026.
+        data_tests:
+          - not_null
+
+      - name: november_2026 
+        description: Budgeted amount for this type in November 2026.
+        data_tests:
+          - not_null
+
+      - name: december_2026 
+        description: Budgeted amount for this type in December 2026.
+        data_tests:
+          - not_null
+
+      - name: _loaded_at 
+        description: Timestamp when data was last successfully synced for that specific row.
