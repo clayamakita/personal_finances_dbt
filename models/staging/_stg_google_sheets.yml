@@ -121,3 +121,88 @@ models:
 
       - name: _loaded_at 
         description: Timestamp when data was last successfully synced for that specific row.
+
+  - name: stg_google_sheets__budget_2026_fixed_costs 
+    description: Staging model for the 2026 monthly fixed costs budget breakdown. Each row represents a single budget line item, grouped by fixed costs category, with its budgeted amount for each of the twelve months of 2026.
+    columns:
+      - name: budget_fixed_costs_id
+        description: Unique identifier for the budget line item, sourced from the Google Sheets row number.
+        data_tests:
+          - unique
+          - not_null
+
+      - name: budget_category
+        description: High-level spending category the line item belongs to (e.g. Housing, Groceries, Transportation, Pet, Healthcare, Miscellaneous).
+        data_tests:
+          - not_null
+          - accepted_values:
+              arguments:
+                values: ['Groceries', 'Healthcare', 'Housing', 'Household Items', 'Miscellaneous', 'Pet', 'Transportation']
+
+      - name: budget_item
+        description: Descriptive name of the individual budget line item (e.g. "Rent", "Electricity", "Cellphone plan") or a category subtotal row (e.g. "Groceries Total") where item-level detail isn't broken out.
+        data_tests:
+          - not_null
+
+      - name: january_2026 
+        description: Budgeted amount for this line item in January 2026.
+        data_tests:
+          - not_null
+
+      - name: february_2026 
+        description: Budgeted amount for this line item in February 2026.
+        data_tests:
+          - not_null
+
+      - name: march_2026 
+        description: Budgeted amount for this line item in March 2026.
+        data_tests:
+          - not_null
+
+      - name: april_2026 
+        description: Budgeted amount for this line item in April 2026.
+        data_tests:
+          - not_null
+
+      - name: may_2026 
+        description: Budgeted amount for this line item in May 2026.
+        data_tests:
+          - not_null
+
+      - name: june_2026 
+        description: Budgeted amount for this line item in June 2026.
+        data_tests:
+          - not_null
+
+      - name: july_2026 
+        description: Budgeted amount for this line item in July 2026.
+        data_tests:
+          - not_null
+
+      - name: august_2026 
+        description: Budgeted amount for this line item in August 2026.
+        data_tests:
+          - not_null            
+
+      - name: september_2026 
+        description: Budgeted amount for this line item in September 2026.
+        data_tests:
+          - not_null
+
+      - name: october_2026 
+        description: Budgeted amount for this line item in October 2026.
+        data_tests:
+          - not_null
+
+      - name: november_2026 
+        description: Budgeted amount for this line item in November 2026.
+        data_tests:
+          - not_null
+
+      - name: december_2026 
+        description: Budgeted amount for this line item in December 2026.
+        data_tests:
+          - not_null
+
+      - name: _loaded_at 
+        description: Timestamp when data was last successfully synced for that specific row.          
