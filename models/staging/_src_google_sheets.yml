@@ -74,6 +74,9 @@ sources:
             data_tests:
             - unique
             - not_null
+            - accepted_values:
+                arguments: 
+                  values: ['Income', 'Fixed Costs', 'Investments', 'Savings', 'Guilt-Free Total', 'Guilt-Free Family', 'Guilt-Free Kenji', 'Guilt-Free Mei', 'Guilt-Free Pet']
 
           - name: january_2026 
             description: Budgeted amount for this type in January 2026.
@@ -152,6 +155,9 @@ sources:
             description: High-level spending Fixed Costs category the line item belongs to (e.g. Housing, Groceries, Transportation, Pet, Healthcare, Miscellaneous).
             data_tests:
               - not_null
+              - accepted_values:
+                  arguments: 
+                    values: ['Groceries', 'Healthcare', 'Housing', 'Household Items', 'Miscellaneous', 'Pet', 'Transportation']
 
           - name: item 
             description: Descriptive name of the individual budget line item (e.g. "Rent", "Electricity", "Cellphone plan") or a category subtotal row (e.g. "Groceries Total") where item-level detail isn't broken out.
