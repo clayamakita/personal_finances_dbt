@@ -39,9 +39,19 @@ sources:
 
           - name: account_type 
             description: High-level classification of the account — Assets or Liabilities.
+            data_tests:
+              - not_null
+              - accepted_values:
+                  arguments: 
+                    values: ['Assets', 'Liabilities']
 
           - name: account_category 
             description: Functional grouping of the account (e.g. Chequing, Savings, Credit Card) used for reporting.
+            data_tests:
+              - not_null
+              - accepted_values:
+                  arguments: 
+                    values: ['Chequing', 'Credit Card', 'Savings', 'Investments']
 
               
       - name: budget_2026
