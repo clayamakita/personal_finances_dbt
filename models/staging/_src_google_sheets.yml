@@ -2,6 +2,7 @@ version: 2
 
 sources:
   - name: google_sheets
+    description: Raw data replicated from Google Sheets file. Synced via Fivetran.
     database: personal-finances-501019
     schema: src_google_sheets
     tables:
