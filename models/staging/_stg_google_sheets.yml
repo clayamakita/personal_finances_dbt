@@ -1,0 +1,43 @@
+models:
+  - name: stg_google_sheets__accounts
+    description: List of financial accounts with beginning/current balances, type, and category.
+    columns:
+      - name: account_id 
+        description: Unique identifier for the account. Added manually in Google Sheets.
+        data_tests:
+          - unique
+          - not_null
+        
+      - name: account_name
+        description: Account name, often including the type of account (e.g. Chequing, Credit Card, Savings) and the account holder (e.g. Chequing Kenji, Savings Family).
+        data_tests:
+          - unique
+          - not_null
+
+      - name: account_type 
+        description: High-level classification of the account — Assets or Liabilities.
+        data_tests:
+          - not_null
+          - accepted_values:
+              arguments: 
+                values: ['Assets', 'Liabilities']
+
+      - name: account_category 
+        description: Functional grouping of the account (e.g. Chequing, Savings, Credit Card) used for reporting.
+        data_tests:
+          - not_null
+          - accepted_values:
+              arguments: 
+                values: ['Chequing', 'Credit Card', 'Savings', 'Investments']
+
+      - name: beginning_balance 
+        description: Balance recorded when the account was first added to the file.
+        data_tests:
+          - not_null
+
+      - name: current_balance_sheet 
+        description: Most recent known balance for the account. Calculated on the file, based on Beginning Balance and Transactions data.
+
+      - name: _loaded_at
+        description: Timestamp when data was last successfully synced that specific row.
+          
