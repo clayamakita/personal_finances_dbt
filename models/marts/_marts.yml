@@ -82,7 +82,52 @@ models:
                 values: ['Fixed Costs', 'Guilt-Free Family', 'Guilt-Free Kenji', 'Guilt-Free Mei', 'Guilt-Free Pet', 'Income', 'Investments', 'Savings', 'Savings Spending', 'Transfer']
 
   - name: dim_dates 
-    description: 
+    description: Date dimension providing one row per calendar day, used to support time-based analysis and joins across budget, cashflow, and investments data. The range spans from the start of the year containing the earliest date across all source models (budget, cashflow transactions, and investment transactions) through the end of the year containing the latest cashflow transaction date.
+    columns:
+      - name: date_id
+        description: Unique identifier for the date.
+        data_tests:
+          - unique
+          - not_null
+
+      - name: calendar_date
+        description: The calendar date for this row, as a native date value.
+        data_tests:
+          - unique
+          - not_null
+
+      - name: calendar_year
+        description: Calendar year of the date (e.g., 2026).
+        data_tests:
+          - not_null
+
+      - name: calendar_quarter
+        description: Calendar quarter of the date, numbered 1 through 4.
+        data_tests:
+          - not_null
+          - accepted_values:
+              arguments:
+                values: [1, 2, 3, 4]
+
+      - name: month_number
+        description: Month of the date, numbered 1 (January) through 12 (December).
+        data_tests:
+          - not_null
+
+      - name: month_name
+        description: Full name of the month (e.g., 'January').
+        data_tests:
+          - not_null
+
+      - name: day_number
+        description: Day of the month, numbered 1 through 31.
+        data_tests:
+          - not_null
+
+      - name: day_of_week_name
+        description: Full name of the day of the week (e.g., 'Monday').
+        data_tests:
+          - not_null
 
   - name: dim_investments 
     description: 
