@@ -107,3 +107,45 @@ models:
               arguments: 
                 min_value: 0 
                 inclusive: true
+
+  - name: int_budget_2026_fixed_costs_unpivoted 
+    description: Unpivoted 2026 monthly fixed costs budget breakdown. Each row represents a single budget line item, grouped by fixed costs category, with its budgeted amount in one calendar month. Some items represent a single line item within their category (e.g. Housing items like Rent, Internet, Home insurance), while others (e.g. Groceries Total, Transportation Total) represent a category-level total where the source doesn't break out individual items.
+    data_tests:
+      - dbt_utils.unique_combination_of_columns:
+          arguments: 
+            combination_of_columns:
+              - budget_item
+              - budget_month
+    columns:
+      - name: budget_fixed_costs_item_id 
+        description: Surrogate key formed by concatenating a slugified `budget_item` (lowercased, spaces removed) with the `budget_month` date, e.g. `rent_2026-01-01`. Uniquely identifies a budget_item/budget_month combination.
+        data_tests:
+          - unique
+          - not_null
+
+      - name: budget_category 
+        description: High-level spending category the line item belongs to (e.g. Housing, Groceries, Transportation, Pet, Healthcare, Miscellaneous).
+        data_tests:
+          - not_null
+          - accepted_values:
+              arguments:
+                values: ['Groceries', 'Healthcare', 'Housing', 'Household Items', 'Miscellaneous', 'Pet', 'Transportation']
+
+      - name: budget_item
+        description: Descriptive name of the individual budget line item (e.g. "Rent", "Electricity", "Cellphone plan") or a category subtotal row (e.g. "Groceries Total") where item-level detail isn't broken out.
+        data_tests:
+          - not_null
+
+      - name: budget_month
+        description: The first day of the budgeted calendar month, parsed from the source column name (e.g. `january_2026` -> 2026-01-01).
+        data_tests:
+          - not_null
+
+      - name: budget_amount
+        description: The budgeted dollar amount for this budget_type in this budget_month.
+        data_tests:
+          - not_null
+          - dbt_utils.accepted_range:
+              arguments: 
+                min_value: 0 
+                inclusive: true
