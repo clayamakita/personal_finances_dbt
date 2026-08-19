@@ -467,3 +467,41 @@ models:
 
       - name: _loaded_at 
         description: Timestamp when data was last successfully synced for that specific row.
+
+  - name: stg_google_sheets__savings_goals_details
+    description: Staging model for itemized amount breakdown for each savings goal.
+    columns:
+      - name: goal_detail_id
+        description: Unique identifier for the savings goals details. Added manually in Google Sheets.
+        data_tests:
+          - unique
+          - not_null
+
+      - name: account_name
+        description: Savings account associated with the goal (e.g., Savings Family).
+        data_tests:
+          - not_null
+
+      - name: goal_name
+        description: Name of the savings goal this item belongs to, links to savings_goals source.
+        data_tests:
+          - not_null
+
+      - name: goal_item
+        description: Specific expense or line item contributing to the goal (e.g., Dealer fees, Car insurance).
+        data_tests:
+          - not_null
+
+      - name: goal_amount
+        description: Cost of this item. Summing all items for a goal_name gives the total target amount for that goal.
+        data_tests:
+          - not_null
+          - dbt_utils.accepted_range:
+              arguments:
+                min_value: 0
+                inclusive: true
+
+      - name: _loaded_at 
+        description: Timestamp when data was last successfully synced for that specific row.
+        data_tests:
+          - not_null
