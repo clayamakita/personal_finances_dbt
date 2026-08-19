@@ -223,3 +223,42 @@ models:
               arguments: 
                 min_value: 0 
                 inclusive: true
+
+  - name: int_cashflow_transactions_agg_month
+    description: Cashflow transactions (income, expenses, transfers) aggregated at the month, type, and category level.
+    data_tests:
+      - dbt_utils.unique_combination_of_columns:
+          arguments:
+            combination_of_columns:
+              - transaction_type
+              - transaction_category
+              - transaction_month
+    columns:
+      - name: transaction_month_id
+        description: Surrogate key formed by concatenating a slugified `transaction_type` (lowercased, hyphens and spaces removed), a slugified `transaction_category` (lowercased, spaces removed), and the `transaction_month` date, e.g. `guiltfreepet_boarding_2026-02-01`. Uniquely identifies a transaction_type/ transaction_category/ transaction_month combination.
+        data_tests:
+          - unique
+          - not_null
+
+      - name: transaction_type
+        description: High-level cashflow category grouping (e.g., Fixed Costs, Income, Savings, Investments, Transfer, or an individual Guilt-Free allowance).
+        data_tests:
+          - not_null
+          - accepted_values:
+              arguments:
+                values: ['Fixed Costs', 'Income', 'Savings', 'Investments', 'Transfer', 'Guilt-Free Family', 'Guilt-Free Kenji', 'Guilt-Free Mei', 'Guilt-Free Pet']
+
+      - name: transaction_category
+        description: Specific spending or income category within the type (e.g., Groceries, Housing, Paycheck, Deposit, Withdrawal).
+        data_tests:
+          - not_null
+
+      - name: transaction_month
+        description: Date the transaction occurred.
+        data_tests:
+          - not_null
+
+      - name: total_amount
+        description: Sum of transaction_amount for this transaction_type, transaction_category, and transaction_month. Negative for money out (expenses, transfers out), positive for money in (income, deposits).
+        data_tests:
+          - not_null
