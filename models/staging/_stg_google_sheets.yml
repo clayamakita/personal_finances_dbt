@@ -418,3 +418,21 @@ models:
         description: Timestamp when data was last successfully synced for that specific row.
         data_tests:
           - not_null
+
+  - name: stg_google_sheets__retirement_assumptions
+    description: Staging mode for single-row table of assumptions used to project investments amount for retirement.
+    columns:
+      - name: current_age
+        description: Current age used as the starting point for the projection.
+        data_tests:
+          - not_null
+
+      - name: retirement_age
+        description: Age at which retirement is planned to begin.
+        data_tests:
+          - not_null
+
+      - name: projected_interest_rate
+        description: Assumed annual rate of return used to investment growth (e.g., 0.07 = 7%).
+        data_tests:
+          - not_null
