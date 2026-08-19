@@ -1,0 +1,41 @@
+version: 2
+
+models:
+  - name: int_budget_2026_unpivoted
+    description: Unpivoted monthly budget targets for 2026. Each row represents the budgeted amount for one budget category in one calendar month. Excluded rows for the 'Budget' and 'Guilt-Free Total' categories since they are either an alternate allocation basis (Budget) or redundant with the individual guilt-free categories (Guilt-Free Total).
+    data_tests:
+      - dbt_utils.unique_combination_of_columns:
+          arguments: 
+            combination_of_columns:
+              - budget_type
+              - budget_month
+    columns:
+      - name: budget_month_id
+        description: Surrogate key formed by concatenating a slugified `budget_type` (lowercased, with spaces and hyphens removed) with the `budget_month` date, e.g. `guiltfreepet_2026-01-01`. Uniquely identifies a budget_type/budget_month combination.
+        data_tests:
+          - unique
+          - not_null
+
+      - name: budget_type
+        description: The budget category, e.g. Savings, Investments, Fixed Costs, Income, or one of the individual Guilt-Free categories.
+        data_tests:
+          - not_null
+          - accepted_values:
+              arguments: 
+                values: ['Income', 'Fixed Costs', 'Investments', 'Savings', 'Guilt-Free Family', 'Guilt-Free Kenji', 'Guilt-Free Mei', 'Guilt-Free Pet']
+
+
+      - name: budget_month
+        description: The first day of the budgeted calendar month, parsed from the source column name (e.g. `january_2026` -> 2026-01-01).
+        data_tests:
+          - not_null
+
+      - name: budget_amount
+        description: The budgeted dollar amount for this budget_type in this budget_month.
+        data_tests:
+          - not_null
+          - dbt_utils.accepted_rage:
+              arguments: 
+                min_value: 0 
+                inclusive: true
+
