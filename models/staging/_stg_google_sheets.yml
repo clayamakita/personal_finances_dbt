@@ -269,3 +269,28 @@ models:
         description: Timestamp when Fivetran last successfully synced this row's source data.
         data_tests:
           - not_null
+
+  - name: stg_google_sheets__cashflow_type_category
+    description: Staging model listing all valid cashflow type and category combinations used to classify transactions.
+    columns:
+      - name: type_category_id
+        description: Unique identifier for the type/category pair. Row number from Google Sheets, produced by Fivetran.
+        data_tests:
+          - unique
+          - not_null
+
+      - name: cashflow_type
+        description: High-level cashflow category grouping (e.g., Fixed Costs, Income, Savings, Investments, Transfer, or an  Guilt-Free allowance).
+        data_tests:
+          - not_null
+          - accepted_values:
+              arguments:
+                values: ['Fixed Costs', 'Guilt-Free Family', 'Guilt-Free Kenji', 'Guilt-Free Mei', 'Guilt-Free Pet', 'Income', 'Investments', 'Savings', 'Savings Spending', 'Transfer']
+
+      - name: cashflow_category
+        description: Specific spending or income category within the type (e.g., Groceries, Housing, Paycheck, Deposit, Withdrawal).
+        data_tests:
+          - not_null
+
+      - name: _loaded_at
+        description: Timestamp when data was last successfully synced for that specific row.
