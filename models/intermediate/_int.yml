@@ -203,12 +203,12 @@ models:
           - not_null
 
       - name: budget_category
-        description: The budget category, e.g. Savings, Investments, Fixed Costs, Income, or one of the individual Guilt-Free categories.
+        description: High-level spending fixed costs category (e.g. Housing, Groceries, Transportation, Pet, Healthcare, Miscellaneous).
         data_tests:
           - not_null
           - accepted_values:
-              arguments: 
-                values: ['Income', 'Fixed Costs', 'Investments', 'Savings', 'Guilt-Free Family', 'Guilt-Free Kenji', 'Guilt-Free Mei', 'Guilt-Free Pet']
+              arguments:
+                values: ['Groceries', 'Healthcare', 'Housing', 'Household Items', 'Miscellaneous', 'Pet', 'Transportation']
 
       - name: budget_month
         description: The first day of the budgeted calendar month (e.g. 2026-01-01).
