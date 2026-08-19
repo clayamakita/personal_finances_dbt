@@ -262,3 +262,51 @@ models:
         description: Sum of transaction_amount for this transaction_type, transaction_category, and transaction_month. Negative for money out (expenses, transfers out), positive for money in (income, deposits).
         data_tests:
           - not_null
+
+  - name: int_investments_current_position 
+    description: Current investment holdings and their market value, as of the latest available price.
+    columns:
+      - name: investment_type
+        description: Broad classification of the investment involved in the transaction (e.g., ETF, Stock).
+        data_tests:
+          - not_null
+          - accepted_values:
+              arguments:
+                values: ['Bond', 'ETF', 'GIC', 'Index Fund', 'Mutual Fund', 'Stock']
+
+      - name: ticker
+        description: Ticker symbol of the investment involved in the transaction (e.g., XEQT, VFV, RY).
+        data_tests:
+          - not_null
+
+      - name: investment_name
+        description: Full name of the investment involved in the transaction (e.g., iShares Core Equity ETF Portfolio, Royal Bank of Canada).
+        data_tests:
+          - not_null
+
+      - name: total_quantity
+        description: Total quantity of units/shares currently held, calculated as the sum of net_quantity across all transactions for this ticker (positive for buys, negative for sells).
+        data_tests:
+          - not_null
+          - dbt_utils.accepted_range:
+              arguments: 
+                min_value: 0
+                inclusive: true 
+
+      - name: latest_price 
+        description: Most recent known price per unit/share for this ticker.
+        data_tests:
+          - not_null
+          - dbt_utils.accepted_range:
+              arguments: 
+                min_value: 0
+                inclusive: true
+
+      - name: current_value 
+        description: Current market value, calculated as total_quantity * latest_price.
+        data_tests:
+          - not_null
+          - dbt_utils.accepted_range:
+              arguments: 
+                min_value: 0
+                inclusive: true
