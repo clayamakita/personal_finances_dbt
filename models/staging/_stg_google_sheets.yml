@@ -50,7 +50,7 @@ models:
           - unique
           - not_null
 
-      - name: type 
+      - name: budget_type 
         description: Label identifying the top-level buckets (e.g. "Income," "Fixed Costs," "Savings, "Investments"), individual discretionary "Guilt-Free" allowances per person or purpose (e.g. "Guilt-Free Mei," "Guilt-Free Kenji", "Guilt-Free Family," "Guilt-Free Pet") and a subtotal row ("Guilt-Free Total").
         data_tests:
         - unique
