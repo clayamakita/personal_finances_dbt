@@ -57,7 +57,7 @@ models:
           - not_null
 
       - name: cashflow_type
-        description: High-level cashflow category grouping (e.g., Fixed Costs, Income, Savings, Investments, Transfer, or an  Guilt-Free allowance).
+        description: High-level cashflow category grouping (e.g., Fixed Costs, Income, Savings, Investments, Transfer, or Guilt-Free allowance).
         data_tests:
           - not_null
           - accepted_values:
@@ -65,7 +65,21 @@ models:
                 values: ['Fixed Costs', 'Guilt-Free Family', 'Guilt-Free Kenji', 'Guilt-Free Mei', 'Guilt-Free Pet', 'Income', 'Investments', 'Savings', 'Savings Spending', 'Transfer']
 
   - name: dim_cashflow_types 
-    description: 
+    description: Dimension table of high-level cashflow types (e.g., Fixed Costs, Income, Savings, Investments, Transfer, or Guilt-Free allowances). Used to classify transactions at the type level and to join transaction data to budget data.
+    columns:
+      - name: cashflow_type_id 
+        description: Unique identifier for the cashflow type. 
+        data_tests:
+          - unique
+          - not_null
+
+      - name: cashflow_type 
+        description: High-level cashflow category grouping (e.g., Fixed Costs, Income, Savings, Investments, Transfer, or Guilt-Free allowance).
+        data_tests:
+          - not_null
+          - accepted_values:
+              arguments:
+                values: ['Fixed Costs', 'Guilt-Free Family', 'Guilt-Free Kenji', 'Guilt-Free Mei', 'Guilt-Free Pet', 'Income', 'Investments', 'Savings', 'Savings Spending', 'Transfer']
 
   - name: dim_dates 
     description: 
