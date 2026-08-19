@@ -1,0 +1,507 @@
+models:
+  - name: stg_google_sheets__accounts
+    description: List of financial accounts with beginning/current balances, type, and category.
+    columns:
+      - name: account_id 
+        description: Unique identifier for the account. Added manually in Google Sheets.
+        data_tests:
+          - unique
+          - not_null
+        
+      - name: account_name
+        description: Account name, often including the type of account (e.g. Chequing, Credit Card, Savings) and the account holder (e.g. Chequing Kenji, Savings Family).
+        data_tests:
+          - unique
+          - not_null
+
+      - name: account_type 
+        description: High-level classification of the account — Assets or Liabilities.
+        data_tests:
+          - not_null
+          - accepted_values:
+              arguments: 
+                values: ['Assets', 'Liabilities']
+
+      - name: account_category 
+        description: Functional grouping of the account (e.g. Chequing, Savings, Credit Card) used for reporting.
+        data_tests:
+          - not_null
+          - accepted_values:
+              arguments: 
+                values: ['Chequing', 'Credit Card', 'Savings', 'Investments']
+
+      - name: beginning_balance 
+        description: Balance recorded when the account was first added to the file.
+        data_tests:
+          - not_null
+
+      - name: current_balance_sheet 
+        description: Most recent known balance for the account. Calculated on the file, based on Beginning Balance and Transactions data.
+
+      - name: _loaded_at
+        description: Timestamp when data was last successfully synced that specific row.
+          
+  - name: stg_google_sheets__budget_2026
+    description:  Staging model for the 2026 monthly budget. Each row represents a budget type and its budgeted amount for each of the twelve months of 2026. 
+    columns:
+      - name: budget_id
+        description: Unique identifier for the budget type, sourced from the Google Sheets row number.
+        data_tests:
+          - unique
+          - not_null
+
+      - name: budget_type 
+        description: Label identifying the top-level buckets (e.g. "Income," "Fixed Costs," "Savings, "Investments"), individual discretionary "Guilt-Free" allowances per person or purpose (e.g. "Guilt-Free Mei," "Guilt-Free Kenji", "Guilt-Free Family," "Guilt-Free Pet") and a subtotal row ("Guilt-Free Total").
+        data_tests:
+        - unique
+        - not_null
+        - accepted_values:
+            arguments: 
+              values: ['Income', 'Fixed Costs', 'Investments', 'Savings', 'Guilt-Free Total', 'Guilt-Free Family', 'Guilt-Free Kenji', 'Guilt-Free Mei', 'Guilt-Free Pet']
+
+      - name: january_2026 
+        description: Budgeted amount for this type in January 2026.
+        data_tests:
+          - not_null
+
+      - name: february_2026 
+        description: Budgeted amount for this type in February 2026.
+        data_tests:
+          - not_null
+          
+      - name: march_2026 
+        description: Budgeted amount for this type in March 2026.
+        data_tests:
+          - not_null
+
+      - name: april_2026 
+        description: Budgeted amount for this type in April 2026.
+        data_tests:
+          - not_null
+
+      - name: may_2026 
+        description: Budgeted amount for this type in May 2026.
+        data_tests:
+          - not_null
+
+      - name: june_2026 
+        description: Budgeted amount for this type in June 2026.
+        data_tests:
+          - not_null
+
+      - name: july_2026 
+        description: Budgeted amount for this type in July 2026.
+        data_tests:
+          - not_null
+
+      - name: august_2026 
+        description: Budgeted amount for this type in August 2026.
+        data_tests:
+          - not_null
+
+      - name: september_2026 
+        description: Budgeted amount for this type in September 2026.
+        data_tests:
+          - not_null
+
+      - name: october_2026 
+        description: Budgeted amount for this type in October 2026.
+        data_tests:
+          - not_null
+
+      - name: november_2026 
+        description: Budgeted amount for this type in November 2026.
+        data_tests:
+          - not_null
+
+      - name: december_2026 
+        description: Budgeted amount for this type in December 2026.
+        data_tests:
+          - not_null
+
+      - name: _loaded_at 
+        description: Timestamp when data was last successfully synced for that specific row.
+
+  - name: stg_google_sheets__budget_2026_fixed_costs 
+    description: Staging model for the 2026 monthly fixed costs budget breakdown. Each row represents a single budget line item, grouped by fixed costs category, with its budgeted amount for each of the twelve months of 2026.
+    columns:
+      - name: budget_fixed_costs_id
+        description: Unique identifier for the budget line item, sourced from the Google Sheets row number.
+        data_tests:
+          - unique
+          - not_null
+
+      - name: budget_category
+        description: High-level spending category the line item belongs to (e.g. Housing, Groceries, Transportation, Pet, Healthcare, Miscellaneous).
+        data_tests:
+          - not_null
+          - accepted_values:
+              arguments:
+                values: ['Groceries', 'Healthcare', 'Housing', 'Household Items', 'Miscellaneous', 'Pet', 'Transportation']
+
+      - name: budget_item
+        description: Descriptive name of the individual budget line item (e.g. "Rent", "Electricity", "Cellphone plan") or a category subtotal row (e.g. "Groceries Total") where item-level detail isn't broken out.
+        data_tests:
+          - not_null
+
+      - name: january_2026 
+        description: Budgeted amount for this line item in January 2026.
+        data_tests:
+          - not_null
+
+      - name: february_2026 
+        description: Budgeted amount for this line item in February 2026.
+        data_tests:
+          - not_null
+
+      - name: march_2026 
+        description: Budgeted amount for this line item in March 2026.
+        data_tests:
+          - not_null
+
+      - name: april_2026 
+        description: Budgeted amount for this line item in April 2026.
+        data_tests:
+          - not_null
+
+      - name: may_2026 
+        description: Budgeted amount for this line item in May 2026.
+        data_tests:
+          - not_null
+
+      - name: june_2026 
+        description: Budgeted amount for this line item in June 2026.
+        data_tests:
+          - not_null
+
+      - name: july_2026 
+        description: Budgeted amount for this line item in July 2026.
+        data_tests:
+          - not_null
+
+      - name: august_2026 
+        description: Budgeted amount for this line item in August 2026.
+        data_tests:
+          - not_null            
+
+      - name: september_2026 
+        description: Budgeted amount for this line item in September 2026.
+        data_tests:
+          - not_null
+
+      - name: october_2026 
+        description: Budgeted amount for this line item in October 2026.
+        data_tests:
+          - not_null
+
+      - name: november_2026 
+        description: Budgeted amount for this line item in November 2026.
+        data_tests:
+          - not_null
+
+      - name: december_2026 
+        description: Budgeted amount for this line item in December 2026.
+        data_tests:
+          - not_null
+
+      - name: _loaded_at 
+        description: Timestamp when data was last successfully synced for that specific row.     
+
+  - name: stg_google_sheets__cashflow_transactions
+    description: Staging model logging all account transactions (income, expenses, transfers).
+    columns:
+      - name: transaction_id
+        description: Unique identifier for the transaction, manually assigned in Google Sheets.
+        data_tests:
+          - unique
+          - not_null
+
+      - name: account_name
+        description: Account the transaction occurred in (e.g., Chequing Joint Account, Credit Card Kenji).
+        data_tests:
+          - not_null
+
+      - name: transaction_type
+        description: High-level cashflow category grouping (e.g., Fixed Costs, Income, Savings, Investments, Transfer, or an individual Guilt-Free allowance).
+        data_tests:
+          - not_null
+          - accepted_values:
+              arguments:
+                values: ['Fixed Costs', 'Income', 'Savings', 'Investments', 'Transfer', 'Guilt-Free Family', 'Guilt-Free Kenji', 'Guilt-Free Mei', 'Guilt-Free Pet']
+
+      - name: transaction_category
+        description: Specific spending or income category within the type (e.g., Groceries, Housing, Paycheck, Deposit, Withdrawal).
+        data_tests:
+          - not_null
+
+      - name: transaction_location
+        description: Merchant, vendor, or source/destination of the transaction.
+
+      - name: transaction_item
+        description: Short label for what the transaction was for (e.g., Rent, Paycheck, Apples).
+        data_tests:
+          - not_null
+
+      - name: transaction_amount
+        description: Transaction value. Negative for money out (expenses, transfers out), positive for money in (income, deposits).
+        data_tests:
+          - not_null
+
+      - name: quantity
+        description: Quantity of units purchased, where applicable (e.g., weight or count of a grocery item). Null when not tracked at the item level.
+        data_tests:
+          - dbt_utils.expression_is_true:
+              arguments:
+                expression: "is null or quantity > 0"
+
+      - name: unit
+        description: Unit of measure for quantity (e.g., kg, unit, can, loaf). Null when quantity isn't tracked.
+
+      - name: transaction_date
+        description: Date the transaction occurred.
+        data_tests:
+          - not_null
+
+      - name: notes
+        description: Free-text notes about the transaction, if any.
+
+      - name: _loaded_at
+        description: Timestamp when Fivetran last successfully synced this row's source data.
+        data_tests:
+          - not_null
+
+  - name: stg_google_sheets__cashflow_type_category
+    description: Staging model listing all valid cashflow type and category combinations used to classify transactions.
+    columns:
+      - name: type_category_id
+        description: Unique identifier for the type/category pair. Row number from Google Sheets, produced by Fivetran.
+        data_tests:
+          - unique
+          - not_null
+
+      - name: cashflow_type
+        description: High-level cashflow category grouping (e.g., Fixed Costs, Income, Savings, Investments, Transfer, or an  Guilt-Free allowance).
+        data_tests:
+          - not_null
+          - accepted_values:
+              arguments:
+                values: ['Fixed Costs', 'Guilt-Free Family', 'Guilt-Free Kenji', 'Guilt-Free Mei', 'Guilt-Free Pet', 'Income', 'Investments', 'Savings', 'Savings Spending', 'Transfer']
+
+      - name: cashflow_category
+        description: Specific spending or income category within the type (e.g., Groceries, Housing, Paycheck, Deposit, Withdrawal).
+        data_tests:
+          - not_null
+
+      - name: _loaded_at
+        description: Timestamp when data was last successfully synced for that specific row.
+
+  - name: stg_google_sheets__investments_prices
+    description: Staging model logging the latest available market price for each tracked investment.
+    columns:
+      - name: investment_price_id
+        description: Unique identifier for the investment price record, manually assigned in Google Sheets.
+        data_tests:
+          - unique
+          - not_null
+
+      - name: ticker
+        description: Ticker symbol of the investment (e.g., XEQT, VFV, RY).
+        data_tests:
+          - unique
+          - not_null
+
+      - name: investment_name
+        description: Full name of the investment (e.g., iShares Core Equity ETF Portfolio, Royal Bank of Canada).
+        data_tests:
+          - not_null
+
+      - name: latest_price
+        description: Most recent traded price in the Toronto Exchange Stock (TSE), delayed per the feed's time delay.
+        data_tests:
+          - not_null
+          - dbt_utils.expression_is_true:
+              arguments:
+                expression: "> 0"
+
+      - name: time_delay
+        description: Delay, in minutes, between the actual market price and when it was retrieved from the Toronto Stock Exchange (TSE).
+        data_tests:
+          - not_null
+
+      - name: latest_trade_time
+        description: Timestamp of the most recent trade retrieved from the Toronto Stock Exchange (TSE).
+        data_tests:
+          - not_null
+
+      - name: _loaded_at
+        description: Timestamp when data was last successfully synced for that specific row.
+        data_tests:
+          - not_null
+
+  - name: stg_google_sheets__investments_transactions
+    description: Staging model logging all investment transactions (buys, sells, dividends).
+    columns:
+      - name: investment_transaction_id
+        description: Unique identifier for the investment transaction, manually assigned in Google Sheets.
+        data_tests:
+          - unique
+          - not_null
+
+      - name: account_name
+        description: Investment account the transaction belongs to (e.g., TFSA Kenji, TFSA Mei).
+        data_tests:
+          - not_null
+
+      - name: investment_type
+        description: Broad classification of the investment involved in the transaction (e.g., ETF, Stock).
+        data_tests:
+          - not_null
+          - accepted_values:
+              arguments:
+                values: ['Bond', 'ETF', 'GIC', 'Index Fund', 'Mutual Fund', 'Stock']
+
+      - name: investment_event
+        description: Type of transaction event (e.g., Buy, Sell, Dividend).
+        data_tests:
+          - not_null
+          - accepted_values:
+              arguments:
+                values: ['Buy', 'Dividends', 'Sell']
+
+      - name: ticker
+        description: Ticker symbol of the investment involved in the transaction (e.g., XEQT, VFV, RY).
+        data_tests:
+          - not_null
+
+      - name: investment_name
+        description: Full name of the investment involved in the transaction (e.g., iShares Core Equity ETF Portfolio, Royal Bank of Canada).
+        data_tests:
+          - not_null
+
+      - name: quantity
+        description: Number of units transacted.
+        data_tests:
+          - not_null
+          - dbt_utils.expression_is_true:
+              arguments:
+                expression: "> 0"
+
+      - name: price
+        description: Price per unit at the time of the transaction.
+        data_tests:
+          - not_null
+          - dbt_utils.expression_is_true:
+              arguments:
+                expression: "> 0"
+
+      - name: total_value
+        description: Total cash value of the transaction (negative for purchases and positive for sells).
+        data_tests:
+          - not_null
+
+      - name: dividends
+        description: Dividend amount associated with the transaction. Defaults to 0 when not applicable.
+        data_tests:
+          - not_null
+
+      - name: net_quantity
+        description: Quantity held as a result of this transaction — positive for buys, negative for sells. Adding this up across all transactions for a ticker gives the current amount held.
+        data_tests:
+          - not_null
+
+      - name: event_date
+        description: Date the transaction occurred.
+        data_tests:
+          - not_null
+
+      - name: _loaded_at
+        description: Timestamp when data was last successfully synced for that specific row.
+        data_tests:
+          - not_null
+
+  - name: stg_google_sheets__retirement_assumptions
+    description: Staging mode for single-row table of assumptions used to project investments amount for retirement.
+    columns:
+      - name: current_age
+        description: Current age used as the starting point for the projection.
+        data_tests:
+          - not_null
+
+      - name: retirement_age
+        description: Age at which retirement is planned to begin.
+        data_tests:
+          - not_null
+
+      - name: projected_interest_rate
+        description: Assumed annual rate of return used to investment growth (e.g., 0.07 = 7%).
+        data_tests:
+          - not_null
+
+  - name: stg_google_sheets__savings_goals
+    description: Staging model for List of savings goals with initial target date and priority.
+    columns:
+      - name: goal_id
+        description: Unique identifier for the savings goal.
+        data_tests:
+          - unique
+          - not_null
+
+      - name: goal_name
+        description: Name of the savings goal (e.g., Laptop, Vacation 2027).
+        data_tests:
+          - unique
+          - not_null
+
+      - name: goal_priority
+        description: Ranking of the goal relative to others, where a lower number means higher priority. Goals already achieved have no priority.
+        data_tests:
+          - not_null:
+              config:
+                where: "actual_date is null"
+
+      - name: initial_target_date
+        description: Original date set to achieve the goal.
+
+      - name: actual_date
+        description: Date the goal was actually achieved, if completed.
+
+      - name: _loaded_at 
+        description: Timestamp when data was last successfully synced for that specific row.
+
+  - name: stg_google_sheets__savings_goals_details
+    description: Staging model for itemized amount breakdown for each savings goal.
+    columns:
+      - name: goal_detail_id
+        description: Unique identifier for the savings goals details. Added manually in Google Sheets.
+        data_tests:
+          - unique
+          - not_null
+
+      - name: account_name
+        description: Savings account associated with the goal (e.g., Savings Family).
+        data_tests:
+          - not_null
+
+      - name: goal_name
+        description: Name of the savings goal this item belongs to, links to savings_goals source.
+        data_tests:
+          - not_null
+
+      - name: goal_item
+        description: Specific expense or line item contributing to the goal (e.g., Dealer fees, Car insurance).
+        data_tests:
+          - not_null
+
+      - name: goal_amount
+        description: Cost of this item. Summing all items for a goal_name gives the total target amount for that goal.
+        data_tests:
+          - not_null
+          - dbt_utils.accepted_range:
+              arguments:
+                min_value: 0
+                inclusive: true
+
+      - name: _loaded_at 
+        description: Timestamp when data was last successfully synced for that specific row.
+        data_tests:
+          - not_null
