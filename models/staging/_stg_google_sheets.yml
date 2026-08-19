@@ -294,3 +294,46 @@ models:
 
       - name: _loaded_at
         description: Timestamp when data was last successfully synced for that specific row.
+
+  - name: stg_google_sheets__investments_prices
+    description: Staging model logging the latest available market price for each tracked investment.
+    columns:
+      - name: investment_price_id
+        description: Unique identifier for the investment price record, manually assigned in Google Sheets.
+        data_tests:
+          - unique
+          - not_null
+
+      - name: ticker
+        description: Ticker symbol of the investment (e.g., XEQT, VFV, RY).
+        data_tests:
+          - unique
+          - not_null
+
+      - name: investment_name
+        description: Full name of the investment (e.g., iShares Core Equity ETF Portfolio, Royal Bank of Canada).
+        data_tests:
+          - not_null
+
+      - name: latest_price
+        description: Most recent traded price in the Toronto Exchange Stock (TSE), delayed per the feed's time delay.
+        data_tests:
+          - not_null
+          - dbt_utils.expression_is_true:
+              arguments:
+                expression: "> 0"
+
+      - name: time_delay
+        description: Delay, in minutes, between the actual market price and when it was retrieved from the Toronto Stock Exchange (TSE).
+        data_tests:
+          - not_null
+
+      - name: latest_trade_time
+        description: Timestamp of the most recent trade retrieved from the Toronto Stock Exchange (TSE).
+        data_tests:
+          - not_null
+
+      - name: _loaded_at
+        description: Timestamp when data was last successfully synced for that specific row.
+        data_tests:
+          - not_null
