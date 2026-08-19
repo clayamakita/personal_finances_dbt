@@ -1,0 +1,312 @@
+version: 2
+
+models:
+  - name: int_budget_2026_unpivoted
+    description: Unpivoted monthly budget targets for 2026. Each row represents the budgeted amount for one budget category in one calendar month. Excluded rows for the 'Budget' and 'Guilt-Free Total' categories since they are either an alternate allocation basis (Budget) or redundant with the individual guilt-free categories (Guilt-Free Total).
+    data_tests:
+      - dbt_utils.unique_combination_of_columns:
+          arguments: 
+            combination_of_columns:
+              - budget_type
+              - budget_month
+    columns:
+      - name: budget_month_id
+        description: Surrogate key formed by concatenating a slugified `budget_type` (lowercased, with spaces and hyphens removed) with the `budget_month` date, e.g. `guiltfreepet_2026-01-01`. Uniquely identifies a budget_type/budget_month combination.
+        data_tests:
+          - unique
+          - not_null
+
+      - name: budget_type
+        description: The budget category, e.g. Savings, Investments, Fixed Costs, Income, or one of the individual Guilt-Free categories.
+        data_tests:
+          - not_null
+          - accepted_values:
+              arguments: 
+                values: ['Income', 'Fixed Costs', 'Investments', 'Savings', 'Guilt-Free Family', 'Guilt-Free Kenji', 'Guilt-Free Mei', 'Guilt-Free Pet']
+
+
+      - name: budget_month
+        description: The first day of the budgeted calendar month, parsed from the source column name (e.g. `january_2026` -> 2026-01-01).
+        data_tests:
+          - not_null
+
+      - name: budget_amount
+        description: The budgeted dollar amount for this budget_type in this budget_month.
+        data_tests:
+          - not_null
+          - dbt_utils.accepted_range:
+              arguments: 
+                min_value: 0 
+                inclusive: true
+
+  - name: int_budget_union_all
+    description: Union of all yearly unpivoted budget models. This model exists so that downstream models always point to a single, stable model regardless of how many years of budget data exist. When a new year's budget is added, add its unpivoted model as a new CTE and `union all` it into `final` here rather than changing any downstream references. Each row represents the budgeted amount for one budget category in one calendar month. 
+    data_tests:
+      - dbt_utils.unique_combination_of_columns:
+          arguments: 
+            combination_of_columns:
+              - budget_type
+              - budget_month
+    columns:
+      - name: budget_month_id
+        description: Surrogate key formed by concatenating a slugified `budget_type` (lowercased, with spaces and hyphens removed) with the `budget_month` date, e.g. `guiltfreepet_2026-01-01`. Uniquely identifies a budget_type/budget_month combination.
+        data_tests:
+          - unique
+          - not_null
+
+      - name: budget_type
+        description: The budget category, e.g. Savings, Investments, Fixed Costs, Income, or one of the individual Guilt-Free categories.
+        data_tests:
+          - not_null
+          - accepted_values:
+              arguments: 
+                values: ['Income', 'Fixed Costs', 'Investments', 'Savings', 'Guilt-Free Family', 'Guilt-Free Kenji', 'Guilt-Free Mei', 'Guilt-Free Pet']
+
+
+      - name: budget_month
+        description: The first day of the budgeted calendar month, parsed from the source column name (e.g. `january_2026` -> 2026-01-01).
+        data_tests:
+          - not_null
+
+      - name: budget_amount
+        description: The budgeted dollar amount for this budget_type in this budget_month.
+        data_tests:
+          - not_null
+          - dbt_utils.accepted_range:
+              arguments: 
+                min_value: 0 
+                inclusive: true
+
+  - name: int_budget_latest_month 
+    description: Budget targets filtered down to a single month - the calendar month of the most recent transaction in stg_google_sheets__cashflow_transactions. This keeps "latest month" defined in one place, driven by actual transaction activity rather than the calendar date, so it stays correct even if transactions are entered late or the model is run mid-month.
+    columns:
+      - name: budget_month_id
+        description: Surrogate key formed by concatenating a slugified `budget_type` (lowercased, with spaces and hyphens removed) with the `budget_month` date, e.g. `guiltfreepet_2026-01-01`. Uniquely identifies a budget_type/budget_month combination.
+        data_tests:
+          - unique
+          - not_null
+
+      - name: budget_type
+        description: The budget category, e.g. Savings, Investments, Fixed Costs, Income, or one of the individual Guilt-Free categories.
+        data_tests:
+          - not_null
+          - accepted_values:
+              arguments: 
+                values: ['Income', 'Fixed Costs', 'Investments', 'Savings', 'Guilt-Free Family', 'Guilt-Free Kenji', 'Guilt-Free Mei', 'Guilt-Free Pet']
+
+      - name: budget_month
+        description: The first day of the budgeted calendar month, parsed from the source column name (e.g. `january_2026` -> 2026-01-01).
+        data_tests:
+          - not_null
+
+      - name: budget_amount
+        description: The budgeted dollar amount for this budget_type in this budget_month.
+        data_tests:
+          - not_null
+          - dbt_utils.accepted_range:
+              arguments: 
+                min_value: 0 
+                inclusive: true
+
+  - name: int_budget_2026_fixed_costs_unpivoted 
+    description: Unpivoted 2026 monthly fixed costs budget breakdown. Each row represents a single budget line item, grouped by fixed costs category, with its budgeted amount in one calendar month. Some items represent a single line item within their category (e.g. Housing items like Rent, Internet, Home insurance), while others (e.g. Groceries Total, Transportation Total) represent a category-level total where the source doesn't break out individual items.
+    data_tests:
+      - dbt_utils.unique_combination_of_columns:
+          arguments: 
+            combination_of_columns:
+              - budget_item
+              - budget_month
+    columns:
+      - name: budget_fixed_costs_item_id 
+        description: Surrogate key formed by concatenating a slugified `budget_item` (lowercased, spaces removed) with the `budget_month` date, e.g. `rent_2026-01-01`. Uniquely identifies a budget_item/budget_month combination.
+        data_tests:
+          - unique
+          - not_null
+
+      - name: budget_category 
+        description: High-level spending category the line item belongs to (e.g. Housing, Groceries, Transportation, Pet, Healthcare, Miscellaneous).
+        data_tests:
+          - not_null
+          - accepted_values:
+              arguments:
+                values: ['Groceries', 'Healthcare', 'Housing', 'Household Items', 'Miscellaneous', 'Pet', 'Transportation']
+
+      - name: budget_item
+        description: Descriptive name of the individual budget line item (e.g. "Rent", "Electricity", "Cellphone plan") or a category subtotal row (e.g. "Groceries Total") where item-level detail isn't broken out.
+        data_tests:
+          - not_null
+
+      - name: budget_month
+        description: The first day of the budgeted calendar month, parsed from the source column name (e.g. `january_2026` -> 2026-01-01).
+        data_tests:
+          - not_null
+
+      - name: budget_amount
+        description: The budgeted dollar amount for this budget_type in this budget_month.
+        data_tests:
+          - not_null
+          - dbt_utils.accepted_range:
+              arguments: 
+                min_value: 0 
+                inclusive: true
+
+  - name: int_budget_2026_fixed_costs_agg_category 
+    description: Unpivoted 2026 monthly fixed costs budget aggregated at the category level. Each row represents a fixed costs category, with its budgeted amount in one calendar month.
+    data_tests:
+      - dbt_utils.unique_combination_of_columns:
+          arguments: 
+            combination_of_columns:
+              - budget_category
+              - budget_month
+    columns:
+      - name: budget_fixed_costs_month_id 
+        description: Surrogate key formed by concatenating a slugified `budget_category` (lowercased, spaces removed) with the `budget_month` date, e.g. `housing_2026-01-01`. Uniquely identifies a budget_category/budget_month combination.
+        data_tests:
+          - unique
+          - not_null
+
+      - name: budget_category 
+        description: High-level spending category the line item belongs to (e.g. Housing, Groceries, Transportation, Pet, Healthcare, Miscellaneous).
+        data_tests:
+          - not_null
+          - accepted_values:
+              arguments:
+                values: ['Groceries', 'Healthcare', 'Housing', 'Household Items', 'Miscellaneous', 'Pet', 'Transportation']
+
+      - name: budget_month
+        description: The first day of the budgeted calendar month (e.g. 2026-01-01).
+        data_tests:
+          - not_null
+
+      - name: budget_amount
+        description: The budgeted dollar amount for this budget_type in this budget_month.
+        data_tests:
+          - not_null
+          - dbt_utils.accepted_range:
+              arguments: 
+                min_value: 0 
+                inclusive: true
+
+  - name: int_budget_fixed_costs
+    description: Union of all yearly unpivoted fixed costs budget models. This model exists so that downstream models always point to a single, stable model regardless of how many years of budget data exist. When a new year's budget is added, add its unpivoted model as a new CTE and `union all` it into `final` here rather than changing any downstream references. Each row represents the budgeted amount for one fixed costs budget category in one calendar month. 
+    data_tests:
+      - dbt_utils.unique_combination_of_columns:
+          arguments: 
+            combination_of_columns:
+              - budget_category
+              - budget_month
+    columns:
+      - name: budget_fixed_costs_month_id 
+        description: Surrogate key formed by concatenating a slugified `budget_category` (lowercased, spaces removed) with the `budget_month` date, e.g. `housing_2026-01-01`. Uniquely identifies a budget_category/budget_month combination.
+        data_tests:
+          - unique
+          - not_null
+
+      - name: budget_category
+        description: High-level spending fixed costs category (e.g. Housing, Groceries, Transportation, Pet, Healthcare, Miscellaneous).
+        data_tests:
+          - not_null
+          - accepted_values:
+              arguments:
+                values: ['Groceries', 'Healthcare', 'Housing', 'Household Items', 'Miscellaneous', 'Pet', 'Transportation']
+
+      - name: budget_month
+        description: The first day of the budgeted calendar month (e.g. 2026-01-01).
+        data_tests:
+          - not_null
+
+      - name: budget_amount
+        description: The budgeted dollar amount for this budget_type in this budget_month.
+        data_tests:
+          - not_null
+          - dbt_utils.accepted_range:
+              arguments: 
+                min_value: 0 
+                inclusive: true
+
+  - name: int_cashflow_transactions_agg_month
+    description: Cashflow transactions (income, expenses, transfers) aggregated at the month, type, and category level.
+    data_tests:
+      - dbt_utils.unique_combination_of_columns:
+          arguments:
+            combination_of_columns:
+              - transaction_type
+              - transaction_category
+              - transaction_month
+    columns:
+      - name: transaction_month_id
+        description: Surrogate key formed by concatenating a slugified `transaction_type` (lowercased, hyphens and spaces removed), a slugified `transaction_category` (lowercased, spaces removed), and the `transaction_month` date, e.g. `guiltfreepet_boarding_2026-02-01`. Uniquely identifies a transaction_type/ transaction_category/ transaction_month combination.
+        data_tests:
+          - unique
+          - not_null
+
+      - name: transaction_type
+        description: High-level cashflow category grouping (e.g., Fixed Costs, Income, Savings, Investments, Transfer, or an individual Guilt-Free allowance).
+        data_tests:
+          - not_null
+          - accepted_values:
+              arguments:
+                values: ['Fixed Costs', 'Income', 'Savings', 'Investments', 'Transfer', 'Guilt-Free Family', 'Guilt-Free Kenji', 'Guilt-Free Mei', 'Guilt-Free Pet']
+
+      - name: transaction_category
+        description: Specific spending or income category within the type (e.g., Groceries, Housing, Paycheck, Deposit, Withdrawal).
+        data_tests:
+          - not_null
+
+      - name: transaction_month
+        description: Date the transaction occurred.
+        data_tests:
+          - not_null
+
+      - name: total_amount
+        description: Sum of transaction_amount for this transaction_type, transaction_category, and transaction_month. Negative for money out (expenses, transfers out), positive for money in (income, deposits).
+        data_tests:
+          - not_null
+
+  - name: int_investments_current_position 
+    description: Current investment holdings and their market value, as of the latest available price.
+    columns:
+      - name: investment_type
+        description: Broad classification of the investment involved in the transaction (e.g., ETF, Stock).
+        data_tests:
+          - not_null
+          - accepted_values:
+              arguments:
+                values: ['Bond', 'ETF', 'GIC', 'Index Fund', 'Mutual Fund', 'Stock']
+
+      - name: ticker
+        description: Ticker symbol of the investment involved in the transaction (e.g., XEQT, VFV, RY).
+        data_tests:
+          - not_null
+
+      - name: investment_name
+        description: Full name of the investment involved in the transaction (e.g., iShares Core Equity ETF Portfolio, Royal Bank of Canada).
+        data_tests:
+          - not_null
+
+      - name: total_quantity
+        description: Total quantity of units/shares currently held, calculated as the sum of net_quantity across all transactions for this ticker (positive for buys, negative for sells).
+        data_tests:
+          - not_null
+          - dbt_utils.accepted_range:
+              arguments: 
+                min_value: 0
+                inclusive: true 
+
+      - name: latest_price 
+        description: Most recent known price per unit/share for this ticker.
+        data_tests:
+          - not_null
+          - dbt_utils.accepted_range:
+              arguments: 
+                min_value: 0
+                inclusive: true
+
+      - name: current_value 
+        description: Current market value, calculated as total_quantity * latest_price.
+        data_tests:
+          - not_null
+          - dbt_utils.accepted_range:
+              arguments: 
+                min_value: 0
+                inclusive: true
