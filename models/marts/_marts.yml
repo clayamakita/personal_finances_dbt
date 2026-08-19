@@ -129,8 +129,37 @@ models:
         data_tests:
           - not_null
 
-  - name: dim_investments 
-    description: 
+  - name: dim_investments
+    description: Dimension table listing the current position for each investment held, including quantity, latest price, current value, and an estimated annualized rate of return (XIRR). One row per ticker.
+    columns:
+      - name: ticker
+        description: Ticker symbol of the investment (e.g., XEQT, VFV, RY).
+        data_tests:
+          - unique
+          - not_null
+
+      - name: investment_name
+        description: Full descriptive name of the investment associated with the ticker (e.g., iShares Core Equity ETF Portfolio, Royal Bank of Canada).
+        data_tests:
+          - not_null
+
+      - name: total_quantity
+        description: Total quantity (shares/units) currently held for the investment.
+        data_tests:
+          - not_null
+
+      - name: latest_price
+        description: Most recent known price per share/unit for the investment.
+        data_tests:
+          - not_null
+
+      - name: current_value
+        description: Current market value of the position, total_quantity multiplied by latest_price.
+        data_tests:
+          - not_null
+
+      - name: annualized_return_rate
+        description: Annualized rate of return for the investment, calculated using XIRR (extended internal rate of return) over the investment's full transaction history plus its current value as a final cash flow dated today. Rounded to 4 decimal places (e.g., 0.1507 = 15.07%).
 
   - name: dim_savings_goals
     description: 
