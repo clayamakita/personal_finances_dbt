@@ -108,6 +108,7 @@ models:
           - accepted_values:
               arguments:
                 values: [1, 2, 3, 4]
+                quote: false
 
       - name: month_number
         description: Month of the date, numbered 1 (January) through 12 (December).
@@ -215,6 +216,7 @@ models:
           - accepted_values:
               arguments:
                 values: [1, 2]
+                quote: false
 
       - name: goal_amount_needed
         description: Remaining amount needed to fully fund the goal (goal_amount minus goal_amount_saved). 0 if the goal is already Achieved.
@@ -239,29 +241,4 @@ models:
       - name: funding_month
         description: Calendar month (first day of month) in which the goal is projected to be fully funded, based on months_to_goal. Null if the goal is already Achieved.
 
-  - name: fct_budget_fixed_costs 
-    description: 
 
-  - name: fct_budget_vs_actual_fixed_costs 
-    description: 
-
-  - name: fct_budget_vs_actual_guilt_free 
-    description: 
-
-  - name: fct_budget_vs_actual 
-    description: 
-
-  - name: fct_budget 
-    description: 
-
-  - name: fct_cashflow_transactions 
-    description: 
-
-  - name: fct_investments_transactions 
-    description: 
-
-  - name: fct_monthly_paycheck_allocation 
-    description: 
-
-  - name: retirement_projection 
-    description: 
