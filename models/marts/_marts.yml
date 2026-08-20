@@ -162,7 +162,82 @@ models:
         description: Annualized rate of return for the investment, calculated using XIRR (extended internal rate of return) over the investment's full transaction history plus its current value as a final cash flow dated today. Rounded to 4 decimal places (e.g., 0.1507 = 15.07%).
 
   - name: dim_savings_goals
-    description: 
+    description: Dimension table tracking savings goals, how much of each is currently funded, and a projected month by which each goal will be fully funded. Goals are funded in priority order (lowest goal_priority number first) - existing goals are funded first from each goal's associated account's current balance (waterfall by priority within account), and any goals not yet fully funded are then projected forward using the current month's total Savings budget, allocated across all outstanding goals in priority order. One row per goal.
+    columns:
+      - name: goal_name
+        description: Name of the savings goal (e.g., Laptop, Vacation 2027). Unique identifier of the table.
+        data_tests:
+          - unique
+          - not_null
+
+      - name: goal_priority
+        description: Priority rank of the goal, used to determine funding order (lower numbers are funded first). Goals already achieved have no priority. Goals without a priority set are excluded from this model.
+        data_tests:
+          - not_null
+
+      - name: goal_amount
+        description: Total target amount for the goal.
+        data_tests:
+          - not_null
+
+      - name: running_goal_amount
+        description: Cumulative sum of goal_amount for this goal and all higher-priority goals sharing the same account, ordered by goal_priority.
+        data_tests:
+          - not_null
+
+      - name: account_name
+        description: Name of the account the goal's savings are allocated from.
+        data_tests:
+          - not_null
+
+      - name: account_current_balance
+        description: Current balance of the associated account, as of the latest data.
+        data_tests:
+          - not_null
+
+      - name: goal_amount_saved
+        description: Amount of the goal currently funded, based on the account's current balance applied to goals in priority order (higher-priority goals in the same account are funded first). Capped between 0 and goal_amount.
+        data_tests:
+          - not_null
+
+      - name: goal_status
+        description: Current funding status of the goal, based on goal_amount_saved relative to goal_amount.
+        data_tests:
+          - not_null
+          - accepted_values:
+              arguments:
+                values: ['Achieved', 'In Progress', 'Not Started']
+
+      - name: goal_status_id
+        description: Numeric grouping used to sequence goals for funding projections — 1 for Achieved goals, 2 for all others (In Progress or Not Started).
+        data_tests:
+          - not_null
+          - accepted_values:
+              arguments:
+                values: [1, 2]
+
+      - name: goal_amount_needed
+        description: Remaining amount needed to fully fund the goal (goal_amount minus goal_amount_saved). 0 if the goal is already Achieved.
+        data_tests:
+          - not_null
+
+      - name: running_goal_amount_needed
+        description: Cumulative sum of goal_amount_needed across all goals (regardless of account), ordered by goal_status_id then goal_priority. Represents the total additional savings required to fund this goal and every goal ahead of it in the funding queue.
+        data_tests:
+          - not_null
+
+      - name: budget_savings_amount
+        description: Total budgeted Savings amount for the current month, taken from the latest available budget. 0 if the goal is already Achieved.
+        data_tests:
+          - not_null
+
+      - name: months_to_goal
+        description: Projected number of months, from the current month, until this goal is fully funded, assuming the full monthly Savings budget is applied to goals in priority order. Includes a 1-month buffer added to the calculated figure to account for the current partial month. 0 if the goal is already Achieved.
+        data_tests:
+          - not_null
+
+      - name: funding_month
+        description: Calendar month (first day of month) in which the goal is projected to be fully funded, based on months_to_goal. Null if the goal is already Achieved.
 
   - name: fct_budget_fixed_costs 
     description: 
