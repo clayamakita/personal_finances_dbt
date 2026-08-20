@@ -485,3 +485,61 @@ models:
         description: How far actual_amount is from budget_amount, calculated as budget_amount minus actual_amount. Positive means spending less than budgeted (favorable); negative means over budget.
         data_tests:
           - not_null
+
+  - name: fct_cashflow_transactions
+    description: Fact table of all individual account transactions (income, expenses, transfers). This is the stable, single point of reference for all downstream consumers. Each row represents one transaction.
+    columns:
+      - name: transaction_id
+        description: Unique identifier for the transaction, manually assigned in Google Sheets.
+        data_tests:
+          - unique
+          - not_null
+
+      - name: account_name
+        description: Account the transaction occurred in (e.g., Chequing Joint Account, Credit Card Kenji).
+        data_tests:
+          - not_null
+
+      - name: transaction_type
+        description: High-level cashflow category grouping (e.g., Fixed Costs, Income, Savings, Investments, Transfer, or an individual Guilt-Free allowance).
+        data_tests:
+          - not_null
+          - accepted_values:
+              arguments:
+                values: ['Fixed Costs', 'Income', 'Savings', 'Investments', 'Transfer', 'Guilt-Free Family', 'Guilt-Free Kenji', 'Guilt-Free Mei', 'Guilt-Free Pet']
+
+      - name: transaction_category
+        description: Specific spending or income category within the type (e.g., Groceries, Housing, Paycheck, Deposit, Withdrawal).
+        data_tests:
+          - not_null
+
+      - name: transaction_location
+        description: Merchant, vendor, or source/destination of the transaction.
+
+      - name: transaction_item
+        description: Short label for what the transaction was for (e.g., Rent, Paycheck, Apples).
+        data_tests:
+          - not_null
+
+      - name: transaction_amount
+        description: Transaction value. Negative for money out (expenses, transfers out), positive for money in (income, deposits).
+        data_tests:
+          - not_null
+
+      - name: quantity
+        description: Quantity of units purchased, where applicable (e.g., weight or count of a grocery item). Null when not tracked at the item level.
+        data_tests:
+          - dbt_utils.expression_is_true:
+              arguments:
+                expression: "is null or quantity > 0"
+
+      - name: unit
+        description: Unit of measure for quantity (e.g., kg, unit, can, loaf). Null when quantity isn't tracked.
+
+      - name: transaction_date
+        description: Date the transaction occurred.
+        data_tests:
+          - not_null
+
+      - name: notes
+        description: Free-text notes about the transaction,
