@@ -665,3 +665,47 @@ models:
         description: How far allocation_amount is from budget_amount, signed so that positive always flags something worth checking. For Paycheck, Investments, and Savings, calculated as allocation_amount minus budget_amount — positive means more came in or was allocated than budgeted (e.g. a bonus, extra paycheck, or surplus investment/savings contribution not yet accounted for elsewhere). For Fixed Costs and Guilt-Free, calculated as budget_amount minus allocation_amount — positive means under budget. Because Guilt-Free's allocation_amount is always forced to equal its budget_amount, this column is always 0 for the Guilt-Free allocation_type by construction.
         data_tests:
           - not_null
+
+  - name: retirement_projection
+    description: Single-row model projecting the future value of investment holdings at retirement, using compound interest. Combines current total investment market value, personal assumptions, and the current monthly Investments budget amount  to project using a monthly-compounding future value formula with regular contributions.
+    columns:
+      - name: current_value
+        description: Total current market value of all investment holdings as of the latest available price, summed across all tickers.
+        data_tests:
+          - not_null
+          - dbt_utils.accepted_range:
+              arguments:
+                min_value: 0
+                inclusive: true
+
+      - name: current_age
+        description: Current age used as the starting point for the projection.
+        data_tests:
+          - not_null
+
+      - name: retirement_age
+        description: Age at which retirement is planned to begin.
+        data_tests:
+          - not_null
+          - dbt_utils.expression_is_true:
+              arguments:
+                expression: "> current_age"
+
+      - name: projected_interest_rate
+        description: Assumed annual rate of return used to project investment growth (e.g., 0.07 = 7%).
+        data_tests:
+          - not_null
+
+      - name: monthly_contribution
+        description: Assumed ongoing monthly contribution toward investments, taken as the budgeted Investments amount for the latest calendar month with transaction activity.
+        data_tests:
+          - not_null
+          - dbt_utils.accepted_range:
+              arguments:
+                min_value: 0
+                inclusive: true
+
+      - name: future_value
+        description: Projected total investment value at retirement, calculated by compounding current_value monthly at projected_interest_rate/12 over (retirement_age - current_age) years, plus the future value of monthly_contribution made over the same period at the same rate.
+        data_tests:
+          - not_null
