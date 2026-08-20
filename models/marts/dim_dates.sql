@@ -1,6 +1,6 @@
 with budget as (
 
-    select * from {{ ref('int_budget_2026_unpivoted') }}
+    select * from {{ ref('int_budget') }}
 
 ),
 
