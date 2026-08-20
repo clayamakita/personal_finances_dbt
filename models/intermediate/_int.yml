@@ -39,7 +39,7 @@ models:
                 min_value: 0 
                 inclusive: true
 
-  - name: int_budget_union_all
+  - name: int_budget
     description: Union of all yearly unpivoted budget models. This model exists so that downstream models always point to a single, stable model regardless of how many years of budget data exist. When a new year's budget is added, add its unpivoted model as a new CTE and `union all` it into `final` here rather than changing any downstream references. Each row represents the budgeted amount for one budget category in one calendar month. 
     data_tests:
       - dbt_utils.unique_combination_of_columns:
