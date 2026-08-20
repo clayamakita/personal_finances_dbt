@@ -1,6 +1,6 @@
 with budget as (
     
-    select * from {{ ref('int_budget_union_all') }}
+    select * from {{ ref('int_budget') }}
 
 ), 
 
