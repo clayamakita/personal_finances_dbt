@@ -108,6 +108,7 @@ models:
           - accepted_values:
               arguments:
                 values: [1, 2, 3, 4]
+                quote: false
 
       - name: month_number
         description: Month of the date, numbered 1 (January) through 12 (December).
@@ -215,6 +216,7 @@ models:
           - accepted_values:
               arguments:
                 values: [1, 2]
+                quote: false
 
       - name: goal_amount_needed
         description: Remaining amount needed to fully fund the goal (goal_amount minus goal_amount_saved). 0 if the goal is already Achieved.
@@ -239,29 +241,247 @@ models:
       - name: funding_month
         description: Calendar month (first day of month) in which the goal is projected to be fully funded, based on months_to_goal. Null if the goal is already Achieved.
 
-  - name: fct_budget_fixed_costs 
-    description: 
+  - name: fct_budget
+    description: Fact table of budgeted amounts by budget type and calendar month. This is the stable, single point of reference for all downstream consumers. Each row represents the budgeted amount for one budget type in one calendar month.
+    data_tests:
+      - dbt_utils.unique_combination_of_columns:
+          arguments:
+            combination_of_columns:
+              - budget_type
+              - budget_month
+    columns:
+      - name: budget_month_id
+        description: Surrogate key formed by concatenating a slugified `budget_type` (lowercased, with spaces and hyphens removed) with the `budget_month` date, e.g. `guiltfreepet_2026-01-01`. Uniquely identifies a budget_type/budget_month combination.
+        data_tests:
+          - unique
+          - not_null
 
-  - name: fct_budget_vs_actual_fixed_costs 
-    description: 
+      - name: budget_type
+        description: The budget category, e.g. Savings, Investments, Fixed Costs, Income, or one of the individual Guilt-Free categories.
+        data_tests:
+          - not_null
+          - accepted_values:
+              arguments:
+                values: ['Income', 'Fixed Costs', 'Investments', 'Savings', 'Guilt-Free Family', 'Guilt-Free Kenji', 'Guilt-Free Mei', 'Guilt-Free Pet']
 
-  - name: fct_budget_vs_actual_guilt_free 
-    description: 
+      - name: budget_month
+        description: The first day of the budgeted calendar month.
+        data_tests:
+          - not_null
 
-  - name: fct_budget_vs_actual 
-    description: 
+      - name: budget_amount
+        description: The budgeted dollar amount for this budget_type in this budget_month.
+        data_tests:
+          - not_null
+          - dbt_utils.accepted_range:
+              arguments:
+                min_value: 0
+                inclusive: true
 
-  - name: fct_budget 
-    description: 
+  - name: fct_budget_vs_actual
+    description: Fact table comparing budgeted amounts to actual spending/income by budget type and calendar month. Variance Amount is signed so that positive always means "on track" or "ahead" and negative means "over" or "behind".
+    data_tests:
+      - dbt_utils.unique_combination_of_columns:
+          arguments:
+            combination_of_columns:
+              - budget_type
+              - budget_month
+    columns:
+      - name: budget_month_id
+        description: Surrogate key formed by concatenating a slugified `budget_type` (lowercased, with spaces and hyphens removed) with the `budget_month` date, e.g. `guiltfreepet_2026-01-01`. Uniquely identifies a budget_type/budget_month combination.
+        data_tests:
+          - unique
+          - not_null
 
-  - name: fct_cashflow_transactions 
-    description: 
+      - name: budget_type
+        description: The budget category, e.g. Savings, Investments, Fixed Costs, Income, or one of the individual Guilt-Free categories.
+        data_tests:
+          - not_null
+          - accepted_values:
+              arguments:
+                values: ['Income', 'Fixed Costs', 'Investments', 'Savings', 'Guilt-Free Family', 'Guilt-Free Kenji', 'Guilt-Free Mei', 'Guilt-Free Pet']
 
-  - name: fct_investments_transactions 
-    description: 
+      - name: budget_month
+        description: The first day of the budgeted calendar month.
+        data_tests:
+          - not_null
 
-  - name: fct_monthly_paycheck_allocation 
-    description: 
+      - name: budget_amount
+        description: The budgeted dollar amount for this budget_type in this budget_month.
+        data_tests:
+          - not_null
+          - dbt_utils.accepted_range:
+              arguments:
+                min_value: 0
+                inclusive: true
 
-  - name: retirement_projection 
-    description: 
+      - name: actual_amount
+        description: The actual dollar amount transacted for this budget_type in this budget_month, taken as the absolute value of the summed transaction total. Defaults to 0 when no matching transactions exist for that type/month.
+        data_tests:
+          - not_null
+          - dbt_utils.accepted_range:
+              arguments:
+                min_value: 0
+                inclusive: true
+
+      - name: variance_amount
+        description: How far actual_amount is from budget_amount, signed so that positive is favorable and negative is unfavorable. For Income, Investments, and Savings, calculated as actual_amount minus budget_amount. For all other categories, calculated as budget_amount minus actual_amount.
+        data_tests:
+          - not_null
+
+  - name: fct_budget_vs_actual_guilt_free
+    description: Fact table comparing budgeted amounts to actual spending for Guilt-Free categories only, with running (cumulative, year-to-date) totals alongside the monthly figures. 
+    data_tests:
+      - dbt_utils.unique_combination_of_columns:
+          arguments:
+            combination_of_columns:
+              - budget_type
+              - budget_month
+    columns:
+      - name: budget_month_id
+        description: Surrogate key formed by concatenating a slugified `budget_type` (lowercased, with spaces and hyphens removed) with the `budget_month` date, e.g. `guiltfreepet_2026-01-01`. Uniquely identifies a budget_type/budget_month combination.
+        data_tests:
+          - unique
+          - not_null
+
+      - name: budget_type
+        description: The Guilt-Free budget type.
+        data_tests:
+          - not_null
+          - accepted_values:
+              arguments:
+                values: ['Guilt-Free Family', 'Guilt-Free Kenji', 'Guilt-Free Mei', 'Guilt-Free Pet']
+
+      - name: budget_month
+        description: The first day of the budgeted calendar month.
+        data_tests:
+          - not_null
+
+      - name: budget_amount
+        description: The budgeted dollar amount for this budget_type in this budget_month.
+        data_tests:
+          - not_null
+          - dbt_utils.accepted_range:
+              arguments:
+                min_value: 0
+                inclusive: true
+
+      - name: actual_amount
+        description: The actual dollar amount transacted for this budget_type in this budget_month, taken as the absolute value of the summed transaction total. Defaults to 0 when no matching transactions exist for that category/month.
+        data_tests:
+          - not_null
+          - dbt_utils.accepted_range:
+              arguments:
+                min_value: 0
+                inclusive: true
+
+      - name: running_budget_amount
+        description: Cumulative sum of budget_amount for this budget_type, from the start of the data through this budget_month.
+        data_tests:
+          - not_null
+          - dbt_utils.accepted_range:
+              arguments:
+                min_value: 0
+                inclusive: true
+
+      - name: running_actual_amount
+        description: Cumulative sum of actual_amount for this budget_type, from the start of the data through this budget_month.
+        data_tests:
+          - not_null
+          - dbt_utils.accepted_range:
+              arguments:
+                min_value: 0
+                inclusive: true
+
+      - name: running_variance_amount
+        description: How far cumulative actual spending is from cumulative budget, calculated as running_budget_amount minus running_actual_amount. Positive means under budget; negative means over budget.
+        data_tests:
+          - not_null
+
+  - name: fct_budget_fixed_costs
+    description: Fact table of budgeted amounts by fixed costs category and calendar month. This is the stable, single point of reference for all downstream consumers. Each row represents the budgeted amount for one fixed costs category in one calendar month.
+    data_tests:
+      - dbt_utils.unique_combination_of_columns:
+          arguments:
+            combination_of_columns:
+              - budget_category
+              - budget_month
+    columns:
+      - name: budget_fixed_costs_month_id
+        description: Surrogate key formed by concatenating a slugified `budget_category` (lowercased, spaces removed) with the `budget_month` date, e.g. `housing_2026-01-01`. Uniquely identifies a budget_category/budget_month combination.
+        data_tests:
+          - unique
+          - not_null
+
+      - name: budget_category
+        description: High-level spending fixed costs category (e.g. Housing, Groceries, Transportation, Pet, Healthcare, Miscellaneous).
+        data_tests:
+          - not_null
+          - accepted_values:
+              arguments:
+                values: ['Groceries', 'Healthcare', 'Housing', 'Household Items', 'Miscellaneous', 'Pet', 'Transportation']
+
+      - name: budget_month
+        description: The first day of the budgeted calendar month.
+        data_tests:
+          - not_null
+
+      - name: budget_amount
+        description: The budgeted dollar amount for this budget_category in this budget_month.
+        data_tests:
+          - not_null
+          - dbt_utils.accepted_range:
+              arguments:
+                min_value: 0
+                inclusive: true
+
+  - name: fct_budget_vs_actual_fixed_costs
+    description: Fact table comparing budgeted amounts to actual spending for fixed costs categories by calendar month. Variance Amount is signed so that positive always means "on track" and negative means "over".
+    data_tests:
+      - dbt_utils.unique_combination_of_columns:
+          arguments:
+            combination_of_columns:
+              - budget_category
+              - budget_month
+    columns:
+      - name: budget_fixed_costs_month_id
+        description: Surrogate key formed by concatenating a slugified `budget_category` (lowercased, spaces removed) with the `budget_month` date, e.g. `housing_2026-01-01`. Uniquely identifies a budget_category/budget_month combination.
+        data_tests:
+          - unique
+          - not_null
+
+      - name: budget_category
+        description: High-level spending fixed costs category (e.g. Housing, Groceries, Transportation, Pet, Healthcare, Miscellaneous).
+        data_tests:
+          - not_null
+          - accepted_values:
+              arguments:
+                values: ['Groceries', 'Healthcare', 'Housing', 'Household Items', 'Miscellaneous', 'Pet', 'Transportation']
+
+      - name: budget_month
+        description: The first day of the budgeted calendar month.
+        data_tests:
+          - not_null
+
+      - name: budget_amount
+        description: The budgeted dollar amount for this budget_category in this budget_month.
+        data_tests:
+          - not_null
+          - dbt_utils.accepted_range:
+              arguments:
+                min_value: 0
+                inclusive: true
+
+      - name: actual_amount
+        description: The actual dollar amount transacted for this budget_category in this budget_month, taken as the absolute value of the summed transaction total among Fixed Costs transactions. Defaults to 0 when no matching transactions exist for that category/month.
+        data_tests:
+          - not_null
+          - dbt_utils.accepted_range:
+              arguments:
+                min_value: 0
+                inclusive: true
+
+      - name: variance_amount
+        description: How far actual_amount is from budget_amount, calculated as budget_amount minus actual_amount. Positive means spending less than budgeted (favorable); negative means over budget.
+        data_tests:
+          - not_null
