@@ -485,3 +485,227 @@ models:
         description: How far actual_amount is from budget_amount, calculated as budget_amount minus actual_amount. Positive means spending less than budgeted (favorable); negative means over budget.
         data_tests:
           - not_null
+
+  - name: fct_cashflow_transactions
+    description: Fact table of all individual account transactions (income, expenses, transfers). This is the stable, single point of reference for all downstream consumers. Each row represents one transaction.
+    columns:
+      - name: transaction_id
+        description: Unique identifier for the transaction, manually assigned in Google Sheets.
+        data_tests:
+          - unique
+          - not_null
+
+      - name: account_name
+        description: Account the transaction occurred in (e.g., Chequing Joint Account, Credit Card Kenji).
+        data_tests:
+          - not_null
+
+      - name: transaction_type
+        description: High-level cashflow category grouping (e.g., Fixed Costs, Income, Savings, Investments, Transfer, or an individual Guilt-Free allowance).
+        data_tests:
+          - not_null
+          - accepted_values:
+              arguments:
+                values: ['Fixed Costs', 'Income', 'Savings', 'Investments', 'Transfer', 'Guilt-Free Family', 'Guilt-Free Kenji', 'Guilt-Free Mei', 'Guilt-Free Pet']
+
+      - name: transaction_category
+        description: Specific spending or income category within the type (e.g., Groceries, Housing, Paycheck, Deposit, Withdrawal).
+        data_tests:
+          - not_null
+
+      - name: transaction_location
+        description: Merchant, vendor, or source/destination of the transaction.
+
+      - name: transaction_item
+        description: Short label for what the transaction was for (e.g., Rent, Paycheck, Apples).
+        data_tests:
+          - not_null
+
+      - name: transaction_amount
+        description: Transaction value. Negative for money out (expenses, transfers out), positive for money in (income, deposits).
+        data_tests:
+          - not_null
+
+      - name: quantity
+        description: Quantity of units purchased, where applicable (e.g., weight or count of a grocery item). Null when not tracked at the item level.
+        data_tests:
+          - dbt_utils.expression_is_true:
+              arguments:
+                expression: "is null or quantity > 0"
+
+      - name: unit
+        description: Unit of measure for quantity (e.g., kg, unit, can, loaf). Null when quantity isn't tracked.
+
+      - name: transaction_date
+        description: Date the transaction occurred.
+        data_tests:
+          - not_null
+
+      - name: notes
+        description: Free-text notes about the transaction.
+
+  - name: fct_investments_transactions
+    description: Fact table of all investment account transactions (buys, sells, dividends). This is the stable, single point of reference for all downstream consumers. Each row represents one investment transaction.
+    columns:
+      - name: investment_transaction_id
+        description: Unique identifier for the investment transaction.
+        data_tests:
+          - unique
+          - not_null
+
+      - name: account_name
+        description: Investment account the transaction belongs to (e.g., TFSA Kenji, TFSA Mei).
+        data_tests:
+          - not_null
+
+      - name: investment_type
+        description: Broad classification of the investment involved in the transaction (e.g., ETF, Stock).
+        data_tests:
+          - not_null
+          - accepted_values:
+              arguments:
+                values: ['Bond', 'ETF', 'GIC', 'Index Fund', 'Mutual Fund', 'Stock']
+
+      - name: investment_event
+        description: Type of transaction event (e.g., Buy, Sell, Dividend).
+        data_tests:
+          - not_null
+          - accepted_values:
+              arguments:
+                values: ['Buy', 'Dividends', 'Sell']
+
+      - name: ticker
+        description: Ticker symbol of the investment involved in the transaction (e.g., XEQT, VFV, RY).
+        data_tests:
+          - not_null
+
+      - name: investment_name
+        description: Full name of the investment involved in the transaction (e.g., iShares Core Equity ETF Portfolio, Royal Bank of Canada).
+        data_tests:
+          - not_null
+
+      - name: quantity
+        description: Number of units transacted.
+        data_tests:
+          - not_null
+          - dbt_utils.expression_is_true:
+              arguments:
+                expression: "> 0"
+
+      - name: price
+        description: Price per unit at the time of the transaction.
+        data_tests:
+          - not_null
+          - dbt_utils.expression_is_true:
+              arguments:
+                expression: "> 0"
+
+      - name: total_value
+        description: Total cash value of the transaction (negative for purchases and positive for sells).
+        data_tests:
+          - not_null
+
+      - name: dividends
+        description: Dividend amount associated with the transaction. Defaults to 0 when not applicable.
+        data_tests:
+          - not_null
+
+      - name: net_quantity
+        description: Quantity held as a result of this transaction — positive for buys, negative for sells. Adding this up across all transactions for a ticker gives the current amount held.
+        data_tests:
+          - not_null
+
+      - name: event_date
+        description: Date the transaction occurred.
+        data_tests:
+          - not_null
+
+  - name: fct_monthly_paycheck_allocation
+    description: Fact table checking that paycheck income is being fully allocated each month across its intended destinations — Fixed Costs, Savings, Investments, and Guilt-Free spending — with room to catch unexpected income (e.g. a bonus or an extra paycheck) that hasn't yet been assigned a destination. Guilt-Free actuals are overridden to always equal the Guilt-Free budget_amount — by design, since guilt-free spending is meant to be auto-allocated at the budgeted amount each month (any underspend carries over rather than counting as a shortfall here). Each row represents one allocation_type in one calendar month.
+    data_tests:
+      - dbt_utils.unique_combination_of_columns:
+          arguments:
+            combination_of_columns:
+              - allocation_type
+              - budget_month
+
+    columns:
+      - name: allocation_type
+        description: The high-level bucket paycheck income is being checked against — Paycheck (budgeted Income), Fixed Costs, Savings, Investments, or Guilt-Free (all Guilt-Free categories combined).
+        data_tests:
+          - not_null
+          - accepted_values:
+              arguments:
+                values: ['Paycheck', 'Fixed Costs', 'Savings', 'Investments', 'Guilt-Free']
+
+      - name: budget_month
+        description: The first day of the budgeted calendar month.
+        data_tests:
+          - not_null
+
+      - name: budget_amount
+        description: The total budgeted dollar amount for this allocation_type in this budget_month (e.g. all four Guilt-Free categories combined for the 'Guilt-Free' allocation_type).
+        data_tests:
+          - not_null
+          - dbt_utils.accepted_range:
+              arguments:
+                min_value: 0
+                inclusive: true
+
+      - name: allocation_amount
+        description: The actual dollar amount allocated to this allocation_type in this budget_month, taken as the absolute value of the summed transaction total. For the Guilt-Free allocation_type, this is not the actual transaction total — it's hardcoded to equal budget_amount, since guilt-free spending is treated as automatically allocated in full each month regardless of what was actually spent. Defaults to 0 when no matching transactions exist for a non-Guilt-Free type.
+        data_tests:
+          - not_null
+          - dbt_utils.accepted_range:
+              arguments:
+                min_value: 0
+                inclusive: true
+
+      - name: allocation_variance
+        description: How far allocation_amount is from budget_amount, signed so that positive always flags something worth checking. For Paycheck, Investments, and Savings, calculated as allocation_amount minus budget_amount — positive means more came in or was allocated than budgeted (e.g. a bonus, extra paycheck, or surplus investment/savings contribution not yet accounted for elsewhere). For Fixed Costs and Guilt-Free, calculated as budget_amount minus allocation_amount — positive means under budget. Because Guilt-Free's allocation_amount is always forced to equal its budget_amount, this column is always 0 for the Guilt-Free allocation_type by construction.
+        data_tests:
+          - not_null
+
+  - name: retirement_projection
+    description: Single-row model projecting the future value of investment holdings at retirement, using compound interest. Combines current total investment market value, personal assumptions, and the current monthly Investments budget amount  to project using a monthly-compounding future value formula with regular contributions.
+    columns:
+      - name: current_value
+        description: Total current market value of all investment holdings as of the latest available price, summed across all tickers.
+        data_tests:
+          - not_null
+          - dbt_utils.accepted_range:
+              arguments:
+                min_value: 0
+                inclusive: true
+
+      - name: current_age
+        description: Current age used as the starting point for the projection.
+        data_tests:
+          - not_null
+
+      - name: retirement_age
+        description: Age at which retirement is planned to begin.
+        data_tests:
+          - not_null
+          - dbt_utils.expression_is_true:
+              arguments:
+                expression: "> current_age"
+
+      - name: projected_interest_rate
+        description: Assumed annual rate of return used to project investment growth (e.g., 0.07 = 7%).
+        data_tests:
+          - not_null
+
+      - name: monthly_contribution
+        description: Assumed ongoing monthly contribution toward investments, taken as the budgeted Investments amount for the latest calendar month with transaction activity.
+        data_tests:
+          - not_null
+          - dbt_utils.accepted_range:
+              arguments:
+                min_value: 0
+                inclusive: true
+
+      - name: future_value
+        description: Projected total investment value at retirement, calculated by compounding current_value monthly at projected_interest_rate/12 over (retirement_age - current_age) years, plus the future value of monthly_contribution made over the same period at the same rate.
+        data_tests:
+          - not_null
