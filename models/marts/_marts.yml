@@ -1,0 +1,267 @@
+version: 2
+
+models:
+  - name: dim_accounts 
+    description: List of financial accounts with beginning/current balances, type, and category.
+    columns:
+      - name: account_id 
+        description: Unique identifier for the account. 
+        data_tests:
+          - unique
+          - not_null
+
+      - name: account_name 
+        description: Account name, often including the type of account (e.g. Chequing, Credit Card, Savings) and the account holder (e.g. Chequing Kenji, Savings Family).
+        data_tests:
+          - unique
+          - not_null
+
+      - name: account_type 
+        description: High-level classification of the account — Assets or Liabilities.
+        data_tests:
+          - not_null
+          - accepted_values:
+              arguments: 
+                values: ['Assets', 'Liabilities']
+
+      - name: account_category 
+        description: Functional grouping of the account (e.g. Chequing, Savings, Credit Card) used for reporting.
+        data_tests:
+          - not_null
+          - accepted_values:
+              arguments: 
+                values: ['Chequing', 'Credit Card', 'Savings', 'Investments']
+
+      - name: beginning_balance 
+        description: Balance recorded when the account was first added to the file.
+        data_tests:
+          - not_null
+
+      - name: current_balance 
+        description: Most recent known balance for the account. Based on Beginning Balance and all Transactions records.
+        data_tests:
+          - not_null
+
+  - name: dim_cashflow_categories 
+    description: Dimension table of cashflow categories (e.g., Groceries, Housing, Paycheck), each associated with its parent cashflow type. Used to classify transactions at the category level and to join transaction data to budget data.
+    columns:
+      - name: cashflow_category_id
+        description: Unique identifier for the cashflow category. 
+        data_tests:
+          - unique
+          - not_null
+
+      - name: cashflow_category
+        description: Specific spending or income category within the type (e.g., Groceries, Housing, Paycheck, Deposit, Withdrawal).
+        data_tests:
+          - not_null
+
+      - name: cashflow_type
+        description: High-level cashflow category grouping (e.g., Fixed Costs, Income, Savings, Investments, Transfer, or Guilt-Free allowance).
+        data_tests:
+          - not_null
+          - accepted_values:
+              arguments:
+                values: ['Fixed Costs', 'Guilt-Free Family', 'Guilt-Free Kenji', 'Guilt-Free Mei', 'Guilt-Free Pet', 'Income', 'Investments', 'Savings', 'Savings Spending', 'Transfer']
+
+  - name: dim_cashflow_types 
+    description: Dimension table of high-level cashflow types (e.g., Fixed Costs, Income, Savings, Investments, Transfer, or Guilt-Free allowances). Used to classify transactions at the type level and to join transaction data to budget data.
+    columns:
+      - name: cashflow_type_id 
+        description: Unique identifier for the cashflow type. 
+        data_tests:
+          - unique
+          - not_null
+
+      - name: cashflow_type 
+        description: High-level cashflow category grouping (e.g., Fixed Costs, Income, Savings, Investments, Transfer, or Guilt-Free allowance).
+        data_tests:
+          - not_null
+          - accepted_values:
+              arguments:
+                values: ['Fixed Costs', 'Guilt-Free Family', 'Guilt-Free Kenji', 'Guilt-Free Mei', 'Guilt-Free Pet', 'Income', 'Investments', 'Savings', 'Savings Spending', 'Transfer']
+
+  - name: dim_dates 
+    description: Date dimension providing one row per calendar day, used to support time-based analysis and joins across budget, cashflow, and investments data. The range spans from the start of the year containing the earliest date across all source models (budget, cashflow transactions, and investment transactions) through the end of the year containing the latest cashflow transaction date.
+    columns:
+      - name: date_id
+        description: Unique identifier for the date.
+        data_tests:
+          - unique
+          - not_null
+
+      - name: calendar_date
+        description: The calendar date for this row, as a native date value.
+        data_tests:
+          - unique
+          - not_null
+
+      - name: calendar_year
+        description: Calendar year of the date (e.g., 2026).
+        data_tests:
+          - not_null
+
+      - name: calendar_quarter
+        description: Calendar quarter of the date, numbered 1 through 4.
+        data_tests:
+          - not_null
+          - accepted_values:
+              arguments:
+                values: [1, 2, 3, 4]
+
+      - name: month_number
+        description: Month of the date, numbered 1 (January) through 12 (December).
+        data_tests:
+          - not_null
+
+      - name: month_name
+        description: Full name of the month (e.g., 'January').
+        data_tests:
+          - not_null
+
+      - name: day_number
+        description: Day of the month, numbered 1 through 31.
+        data_tests:
+          - not_null
+
+      - name: day_of_week_name
+        description: Full name of the day of the week (e.g., 'Monday').
+        data_tests:
+          - not_null
+
+  - name: dim_investments
+    description: Dimension table listing the current position for each investment held, including quantity, latest price, current value, and an estimated annualized rate of return (XIRR). One row per ticker.
+    columns:
+      - name: ticker
+        description: Ticker symbol of the investment (e.g., XEQT, VFV, RY).
+        data_tests:
+          - unique
+          - not_null
+
+      - name: investment_name
+        description: Full descriptive name of the investment associated with the ticker (e.g., iShares Core Equity ETF Portfolio, Royal Bank of Canada).
+        data_tests:
+          - not_null
+
+      - name: total_quantity
+        description: Total quantity (shares/units) currently held for the investment.
+        data_tests:
+          - not_null
+
+      - name: latest_price
+        description: Most recent known price per share/unit for the investment.
+        data_tests:
+          - not_null
+
+      - name: current_value
+        description: Current market value of the position, total_quantity multiplied by latest_price.
+        data_tests:
+          - not_null
+
+      - name: annualized_return_rate
+        description: Annualized rate of return for the investment, calculated using XIRR (extended internal rate of return) over the investment's full transaction history plus its current value as a final cash flow dated today. Rounded to 4 decimal places (e.g., 0.1507 = 15.07%).
+
+  - name: dim_savings_goals
+    description: Dimension table tracking savings goals, how much of each is currently funded, and a projected month by which each goal will be fully funded. Goals are funded in priority order (lowest goal_priority number first) - existing goals are funded first from each goal's associated account's current balance (waterfall by priority within account), and any goals not yet fully funded are then projected forward using the current month's total Savings budget, allocated across all outstanding goals in priority order. One row per goal.
+    columns:
+      - name: goal_name
+        description: Name of the savings goal (e.g., Laptop, Vacation 2027). Unique identifier of the table.
+        data_tests:
+          - unique
+          - not_null
+
+      - name: goal_priority
+        description: Priority rank of the goal, used to determine funding order (lower numbers are funded first). Goals already achieved have no priority. Goals without a priority set are excluded from this model.
+        data_tests:
+          - not_null
+
+      - name: goal_amount
+        description: Total target amount for the goal.
+        data_tests:
+          - not_null
+
+      - name: running_goal_amount
+        description: Cumulative sum of goal_amount for this goal and all higher-priority goals sharing the same account, ordered by goal_priority.
+        data_tests:
+          - not_null
+
+      - name: account_name
+        description: Name of the account the goal's savings are allocated from.
+        data_tests:
+          - not_null
+
+      - name: account_current_balance
+        description: Current balance of the associated account, as of the latest data.
+        data_tests:
+          - not_null
+
+      - name: goal_amount_saved
+        description: Amount of the goal currently funded, based on the account's current balance applied to goals in priority order (higher-priority goals in the same account are funded first). Capped between 0 and goal_amount.
+        data_tests:
+          - not_null
+
+      - name: goal_status
+        description: Current funding status of the goal, based on goal_amount_saved relative to goal_amount.
+        data_tests:
+          - not_null
+          - accepted_values:
+              arguments:
+                values: ['Achieved', 'In Progress', 'Not Started']
+
+      - name: goal_status_id
+        description: Numeric grouping used to sequence goals for funding projections — 1 for Achieved goals, 2 for all others (In Progress or Not Started).
+        data_tests:
+          - not_null
+          - accepted_values:
+              arguments:
+                values: [1, 2]
+
+      - name: goal_amount_needed
+        description: Remaining amount needed to fully fund the goal (goal_amount minus goal_amount_saved). 0 if the goal is already Achieved.
+        data_tests:
+          - not_null
+
+      - name: running_goal_amount_needed
+        description: Cumulative sum of goal_amount_needed across all goals (regardless of account), ordered by goal_status_id then goal_priority. Represents the total additional savings required to fund this goal and every goal ahead of it in the funding queue.
+        data_tests:
+          - not_null
+
+      - name: budget_savings_amount
+        description: Total budgeted Savings amount for the current month, taken from the latest available budget. 0 if the goal is already Achieved.
+        data_tests:
+          - not_null
+
+      - name: months_to_goal
+        description: Projected number of months, from the current month, until this goal is fully funded, assuming the full monthly Savings budget is applied to goals in priority order. Includes a 1-month buffer added to the calculated figure to account for the current partial month. 0 if the goal is already Achieved.
+        data_tests:
+          - not_null
+
+      - name: funding_month
+        description: Calendar month (first day of month) in which the goal is projected to be fully funded, based on months_to_goal. Null if the goal is already Achieved.
+
+  - name: fct_budget_fixed_costs 
+    description: 
+
+  - name: fct_budget_vs_actual_fixed_costs 
+    description: 
+
+  - name: fct_budget_vs_actual_guilt_free 
+    description: 
+
+  - name: fct_budget_vs_actual 
+    description: 
+
+  - name: fct_budget 
+    description: 
+
+  - name: fct_cashflow_transactions 
+    description: 
+
+  - name: fct_investments_transactions 
+    description: 
+
+  - name: fct_monthly_paycheck_allocation 
+    description: 
+
+  - name: retirement_projection 
+    description: 
