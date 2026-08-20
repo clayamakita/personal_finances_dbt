@@ -397,3 +397,40 @@ models:
         description: How far cumulative actual spending is from cumulative budget, calculated as running_budget_amount minus running_actual_amount. Positive means under budget; negative means over budget.
         data_tests:
           - not_null
+
+  - name: fct_budget_fixed_costs
+    description: Fact table of budgeted amounts by fixed costs category and calendar month. This is the stable, single point of reference for all downstream consumers. Each row represents the budgeted amount for one fixed costs category in one calendar month.
+    data_tests:
+      - dbt_utils.unique_combination_of_columns:
+          arguments:
+            combination_of_columns:
+              - budget_category
+              - budget_month
+    columns:
+      - name: budget_fixed_costs_month_id
+        description: Surrogate key formed by concatenating a slugified `budget_category` (lowercased, spaces removed) with the `budget_month` date, e.g. `housing_2026-01-01`. Uniquely identifies a budget_category/budget_month combination.
+        data_tests:
+          - unique
+          - not_null
+
+      - name: budget_category
+        description: High-level spending fixed costs category (e.g. Housing, Groceries, Transportation, Pet, Healthcare, Miscellaneous).
+        data_tests:
+          - not_null
+          - accepted_values:
+              arguments:
+                values: ['Groceries', 'Healthcare', 'Housing', 'Household Items', 'Miscellaneous', 'Pet', 'Transportation']
+
+      - name: budget_month
+        description: The first day of the budgeted calendar month.
+        data_tests:
+          - not_null
+
+      - name: budget_amount
+        description: The budgeted dollar amount for this budget_category in this budget_month.
+        data_tests:
+          - not_null
+          - dbt_utils.accepted_range:
+              arguments:
+                min_value: 0
+                inclusive: true
