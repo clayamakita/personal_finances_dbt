@@ -542,4 +542,80 @@ models:
           - not_null
 
       - name: notes
-        description: Free-text notes about the transaction,
+        description: Free-text notes about the transaction.
+
+  - name: fct_investments_transactions
+    description: Fact table of all investment account transactions (buys, sells, dividends). This is the stable, single point of reference for all downstream consumers. Each row represents one investment transaction.
+    columns:
+      - name: investment_transaction_id
+        description: Unique identifier for the investment transaction.
+        data_tests:
+          - unique
+          - not_null
+
+      - name: account_name
+        description: Investment account the transaction belongs to (e.g., TFSA Kenji, TFSA Mei).
+        data_tests:
+          - not_null
+
+      - name: investment_type
+        description: Broad classification of the investment involved in the transaction (e.g., ETF, Stock).
+        data_tests:
+          - not_null
+          - accepted_values:
+              arguments:
+                values: ['Bond', 'ETF', 'GIC', 'Index Fund', 'Mutual Fund', 'Stock']
+
+      - name: investment_event
+        description: Type of transaction event (e.g., Buy, Sell, Dividend).
+        data_tests:
+          - not_null
+          - accepted_values:
+              arguments:
+                values: ['Buy', 'Dividends', 'Sell']
+
+      - name: ticker
+        description: Ticker symbol of the investment involved in the transaction (e.g., XEQT, VFV, RY).
+        data_tests:
+          - not_null
+
+      - name: investment_name
+        description: Full name of the investment involved in the transaction (e.g., iShares Core Equity ETF Portfolio, Royal Bank of Canada).
+        data_tests:
+          - not_null
+
+      - name: quantity
+        description: Number of units transacted.
+        data_tests:
+          - not_null
+          - dbt_utils.expression_is_true:
+              arguments:
+                expression: "> 0"
+
+      - name: price
+        description: Price per unit at the time of the transaction.
+        data_tests:
+          - not_null
+          - dbt_utils.expression_is_true:
+              arguments:
+                expression: "> 0"
+
+      - name: total_value
+        description: Total cash value of the transaction (negative for purchases and positive for sells).
+        data_tests:
+          - not_null
+
+      - name: dividends
+        description: Dividend amount associated with the transaction. Defaults to 0 when not applicable.
+        data_tests:
+          - not_null
+
+      - name: net_quantity
+        description: Quantity held as a result of this transaction — positive for buys, negative for sells. Adding this up across all transactions for a ticker gives the current amount held.
+        data_tests:
+          - not_null
+
+      - name: event_date
+        description: Date the transaction occurred.
+        data_tests:
+          - not_null
