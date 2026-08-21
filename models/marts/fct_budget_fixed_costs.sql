@@ -1,6 +1,6 @@
 with budget as (
 
-    select * from {{ ref('int_budget_2026_fixed_costs_agg_category') }}
+    select * from {{ ref('int_budget_fixed_costs') }}
 
 ),
 
