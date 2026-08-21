@@ -12,7 +12,7 @@ goals_details as (
 
 accounts as (
 
-    select * from {{ ref('dim_accounts') }}
+    select * from {{ ref('int_accounts') }}
 
 ),
 
