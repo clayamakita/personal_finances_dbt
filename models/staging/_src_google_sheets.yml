@@ -451,6 +451,8 @@ sources:
 
           - name: item
             description: Short label for what the transaction was for (e.g., Rent, Paycheck, Apples).
+            data_tests:
+              - not_null
 
           - name: type
             description: High-level cashflow category grouping (e.g., Fixed Costs, Income, Savings, Investments, Transfer, or Guilt-Free).
@@ -459,6 +461,8 @@ sources:
             
           - name: category
             description: Specific spending or income category within the type (e.g., Groceries, Housing, Paycheck).
+            data_tests:
+              - not_null
 
           - name: amount
             description: Transaction value. Negative for money out (expenses, transfers out), positive for money in (income, deposits).
@@ -473,6 +477,8 @@ sources:
 
           - name: where
             description: Merchant, vendor, or source/destination of the transaction.
+            data_tests:
+              - not_null
 
           - name: date
             description: Date the transaction occurred.
