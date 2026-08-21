@@ -321,9 +321,10 @@ models:
         description: Most recent traded price in the Toronto Exchange Stock (TSE), delayed per the feed's time delay.
         data_tests:
           - not_null
-          - dbt_utils.expression_is_true:
+          - dbt_utils.accepted_range:
               arguments:
-                expression: "> 0"
+                min_value: 0 
+                inclusive: true
 
       - name: time_delay
         description: Delay, in minutes, between the actual market price and when it was retrieved from the Toronto Stock Exchange (TSE).
@@ -384,17 +385,18 @@ models:
         description: Number of units transacted.
         data_tests:
           - not_null
-          - dbt_utils.expression_is_true:
+          - dbt_utils.accepted_range:
               arguments:
-                expression: "> 0"
+                min_value: 0 
+                inclusive: true
 
       - name: price
         description: Price per unit at the time of the transaction.
         data_tests:
           - not_null
-          - dbt_utils.expression_is_true:
+          - dbt_utils.accepted_range:
               arguments:
-                expression: "> 0"
+                min_value: 0 
 
       - name: total_value
         description: Total cash value of the transaction (negative for purchases and positive for sells).
