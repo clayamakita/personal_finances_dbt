@@ -1,3 +1,5 @@
+version: 2
+
 models:
   - name: stg_google_sheets__accounts
     description: List of financial accounts with beginning/current balances, type, and category.
