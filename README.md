@@ -41,7 +41,7 @@ This is the fastest way to see how the models are built:
 
 <details>
 <summary>dbt DAG (click to expand)</summary>
-![dbg-dag-screenshot](https://github.com/clayamakita/personal_finances/blob/main/assets/dbt-dag.png)
+![dbt-dag-screenshot](https://raw.githubusercontent.com/clayamakita/personal_finances/main/assets/dbt-dag.png)
 
 </details>
 
