@@ -1,6 +1,6 @@
-# 🧱 personal_finances_dbt
+# 🛠️ Personal Finances Analytics - dbt
 
-The **dbt transformation layer** behind *Personal Finances Analytics* — a portfolio project that turns raw, manually-logged financial data into clean, analysis-ready tables in BigQuery.
+This project is the **dbt transformation layer** behind *Personal Finances Analytics* — a portfolio project that turns raw, manually-logged financial data into clean, analysis-ready tables in BigQuery.
 
 > 📊 **Looking for the full picture?** The project story, dashboards, and budgeting framework live in the main [`personal_finances`](https://github.com/clayamakita/personal_finances) repo. This repo is just the SQL/data modeling piece.
 
