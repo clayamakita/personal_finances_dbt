@@ -1,0 +1,709 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>personal_finances lineage</title>
+<style>
+  :root { --ink:#202124; --muted:#5f6368; --line:#dadce0; --accent:#1a73e8; --bg:#fff; }
+  * { box-sizing: border-box; }
+  body { margin:0; background:var(--bg); color:var(--ink); font:14px/1.4 system-ui,-apple-system,"Segoe UI",Roboto,Helvetica,Arial,sans-serif; }
+  header { position:sticky; top:0; z-index:2; display:flex; flex-wrap:wrap; gap:10px 16px; align-items:center;
+           padding:10px 16px; background:var(--bg); border-bottom:1px solid var(--line); }
+  h1 { font-size:16px; margin:0 8px 0 0; }
+  input[type=search] { width:260px; max-width:100%; padding:6px 10px; border:1px solid var(--line); border-radius:6px; font:inherit; }
+  button { padding:5px 10px; border:1px solid var(--line); background:#fff; border-radius:6px; font:inherit; cursor:pointer; }
+  button:hover { border-color:var(--accent); color:var(--accent); }
+  #info { color:var(--muted); flex:1 1 280px; min-height:1.4em; }
+  #info b { color:var(--ink); }
+  #graph { overflow:auto; height:calc(100vh - 58px); padding:8px 16px 24px; }
+  #graph svg { display:block; height:auto; }
+  g.node { cursor:pointer; transition:opacity .15s; }
+  g.edge { transition:opacity .15s; }
+  g.node.faded { opacity:.12; }
+  g.edge.faded { opacity:.06; }
+  g.node.selected path, g.node.selected polygon { stroke-width:3; stroke:var(--ink); }
+  g.edge.on path { stroke:var(--accent); stroke-width:2.2; }
+  g.edge.on polygon { stroke:var(--accent); fill:var(--accent); }
+  @media (max-width:640px) { #graph { height:calc(100vh - 110px); } }
+</style>
+</head>
+<body>
+<header>
+  <h1>personal_finances lineage</h1>
+  <input id="search" type="search" list="models" placeholder="Search a model…" autocomplete="off" aria-label="Search a model">
+  <datalist id="models"></datalist>
+  <span>
+    <button id="zin" title="Zoom in" aria-label="Zoom in">+</button>
+    <button id="zout" title="Zoom out" aria-label="Zoom out">−</button>
+    <button id="fit" title="Fit to window">Fit</button>
+    <button id="reset" title="Clear selection (Esc)">Reset</button>
+  </span>
+  <div id="info">Click a model to highlight its full upstream and downstream lineage.</div>
+</header>
+<div id="graph"><svg
+ viewBox="0.00 0.00 1509.00 1158.00" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(21.6 1106.6)">
+<title>lineage</title>
+<polygon fill="white" stroke="transparent" points="-5000,-5000 -5000,5000 5000,5000 5000,-5000 -5000,-5000"/>
+<!-- source.personal_finances.google_sheets.accounts -->
+<g id="node1" class="node">
+<title>source.personal_finances.google_sheets.accounts</title>
+<path fill="#d7f0c8" stroke="#5fa33b" stroke-width="1.4" d="M191,-728C191,-728 58,-728 58,-728 52,-728 46,-722 46,-716 46,-716 46,-704 46,-704 46,-698 52,-692 58,-692 58,-692 191,-692 191,-692 197,-692 203,-698 203,-704 203,-704 203,-716 203,-716 203,-722 197,-728 191,-728"/>
+<text text-anchor="middle" x="124.5" y="-707.2" font-family="Helvetica,sans-Serif" font-size="11.00" fill="#25491a">google_sheets.accounts</text>
+</g>
+<!-- model.personal_finances.stg_google_sheets__accounts -->
+<g id="node13" class="node">
+<title>model.personal_finances.stg_google_sheets__accounts</title>
+<path fill="#d6ecf7" stroke="#3c93c2" stroke-width="1.4" d="M627,-728C627,-728 465,-728 465,-728 459,-728 453,-722 453,-716 453,-716 453,-704 453,-704 453,-698 459,-692 465,-692 465,-692 627,-692 627,-692 633,-692 639,-698 639,-704 639,-704 639,-716 639,-716 639,-722 633,-728 627,-728"/>
+<text text-anchor="middle" x="546" y="-707.2" font-family="Helvetica,sans-Serif" font-size="11.00" fill="#12425c">stg_google_sheets__accounts</text>
+</g>
+<!-- source.personal_finances.google_sheets.accounts&#45;&gt;model.personal_finances.stg_google_sheets__accounts -->
+<g id="edge14" class="edge">
+<title>source.personal_finances.google_sheets.accounts&#45;&gt;model.personal_finances.stg_google_sheets__accounts</title>
+<path fill="none" stroke="#8a94a0" d="M203.29,-710C272.12,-710 372.38,-710 446.69,-710"/>
+<polygon fill="#8a94a0" stroke="#8a94a0" points="446.89,-712.1 452.89,-710 446.89,-707.9 446.89,-712.1"/>
+</g>
+<!-- source.personal_finances.google_sheets.budget_2026 -->
+<g id="node2" class="node">
+<title>source.personal_finances.google_sheets.budget_2026</title>
+<path fill="#d7f0c8" stroke="#5fa33b" stroke-width="1.4" d="M201.5,-786C201.5,-786 47.5,-786 47.5,-786 41.5,-786 35.5,-780 35.5,-774 35.5,-774 35.5,-762 35.5,-762 35.5,-756 41.5,-750 47.5,-750 47.5,-750 201.5,-750 201.5,-750 207.5,-750 213.5,-756 213.5,-762 213.5,-762 213.5,-774 213.5,-774 213.5,-780 207.5,-786 201.5,-786"/>
+<text text-anchor="middle" x="124.5" y="-765.2" font-family="Helvetica,sans-Serif" font-size="11.00" fill="#25491a">google_sheets.budget_2026</text>
+</g>
+<!-- model.personal_finances.stg_google_sheets__budget_2026 -->
+<g id="node14" class="node">
+<title>model.personal_finances.stg_google_sheets__budget_2026</title>
+<path fill="#d6ecf7" stroke="#3c93c2" stroke-width="1.4" d="M637.5,-786C637.5,-786 454.5,-786 454.5,-786 448.5,-786 442.5,-780 442.5,-774 442.5,-774 442.5,-762 442.5,-762 442.5,-756 448.5,-750 454.5,-750 454.5,-750 637.5,-750 637.5,-750 643.5,-750 649.5,-756 649.5,-762 649.5,-762 649.5,-774 649.5,-774 649.5,-780 643.5,-786 637.5,-786"/>
+<text text-anchor="middle" x="546" y="-765.2" font-family="Helvetica,sans-Serif" font-size="11.00" fill="#12425c">stg_google_sheets__budget_2026</text>
+</g>
+<!-- source.personal_finances.google_sheets.budget_2026&#45;&gt;model.personal_finances.stg_google_sheets__budget_2026 -->
+<g id="edge32" class="edge">
+<title>source.personal_finances.google_sheets.budget_2026&#45;&gt;model.personal_finances.stg_google_sheets__budget_2026</title>
+<path fill="none" stroke="#8a94a0" d="M213.63,-768C278.48,-768 366.67,-768 435.92,-768"/>
+<polygon fill="#8a94a0" stroke="#8a94a0" points="436.13,-770.1 442.13,-768 436.13,-765.9 436.13,-770.1"/>
+</g>
+<!-- source.personal_finances.google_sheets.budget_2026_fixed_costs -->
+<g id="node3" class="node">
+<title>source.personal_finances.google_sheets.budget_2026_fixed_costs</title>
+<path fill="#d7f0c8" stroke="#5fa33b" stroke-width="1.4" d="M234.5,-614C234.5,-614 14.5,-614 14.5,-614 8.5,-614 2.5,-608 2.5,-602 2.5,-602 2.5,-590 2.5,-590 2.5,-584 8.5,-578 14.5,-578 14.5,-578 234.5,-578 234.5,-578 240.5,-578 246.5,-584 246.5,-590 246.5,-590 246.5,-602 246.5,-602 246.5,-608 240.5,-614 234.5,-614"/>
+<text text-anchor="middle" x="124.5" y="-593.2" font-family="Helvetica,sans-Serif" font-size="11.00" fill="#25491a">google_sheets.budget_2026_fixed_costs</text>
+</g>
+<!-- model.personal_finances.stg_google_sheets__budget_2026_fixed_costs -->
+<g id="node15" class="node">
+<title>model.personal_finances.stg_google_sheets__budget_2026_fixed_costs</title>
+<path fill="#d6ecf7" stroke="#3c93c2" stroke-width="1.4" d="M670.5,-614C670.5,-614 421.5,-614 421.5,-614 415.5,-614 409.5,-608 409.5,-602 409.5,-602 409.5,-590 409.5,-590 409.5,-584 415.5,-578 421.5,-578 421.5,-578 670.5,-578 670.5,-578 676.5,-578 682.5,-584 682.5,-590 682.5,-590 682.5,-602 682.5,-602 682.5,-608 676.5,-614 670.5,-614"/>
+<text text-anchor="middle" x="546" y="-593.2" font-family="Helvetica,sans-Serif" font-size="11.00" fill="#12425c">stg_google_sheets__budget_2026_fixed_costs</text>
+</g>
+<!-- source.personal_finances.google_sheets.budget_2026_fixed_costs&#45;&gt;model.personal_finances.stg_google_sheets__budget_2026_fixed_costs -->
+<g id="edge39" class="edge">
+<title>source.personal_finances.google_sheets.budget_2026_fixed_costs&#45;&gt;model.personal_finances.stg_google_sheets__budget_2026_fixed_costs</title>
+<path fill="none" stroke="#8a94a0" d="M246.7,-596C295.64,-596 352.37,-596 403.19,-596"/>
+<polygon fill="#8a94a0" stroke="#8a94a0" points="403.36,-598.1 409.36,-596 403.36,-593.9 403.36,-598.1"/>
+</g>
+<!-- source.personal_finances.google_sheets.investments_price -->
+<g id="node4" class="node">
+<title>source.personal_finances.google_sheets.investments_price</title>
+<path fill="#d7f0c8" stroke="#5fa33b" stroke-width="1.4" d="M216.5,-198C216.5,-198 32.5,-198 32.5,-198 26.5,-198 20.5,-192 20.5,-186 20.5,-186 20.5,-174 20.5,-174 20.5,-168 26.5,-162 32.5,-162 32.5,-162 216.5,-162 216.5,-162 222.5,-162 228.5,-168 228.5,-174 228.5,-174 228.5,-186 228.5,-186 228.5,-192 222.5,-198 216.5,-198"/>
+<text text-anchor="middle" x="124.5" y="-177.2" font-family="Helvetica,sans-Serif" font-size="11.00" fill="#25491a">google_sheets.investments_price</text>
+</g>
+<!-- model.personal_finances.stg_google_sheets__investments_prices -->
+<g id="node12" class="node">
+<title>model.personal_finances.stg_google_sheets__investments_prices</title>
+<path fill="#d6ecf7" stroke="#3c93c2" stroke-width="1.4" d="M655.5,-198C655.5,-198 436.5,-198 436.5,-198 430.5,-198 424.5,-192 424.5,-186 424.5,-186 424.5,-174 424.5,-174 424.5,-168 430.5,-162 436.5,-162 436.5,-162 655.5,-162 655.5,-162 661.5,-162 667.5,-168 667.5,-174 667.5,-174 667.5,-186 667.5,-186 667.5,-192 661.5,-198 655.5,-198"/>
+<text text-anchor="middle" x="546" y="-177.2" font-family="Helvetica,sans-Serif" font-size="11.00" fill="#12425c">stg_google_sheets__investments_prices</text>
+</g>
+<!-- source.personal_finances.google_sheets.investments_price&#45;&gt;model.personal_finances.stg_google_sheets__investments_prices -->
+<g id="edge6" class="edge">
+<title>source.personal_finances.google_sheets.investments_price&#45;&gt;model.personal_finances.stg_google_sheets__investments_prices</title>
+<path fill="none" stroke="#8a94a0" d="M228.69,-180C285.96,-180 357.48,-180 418.12,-180"/>
+<polygon fill="#8a94a0" stroke="#8a94a0" points="418.33,-182.1 424.33,-180 418.33,-177.9 418.33,-182.1"/>
+</g>
+<!-- source.personal_finances.google_sheets.investments_transactions -->
+<g id="node5" class="node">
+<title>source.personal_finances.google_sheets.investments_transactions</title>
+<path fill="#d7f0c8" stroke="#5fa33b" stroke-width="1.4" d="M237,-114C237,-114 12,-114 12,-114 6,-114 0,-108 0,-102 0,-102 0,-90 0,-90 0,-84 6,-78 12,-78 12,-78 237,-78 237,-78 243,-78 249,-84 249,-90 249,-90 249,-102 249,-102 249,-108 243,-114 237,-114"/>
+<text text-anchor="middle" x="124.5" y="-93.2" font-family="Helvetica,sans-Serif" font-size="11.00" fill="#25491a">google_sheets.investments_transactions</text>
+</g>
+<!-- model.personal_finances.stg_google_sheets__investments_transactions -->
+<g id="node11" class="node">
+<title>model.personal_finances.stg_google_sheets__investments_transactions</title>
+<path fill="#d6ecf7" stroke="#3c93c2" stroke-width="1.4" d="M673,-114C673,-114 419,-114 419,-114 413,-114 407,-108 407,-102 407,-102 407,-90 407,-90 407,-84 413,-78 419,-78 419,-78 673,-78 673,-78 679,-78 685,-84 685,-90 685,-90 685,-102 685,-102 685,-108 679,-114 673,-114"/>
+<text text-anchor="middle" x="546" y="-93.2" font-family="Helvetica,sans-Serif" font-size="11.00" fill="#12425c">stg_google_sheets__investments_transactions</text>
+</g>
+<!-- source.personal_finances.google_sheets.investments_transactions&#45;&gt;model.personal_finances.stg_google_sheets__investments_transactions -->
+<g id="edge5" class="edge">
+<title>source.personal_finances.google_sheets.investments_transactions&#45;&gt;model.personal_finances.stg_google_sheets__investments_transactions</title>
+<path fill="none" stroke="#8a94a0" d="M249.25,-96C296.74,-96 351.27,-96 400.51,-96"/>
+<polygon fill="#8a94a0" stroke="#8a94a0" points="400.8,-98.1 406.8,-96 400.8,-93.9 400.8,-98.1"/>
+</g>
+<!-- source.personal_finances.google_sheets.savings_goals -->
+<g id="node6" class="node">
+<title>source.personal_finances.google_sheets.savings_goals</title>
+<path fill="#d7f0c8" stroke="#5fa33b" stroke-width="1.4" d="M204.5,-844C204.5,-844 44.5,-844 44.5,-844 38.5,-844 32.5,-838 32.5,-832 32.5,-832 32.5,-820 32.5,-820 32.5,-814 38.5,-808 44.5,-808 44.5,-808 204.5,-808 204.5,-808 210.5,-808 216.5,-814 216.5,-820 216.5,-820 216.5,-832 216.5,-832 216.5,-838 210.5,-844 204.5,-844"/>
+<text text-anchor="middle" x="124.5" y="-823.2" font-family="Helvetica,sans-Serif" font-size="11.00" fill="#25491a">google_sheets.savings_goals</text>
+</g>
+<!-- model.personal_finances.stg_google_sheets__savings_goals -->
+<g id="node16" class="node">
+<title>model.personal_finances.stg_google_sheets__savings_goals</title>
+<path fill="#d6ecf7" stroke="#3c93c2" stroke-width="1.4" d="M640.5,-844C640.5,-844 451.5,-844 451.5,-844 445.5,-844 439.5,-838 439.5,-832 439.5,-832 439.5,-820 439.5,-820 439.5,-814 445.5,-808 451.5,-808 451.5,-808 640.5,-808 640.5,-808 646.5,-808 652.5,-814 652.5,-820 652.5,-820 652.5,-832 652.5,-832 652.5,-838 646.5,-844 640.5,-844"/>
+<text text-anchor="middle" x="546" y="-823.2" font-family="Helvetica,sans-Serif" font-size="11.00" fill="#12425c">stg_google_sheets__savings_goals</text>
+</g>
+<!-- source.personal_finances.google_sheets.savings_goals&#45;&gt;model.personal_finances.stg_google_sheets__savings_goals -->
+<g id="edge40" class="edge">
+<title>source.personal_finances.google_sheets.savings_goals&#45;&gt;model.personal_finances.stg_google_sheets__savings_goals</title>
+<path fill="none" stroke="#8a94a0" d="M216.74,-826C280.47,-826 365.63,-826 433.38,-826"/>
+<polygon fill="#8a94a0" stroke="#8a94a0" points="433.46,-828.1 439.46,-826 433.46,-823.9 433.46,-828.1"/>
+</g>
+<!-- source.personal_finances.google_sheets.savings_goals_details -->
+<g id="node7" class="node">
+<title>source.personal_finances.google_sheets.savings_goals_details</title>
+<path fill="#d7f0c8" stroke="#5fa33b" stroke-width="1.4" d="M225.5,-902C225.5,-902 23.5,-902 23.5,-902 17.5,-902 11.5,-896 11.5,-890 11.5,-890 11.5,-878 11.5,-878 11.5,-872 17.5,-866 23.5,-866 23.5,-866 225.5,-866 225.5,-866 231.5,-866 237.5,-872 237.5,-878 237.5,-878 237.5,-890 237.5,-890 237.5,-896 231.5,-902 225.5,-902"/>
+<text text-anchor="middle" x="124.5" y="-881.2" font-family="Helvetica,sans-Serif" font-size="11.00" fill="#25491a">google_sheets.savings_goals_details</text>
+</g>
+<!-- model.personal_finances.stg_google_sheets__savings_goals_details -->
+<g id="node17" class="node">
+<title>model.personal_finances.stg_google_sheets__savings_goals_details</title>
+<path fill="#d6ecf7" stroke="#3c93c2" stroke-width="1.4" d="M661.5,-902C661.5,-902 430.5,-902 430.5,-902 424.5,-902 418.5,-896 418.5,-890 418.5,-890 418.5,-878 418.5,-878 418.5,-872 424.5,-866 430.5,-866 430.5,-866 661.5,-866 661.5,-866 667.5,-866 673.5,-872 673.5,-878 673.5,-878 673.5,-890 673.5,-890 673.5,-896 667.5,-902 661.5,-902"/>
+<text text-anchor="middle" x="546" y="-881.2" font-family="Helvetica,sans-Serif" font-size="11.00" fill="#12425c">stg_google_sheets__savings_goals_details</text>
+</g>
+<!-- source.personal_finances.google_sheets.savings_goals_details&#45;&gt;model.personal_finances.stg_google_sheets__savings_goals_details -->
+<g id="edge41" class="edge">
+<title>source.personal_finances.google_sheets.savings_goals_details&#45;&gt;model.personal_finances.stg_google_sheets__savings_goals_details</title>
+<path fill="none" stroke="#8a94a0" d="M237.73,-884C291.49,-884 356.11,-884 412.27,-884"/>
+<polygon fill="#8a94a0" stroke="#8a94a0" points="412.37,-886.1 418.37,-884 412.37,-881.9 412.37,-886.1"/>
+</g>
+<!-- source.personal_finances.google_sheets.cashflow_transactions -->
+<g id="node8" class="node">
+<title>source.personal_finances.google_sheets.cashflow_transactions</title>
+<path fill="#d7f0c8" stroke="#5fa33b" stroke-width="1.4" d="M227,-452C227,-452 22,-452 22,-452 16,-452 10,-446 10,-440 10,-440 10,-428 10,-428 10,-422 16,-416 22,-416 22,-416 227,-416 227,-416 233,-416 239,-422 239,-428 239,-428 239,-440 239,-440 239,-446 233,-452 227,-452"/>
+<text text-anchor="middle" x="124.5" y="-431.2" font-family="Helvetica,sans-Serif" font-size="11.00" fill="#25491a">google_sheets.cashflow_transactions</text>
+</g>
+<!-- model.personal_finances.stg_google_sheets__cashflow_transactions -->
+<g id="node18" class="node">
+<title>model.personal_finances.stg_google_sheets__cashflow_transactions</title>
+<path fill="#d6ecf7" stroke="#3c93c2" stroke-width="1.4" d="M663,-452C663,-452 429,-452 429,-452 423,-452 417,-446 417,-440 417,-440 417,-428 417,-428 417,-422 423,-416 429,-416 429,-416 663,-416 663,-416 669,-416 675,-422 675,-428 675,-428 675,-440 675,-440 675,-446 669,-452 663,-452"/>
+<text text-anchor="middle" x="546" y="-431.2" font-family="Helvetica,sans-Serif" font-size="11.00" fill="#12425c">stg_google_sheets__cashflow_transactions</text>
+</g>
+<!-- source.personal_finances.google_sheets.cashflow_transactions&#45;&gt;model.personal_finances.stg_google_sheets__cashflow_transactions -->
+<g id="edge44" class="edge">
+<title>source.personal_finances.google_sheets.cashflow_transactions&#45;&gt;model.personal_finances.stg_google_sheets__cashflow_transactions</title>
+<path fill="none" stroke="#8a94a0" d="M239.12,-434C292.16,-434 355.54,-434 410.89,-434"/>
+<polygon fill="#8a94a0" stroke="#8a94a0" points="410.91,-436.1 416.91,-434 410.91,-431.9 410.91,-436.1"/>
+</g>
+<!-- source.personal_finances.google_sheets.cashflow_type_category -->
+<g id="node9" class="node">
+<title>source.personal_finances.google_sheets.cashflow_type_category</title>
+<path fill="#d7f0c8" stroke="#5fa33b" stroke-width="1.4" d="M232,-975C232,-975 17,-975 17,-975 11,-975 5,-969 5,-963 5,-963 5,-951 5,-951 5,-945 11,-939 17,-939 17,-939 232,-939 232,-939 238,-939 244,-945 244,-951 244,-951 244,-963 244,-963 244,-969 238,-975 232,-975"/>
+<text text-anchor="middle" x="124.5" y="-954.2" font-family="Helvetica,sans-Serif" font-size="11.00" fill="#25491a">google_sheets.cashflow_type_category</text>
+</g>
+<!-- model.personal_finances.stg_google_sheets__cashflow_type_category -->
+<g id="node19" class="node">
+<title>model.personal_finances.stg_google_sheets__cashflow_type_category</title>
+<path fill="#d6ecf7" stroke="#3c93c2" stroke-width="1.4" d="M668,-975C668,-975 424,-975 424,-975 418,-975 412,-969 412,-963 412,-963 412,-951 412,-951 412,-945 418,-939 424,-939 424,-939 668,-939 668,-939 674,-939 680,-945 680,-951 680,-951 680,-963 680,-963 680,-969 674,-975 668,-975"/>
+<text text-anchor="middle" x="546" y="-954.2" font-family="Helvetica,sans-Serif" font-size="11.00" fill="#12425c">stg_google_sheets__cashflow_type_category</text>
+</g>
+<!-- source.personal_finances.google_sheets.cashflow_type_category&#45;&gt;model.personal_finances.stg_google_sheets__cashflow_type_category -->
+<g id="edge47" class="edge">
+<title>source.personal_finances.google_sheets.cashflow_type_category&#45;&gt;model.personal_finances.stg_google_sheets__cashflow_type_category</title>
+<path fill="none" stroke="#8a94a0" d="M244.16,-957C294.54,-957 353.53,-957 405.93,-957"/>
+<polygon fill="#8a94a0" stroke="#8a94a0" points="405.96,-959.1 411.96,-957 405.96,-954.9 405.96,-959.1"/>
+</g>
+<!-- source.personal_finances.google_sheets.retirement_assumptions -->
+<g id="node10" class="node">
+<title>source.personal_finances.google_sheets.retirement_assumptions</title>
+<path fill="#d7f0c8" stroke="#5fa33b" stroke-width="1.4" d="M233,-296C233,-296 16,-296 16,-296 10,-296 4,-290 4,-284 4,-284 4,-272 4,-272 4,-266 10,-260 16,-260 16,-260 233,-260 233,-260 239,-260 245,-266 245,-272 245,-272 245,-284 245,-284 245,-290 239,-296 233,-296"/>
+<text text-anchor="middle" x="124.5" y="-275.2" font-family="Helvetica,sans-Serif" font-size="11.00" fill="#25491a">google_sheets.retirement_assumptions</text>
+</g>
+<!-- model.personal_finances.stg_google_sheets__retirement_assumptions -->
+<g id="node20" class="node">
+<title>model.personal_finances.stg_google_sheets__retirement_assumptions</title>
+<path fill="#d6ecf7" stroke="#3c93c2" stroke-width="1.4" d="M669,-296C669,-296 423,-296 423,-296 417,-296 411,-290 411,-284 411,-284 411,-272 411,-272 411,-266 417,-260 423,-260 423,-260 669,-260 669,-260 675,-260 681,-266 681,-272 681,-272 681,-284 681,-284 681,-290 675,-296 669,-296"/>
+<text text-anchor="middle" x="546" y="-275.2" font-family="Helvetica,sans-Serif" font-size="11.00" fill="#12425c">stg_google_sheets__retirement_assumptions</text>
+</g>
+<!-- source.personal_finances.google_sheets.retirement_assumptions&#45;&gt;model.personal_finances.stg_google_sheets__retirement_assumptions -->
+<g id="edge48" class="edge">
+<title>source.personal_finances.google_sheets.retirement_assumptions&#45;&gt;model.personal_finances.stg_google_sheets__retirement_assumptions</title>
+<path fill="none" stroke="#8a94a0" d="M245,-278C294.8,-278 352.89,-278 404.68,-278"/>
+<polygon fill="#8a94a0" stroke="#8a94a0" points="404.96,-280.1 410.96,-278 404.96,-275.9 404.96,-280.1"/>
+</g>
+<!-- model.personal_finances.int_investments_current_position -->
+<g id="node21" class="node">
+<title>model.personal_finances.int_investments_current_position</title>
+<path fill="#e6e0f5" stroke="#8068c2" stroke-width="1.4" d="M1064,-140C1064,-140 882,-140 882,-140 876,-140 870,-134 870,-128 870,-128 870,-116 870,-116 870,-110 876,-104 882,-104 882,-104 1064,-104 1064,-104 1070,-104 1076,-110 1076,-116 1076,-116 1076,-128 1076,-128 1076,-134 1070,-140 1064,-140"/>
+<text text-anchor="middle" x="973" y="-119.2" font-family="Helvetica,sans-Serif" font-size="11.00" fill="#2f2260">int_investments_current_position</text>
+</g>
+<!-- model.personal_finances.stg_google_sheets__investments_transactions&#45;&gt;model.personal_finances.int_investments_current_position -->
+<g id="edge4" class="edge">
+<title>model.personal_finances.stg_google_sheets__investments_transactions&#45;&gt;model.personal_finances.int_investments_current_position</title>
+<path fill="none" stroke="#8a94a0" d="M685.22,-104.48C743.11,-108 809.31,-112.03 863.61,-115.34"/>
+<polygon fill="#8a94a0" stroke="#8a94a0" points="863.72,-117.45 869.84,-115.72 863.98,-113.26 863.72,-117.45"/>
+</g>
+<!-- model.personal_finances.dim_investments -->
+<g id="node30" class="node">
+<title>model.personal_finances.dim_investments</title>
+<path fill="#fce8c8" stroke="#d98e1f" stroke-width="1.4" d="M1410.5,-94C1410.5,-94 1316.5,-94 1316.5,-94 1310.5,-94 1304.5,-88 1304.5,-82 1304.5,-82 1304.5,-70 1304.5,-70 1304.5,-64 1310.5,-58 1316.5,-58 1316.5,-58 1410.5,-58 1410.5,-58 1416.5,-58 1422.5,-64 1422.5,-70 1422.5,-70 1422.5,-82 1422.5,-82 1422.5,-88 1416.5,-94 1410.5,-94"/>
+<text text-anchor="middle" x="1363.5" y="-73.2" font-family="Helvetica,sans-Serif" font-size="11.00" fill="#5e3b00">dim_investments</text>
+</g>
+<!-- model.personal_finances.stg_google_sheets__investments_transactions&#45;&gt;model.personal_finances.dim_investments -->
+<g id="edge2" class="edge">
+<title>model.personal_finances.stg_google_sheets__investments_transactions&#45;&gt;model.personal_finances.dim_investments</title>
+<path fill="none" stroke="#8a94a0" d="M685.14,-92.6C863.48,-88.23 1165.44,-80.85 1297.9,-77.6"/>
+<polygon fill="#8a94a0" stroke="#8a94a0" points="1298.13,-79.7 1304.08,-77.45 1298.03,-75.5 1298.13,-79.7"/>
+</g>
+<!-- model.personal_finances.dim_dates -->
+<g id="node33" class="node">
+<title>model.personal_finances.dim_dates</title>
+<path fill="#fce8c8" stroke="#d98e1f" stroke-width="1.4" d="M1392,-329C1392,-329 1335,-329 1335,-329 1329,-329 1323,-323 1323,-317 1323,-317 1323,-305 1323,-305 1323,-299 1329,-293 1335,-293 1335,-293 1392,-293 1392,-293 1398,-293 1404,-299 1404,-305 1404,-305 1404,-317 1404,-317 1404,-323 1398,-329 1392,-329"/>
+<text text-anchor="middle" x="1363.5" y="-308.2" font-family="Helvetica,sans-Serif" font-size="11.00" fill="#5e3b00">dim_dates</text>
+</g>
+<!-- model.personal_finances.stg_google_sheets__investments_transactions&#45;&gt;model.personal_finances.dim_dates -->
+<g id="edge17" class="edge">
+<title>model.personal_finances.stg_google_sheets__investments_transactions&#45;&gt;model.personal_finances.dim_dates</title>
+<path fill="none" stroke="#8a94a0" d="M593.18,-114.06C653.12,-136.55 760.07,-175.18 853.8,-201.2 1022.19,-247.94 1226.49,-286.63 1316.76,-302.83"/>
+<polygon fill="#8a94a0" stroke="#8a94a0" points="1316.53,-304.92 1322.8,-303.91 1317.27,-300.79 1316.53,-304.92"/>
+</g>
+<!-- model.personal_finances.fct_investments_transactions -->
+<g id="node44" class="node">
+<title>model.personal_finances.fct_investments_transactions</title>
+<path fill="#fce8c8" stroke="#d98e1f" stroke-width="1.4" d="M1444.5,-36C1444.5,-36 1282.5,-36 1282.5,-36 1276.5,-36 1270.5,-30 1270.5,-24 1270.5,-24 1270.5,-12 1270.5,-12 1270.5,-6 1276.5,0 1282.5,0 1282.5,0 1444.5,0 1444.5,0 1450.5,0 1456.5,-6 1456.5,-12 1456.5,-12 1456.5,-24 1456.5,-24 1456.5,-30 1450.5,-36 1444.5,-36"/>
+<text text-anchor="middle" x="1363.5" y="-15.2" font-family="Helvetica,sans-Serif" font-size="11.00" fill="#5e3b00">fct_investments_transactions</text>
+</g>
+<!-- model.personal_finances.stg_google_sheets__investments_transactions&#45;&gt;model.personal_finances.fct_investments_transactions -->
+<g id="edge49" class="edge">
+<title>model.personal_finances.stg_google_sheets__investments_transactions&#45;&gt;model.personal_finances.fct_investments_transactions</title>
+<path fill="none" stroke="#8a94a0" d="M685.14,-82.72C849.63,-67.03 1119.26,-41.3 1264.09,-27.49"/>
+<polygon fill="#8a94a0" stroke="#8a94a0" points="1264.69,-29.54 1270.47,-26.88 1264.29,-25.36 1264.69,-29.54"/>
+</g>
+<!-- model.personal_finances.stg_google_sheets__investments_prices&#45;&gt;model.personal_finances.int_investments_current_position -->
+<g id="edge3" class="edge">
+<title>model.personal_finances.stg_google_sheets__investments_prices&#45;&gt;model.personal_finances.int_investments_current_position</title>
+<path fill="none" stroke="#8a94a0" d="M667.5,-163.5C729.24,-155.11 803.66,-145 863.59,-136.86"/>
+<polygon fill="#8a94a0" stroke="#8a94a0" points="864.05,-138.92 869.71,-136.03 863.48,-134.76 864.05,-138.92"/>
+</g>
+<!-- model.personal_finances.int_accounts -->
+<g id="node22" class="node">
+<title>model.personal_finances.int_accounts</title>
+<path fill="#e6e0f5" stroke="#8068c2" stroke-width="1.4" d="M1008,-788C1008,-788 938,-788 938,-788 932,-788 926,-782 926,-776 926,-776 926,-764 926,-764 926,-758 932,-752 938,-752 938,-752 1008,-752 1008,-752 1014,-752 1020,-758 1020,-764 1020,-764 1020,-776 1020,-776 1020,-782 1014,-788 1008,-788"/>
+<text text-anchor="middle" x="973" y="-767.2" font-family="Helvetica,sans-Serif" font-size="11.00" fill="#2f2260">int_accounts</text>
+</g>
+<!-- model.personal_finances.stg_google_sheets__accounts&#45;&gt;model.personal_finances.int_accounts -->
+<g id="edge12" class="edge">
+<title>model.personal_finances.stg_google_sheets__accounts&#45;&gt;model.personal_finances.int_accounts</title>
+<path fill="none" stroke="#8a94a0" d="M639.18,-723.09C725.05,-735.16 849.48,-752.64 919.65,-762.5"/>
+<polygon fill="#8a94a0" stroke="#8a94a0" points="919.62,-764.62 925.85,-763.37 920.2,-760.46 919.62,-764.62"/>
+</g>
+<!-- model.personal_finances.int_budget_2026_unpivoted -->
+<g id="node25" class="node">
+<title>model.personal_finances.int_budget_2026_unpivoted</title>
+<path fill="#e6e0f5" stroke="#8068c2" stroke-width="1.4" d="M1048.5,-730C1048.5,-730 897.5,-730 897.5,-730 891.5,-730 885.5,-724 885.5,-718 885.5,-718 885.5,-706 885.5,-706 885.5,-700 891.5,-694 897.5,-694 897.5,-694 1048.5,-694 1048.5,-694 1054.5,-694 1060.5,-700 1060.5,-706 1060.5,-706 1060.5,-718 1060.5,-718 1060.5,-724 1054.5,-730 1048.5,-730"/>
+<text text-anchor="middle" x="973" y="-709.2" font-family="Helvetica,sans-Serif" font-size="11.00" fill="#2f2260">int_budget_2026_unpivoted</text>
+</g>
+<!-- model.personal_finances.stg_google_sheets__budget_2026&#45;&gt;model.personal_finances.int_budget_2026_unpivoted -->
+<g id="edge31" class="edge">
+<title>model.personal_finances.stg_google_sheets__budget_2026&#45;&gt;model.personal_finances.int_budget_2026_unpivoted</title>
+<path fill="none" stroke="#8a94a0" d="M649.64,-754.41C719.72,-745.22 811.52,-733.18 879.39,-724.28"/>
+<polygon fill="#8a94a0" stroke="#8a94a0" points="879.8,-726.34 885.47,-723.48 879.25,-722.18 879.8,-726.34"/>
+</g>
+<!-- model.personal_finances.int_budget_2026_fixed_costs_unpivoted -->
+<g id="node28" class="node">
+<title>model.personal_finances.int_budget_2026_fixed_costs_unpivoted</title>
+<path fill="#e6e0f5" stroke="#8068c2" stroke-width="1.4" d="M1081.5,-510C1081.5,-510 864.5,-510 864.5,-510 858.5,-510 852.5,-504 852.5,-498 852.5,-498 852.5,-486 852.5,-486 852.5,-480 858.5,-474 864.5,-474 864.5,-474 1081.5,-474 1081.5,-474 1087.5,-474 1093.5,-480 1093.5,-486 1093.5,-486 1093.5,-498 1093.5,-498 1093.5,-504 1087.5,-510 1081.5,-510"/>
+<text text-anchor="middle" x="973" y="-489.2" font-family="Helvetica,sans-Serif" font-size="11.00" fill="#2f2260">int_budget_2026_fixed_costs_unpivoted</text>
+</g>
+<!-- model.personal_finances.stg_google_sheets__budget_2026_fixed_costs&#45;&gt;model.personal_finances.int_budget_2026_fixed_costs_unpivoted -->
+<g id="edge38" class="edge">
+<title>model.personal_finances.stg_google_sheets__budget_2026_fixed_costs&#45;&gt;model.personal_finances.int_budget_2026_fixed_costs_unpivoted</title>
+<path fill="none" stroke="#8a94a0" d="M620.38,-577.88C696.53,-559.34 814.5,-530.6 892.73,-511.55"/>
+<polygon fill="#8a94a0" stroke="#8a94a0" points="893.43,-513.54 898.76,-510.08 892.43,-509.46 893.43,-513.54"/>
+</g>
+<!-- model.personal_finances.dim_savings_goals -->
+<g id="node32" class="node">
+<title>model.personal_finances.dim_savings_goals</title>
+<path fill="#fce8c8" stroke="#d98e1f" stroke-width="1.4" d="M1415,-677C1415,-677 1312,-677 1312,-677 1306,-677 1300,-671 1300,-665 1300,-665 1300,-653 1300,-653 1300,-647 1306,-641 1312,-641 1312,-641 1415,-641 1415,-641 1421,-641 1427,-647 1427,-653 1427,-653 1427,-665 1427,-665 1427,-671 1421,-677 1415,-677"/>
+<text text-anchor="middle" x="1363.5" y="-656.2" font-family="Helvetica,sans-Serif" font-size="11.00" fill="#5e3b00">dim_savings_goals</text>
+</g>
+<!-- model.personal_finances.stg_google_sheets__savings_goals&#45;&gt;model.personal_finances.dim_savings_goals -->
+<g id="edge10" class="edge">
+<title>model.personal_finances.stg_google_sheets__savings_goals&#45;&gt;model.personal_finances.dim_savings_goals</title>
+<path fill="none" stroke="#8a94a0" d="M623.56,-807.94C699.47,-790.77 818.58,-765.21 922.8,-748.8 985.04,-739 1001.67,-744.26 1063.7,-733.2 1143.82,-718.91 1234.33,-695.48 1294.74,-678.78"/>
+<polygon fill="#8a94a0" stroke="#8a94a0" points="1295.63,-680.71 1300.85,-677.08 1294.51,-676.66 1295.63,-680.71"/>
+</g>
+<!-- model.personal_finances.stg_google_sheets__savings_goals_details&#45;&gt;model.personal_finances.dim_savings_goals -->
+<g id="edge11" class="edge">
+<title>model.personal_finances.stg_google_sheets__savings_goals_details&#45;&gt;model.personal_finances.dim_savings_goals</title>
+<path fill="none" stroke="#8a94a0" d="M600.79,-865.97C618.37,-860.09 637.89,-853.47 655.7,-847.2 775.04,-805.21 799.67,-777.84 922.8,-748.8 984.12,-734.34 1001.67,-744.26 1063.7,-733.2 1143.82,-718.91 1234.33,-695.48 1294.74,-678.78"/>
+<polygon fill="#8a94a0" stroke="#8a94a0" points="1295.63,-680.71 1300.85,-677.08 1294.51,-676.66 1295.63,-680.71"/>
+</g>
+<!-- model.personal_finances.stg_google_sheets__cashflow_transactions&#45;&gt;model.personal_finances.int_accounts -->
+<g id="edge13" class="edge">
+<title>model.personal_finances.stg_google_sheets__cashflow_transactions&#45;&gt;model.personal_finances.int_accounts</title>
+<path fill="none" stroke="#8a94a0" d="M564.87,-452.36C624.87,-510.47 811.45,-689.15 882.3,-733.2 893.94,-740.44 907.25,-746.77 920.01,-752.04"/>
+<polygon fill="#8a94a0" stroke="#8a94a0" points="919.49,-754.09 925.84,-754.39 921.06,-750.2 919.49,-754.09"/>
+</g>
+<!-- model.personal_finances.int_budget_latest_month -->
+<g id="node23" class="node">
+<title>model.personal_finances.int_budget_latest_month</title>
+<path fill="#e6e0f5" stroke="#8068c2" stroke-width="1.4" d="M1041,-614C1041,-614 905,-614 905,-614 899,-614 893,-608 893,-602 893,-602 893,-590 893,-590 893,-584 899,-578 905,-578 905,-578 1041,-578 1041,-578 1047,-578 1053,-584 1053,-590 1053,-590 1053,-602 1053,-602 1053,-608 1047,-614 1041,-614"/>
+<text text-anchor="middle" x="973" y="-593.2" font-family="Helvetica,sans-Serif" font-size="11.00" fill="#2f2260">int_budget_latest_month</text>
+</g>
+<!-- model.personal_finances.stg_google_sheets__cashflow_transactions&#45;&gt;model.personal_finances.int_budget_latest_month -->
+<g id="edge29" class="edge">
+<title>model.personal_finances.stg_google_sheets__cashflow_transactions&#45;&gt;model.personal_finances.int_budget_latest_month</title>
+<path fill="none" stroke="#8a94a0" d="M593.74,-452.11C674.05,-482.58 835.61,-543.87 919.58,-575.73"/>
+<polygon fill="#8a94a0" stroke="#8a94a0" points="918.89,-577.72 925.24,-577.88 920.38,-573.79 918.89,-577.72"/>
+</g>
+<!-- model.personal_finances.int_cashflow_transactions_agg_month -->
+<g id="node29" class="node">
+<title>model.personal_finances.int_cashflow_transactions_agg_month</title>
+<path fill="#e6e0f5" stroke="#8068c2" stroke-width="1.4" d="M1077,-198C1077,-198 869,-198 869,-198 863,-198 857,-192 857,-186 857,-186 857,-174 857,-174 857,-168 863,-162 869,-162 869,-162 1077,-162 1077,-162 1083,-162 1089,-168 1089,-174 1089,-174 1089,-186 1089,-186 1089,-192 1083,-198 1077,-198"/>
+<text text-anchor="middle" x="973" y="-177.2" font-family="Helvetica,sans-Serif" font-size="11.00" fill="#2f2260">int_cashflow_transactions_agg_month</text>
+</g>
+<!-- model.personal_finances.stg_google_sheets__cashflow_transactions&#45;&gt;model.personal_finances.int_cashflow_transactions_agg_month -->
+<g id="edge43" class="edge">
+<title>model.personal_finances.stg_google_sheets__cashflow_transactions&#45;&gt;model.personal_finances.int_cashflow_transactions_agg_month</title>
+<path fill="none" stroke="#8a94a0" d="M576.37,-415.94C653.18,-370.24 854.94,-250.23 937.26,-201.26"/>
+<polygon fill="#8a94a0" stroke="#8a94a0" points="938.42,-203.01 942.5,-198.14 936.27,-199.4 938.42,-203.01"/>
+</g>
+<!-- model.personal_finances.stg_google_sheets__cashflow_transactions&#45;&gt;model.personal_finances.dim_dates -->
+<g id="edge16" class="edge">
+<title>model.personal_finances.stg_google_sheets__cashflow_transactions&#45;&gt;model.personal_finances.dim_dates</title>
+<path fill="none" stroke="#8a94a0" d="M613.54,-415.98C683.62,-397.92 796.65,-370.6 895.8,-354.8 1048.82,-330.42 1232.32,-318.1 1316.78,-313.37"/>
+<polygon fill="#8a94a0" stroke="#8a94a0" points="1317.05,-315.46 1322.93,-313.03 1316.82,-311.27 1317.05,-315.46"/>
+</g>
+<!-- model.personal_finances.fct_cashflow_transactions -->
+<g id="node41" class="node">
+<title>model.personal_finances.fct_cashflow_transactions</title>
+<path fill="#fce8c8" stroke="#d98e1f" stroke-width="1.4" d="M1434.5,-561C1434.5,-561 1292.5,-561 1292.5,-561 1286.5,-561 1280.5,-555 1280.5,-549 1280.5,-549 1280.5,-537 1280.5,-537 1280.5,-531 1286.5,-525 1292.5,-525 1292.5,-525 1434.5,-525 1434.5,-525 1440.5,-525 1446.5,-531 1446.5,-537 1446.5,-537 1446.5,-549 1446.5,-549 1446.5,-555 1440.5,-561 1434.5,-561"/>
+<text text-anchor="middle" x="1363.5" y="-540.2" font-family="Helvetica,sans-Serif" font-size="11.00" fill="#5e3b00">fct_cashflow_transactions</text>
+</g>
+<!-- model.personal_finances.stg_google_sheets__cashflow_transactions&#45;&gt;model.personal_finances.fct_cashflow_transactions -->
+<g id="edge42" class="edge">
+<title>model.personal_finances.stg_google_sheets__cashflow_transactions&#45;&gt;model.personal_finances.fct_cashflow_transactions</title>
+<path fill="none" stroke="#8a94a0" d="M675.05,-443.63C726.32,-447.37 785.84,-451.61 839.8,-455.2 953.94,-462.78 983.82,-452.3 1096.7,-470.8 1169.23,-482.69 1250.48,-506.2 1304.05,-523.17"/>
+<polygon fill="#8a94a0" stroke="#8a94a0" points="1303.44,-525.17 1309.79,-524.99 1304.71,-521.17 1303.44,-525.17"/>
+</g>
+<!-- model.personal_finances.dim_cashflow_categories -->
+<g id="node42" class="node">
+<title>model.personal_finances.dim_cashflow_categories</title>
+<path fill="#fce8c8" stroke="#d98e1f" stroke-width="1.4" d="M1432,-1015C1432,-1015 1295,-1015 1295,-1015 1289,-1015 1283,-1009 1283,-1003 1283,-1003 1283,-991 1283,-991 1283,-985 1289,-979 1295,-979 1295,-979 1432,-979 1432,-979 1438,-979 1444,-985 1444,-991 1444,-991 1444,-1003 1444,-1003 1444,-1009 1438,-1015 1432,-1015"/>
+<text text-anchor="middle" x="1363.5" y="-994.2" font-family="Helvetica,sans-Serif" font-size="11.00" fill="#5e3b00">dim_cashflow_categories</text>
+</g>
+<!-- model.personal_finances.stg_google_sheets__cashflow_type_category&#45;&gt;model.personal_finances.dim_cashflow_categories -->
+<g id="edge45" class="edge">
+<title>model.personal_finances.stg_google_sheets__cashflow_type_category&#45;&gt;model.personal_finances.dim_cashflow_categories</title>
+<path fill="none" stroke="#8a94a0" d="M680.08,-963.56C848.79,-971.82 1133.71,-985.76 1276.48,-992.74"/>
+<polygon fill="#8a94a0" stroke="#8a94a0" points="1276.66,-994.85 1282.75,-993.05 1276.86,-990.66 1276.66,-994.85"/>
+</g>
+<!-- model.personal_finances.dim_cashflow_types -->
+<g id="node43" class="node">
+<title>model.personal_finances.dim_cashflow_types</title>
+<path fill="#fce8c8" stroke="#d98e1f" stroke-width="1.4" d="M1418.5,-957C1418.5,-957 1308.5,-957 1308.5,-957 1302.5,-957 1296.5,-951 1296.5,-945 1296.5,-945 1296.5,-933 1296.5,-933 1296.5,-927 1302.5,-921 1308.5,-921 1308.5,-921 1418.5,-921 1418.5,-921 1424.5,-921 1430.5,-927 1430.5,-933 1430.5,-933 1430.5,-945 1430.5,-945 1430.5,-951 1424.5,-957 1418.5,-957"/>
+<text text-anchor="middle" x="1363.5" y="-936.2" font-family="Helvetica,sans-Serif" font-size="11.00" fill="#5e3b00">dim_cashflow_types</text>
+</g>
+<!-- model.personal_finances.stg_google_sheets__cashflow_type_category&#45;&gt;model.personal_finances.dim_cashflow_types -->
+<g id="edge46" class="edge">
+<title>model.personal_finances.stg_google_sheets__cashflow_type_category&#45;&gt;model.personal_finances.dim_cashflow_types</title>
+<path fill="none" stroke="#8a94a0" d="M680.08,-954.05C854.48,-950.21 1153.06,-943.63 1290.43,-940.61"/>
+<polygon fill="#8a94a0" stroke="#8a94a0" points="1290.5,-942.71 1296.45,-940.48 1290.4,-938.51 1290.5,-942.71"/>
+</g>
+<!-- model.personal_finances.retirement_projection -->
+<g id="node38" class="node">
+<title>model.personal_finances.retirement_projection</title>
+<path fill="#fce8c8" stroke="#d98e1f" stroke-width="1.4" d="M1423,-211C1423,-211 1304,-211 1304,-211 1298,-211 1292,-205 1292,-199 1292,-199 1292,-187 1292,-187 1292,-181 1298,-175 1304,-175 1304,-175 1423,-175 1423,-175 1429,-175 1435,-181 1435,-187 1435,-187 1435,-199 1435,-199 1435,-205 1429,-211 1423,-211"/>
+<text text-anchor="middle" x="1363.5" y="-190.2" font-family="Helvetica,sans-Serif" font-size="11.00" fill="#5e3b00">retirement_projection</text>
+</g>
+<!-- model.personal_finances.stg_google_sheets__retirement_assumptions&#45;&gt;model.personal_finances.retirement_projection -->
+<g id="edge27" class="edge">
+<title>model.personal_finances.stg_google_sheets__retirement_assumptions&#45;&gt;model.personal_finances.retirement_projection</title>
+<path fill="none" stroke="#8a94a0" d="M681.45,-263.92C854.15,-245.96 1146.97,-215.51 1285.91,-201.07"/>
+<polygon fill="#8a94a0" stroke="#8a94a0" points="1286.25,-203.14 1292,-200.43 1285.81,-198.97 1286.25,-203.14"/>
+</g>
+<!-- model.personal_finances.int_investments_current_position&#45;&gt;model.personal_finances.dim_investments -->
+<g id="edge1" class="edge">
+<title>model.personal_finances.int_investments_current_position&#45;&gt;model.personal_finances.dim_investments</title>
+<path fill="none" stroke="#8a94a0" d="M1076.11,-109.85C1146.56,-101.55 1237.79,-90.81 1298.35,-83.67"/>
+<polygon fill="#8a94a0" stroke="#8a94a0" points="1298.77,-85.74 1304.48,-82.95 1298.28,-81.57 1298.77,-85.74"/>
+</g>
+<!-- model.personal_finances.int_investments_current_position&#45;&gt;model.personal_finances.retirement_projection -->
+<g id="edge26" class="edge">
+<title>model.personal_finances.int_investments_current_position&#45;&gt;model.personal_finances.retirement_projection</title>
+<path fill="none" stroke="#8a94a0" d="M1072.04,-140.01C1138.35,-152.06 1224.38,-167.7 1285.75,-178.86"/>
+<polygon fill="#8a94a0" stroke="#8a94a0" points="1285.7,-180.99 1291.98,-180 1286.46,-176.86 1285.7,-180.99"/>
+</g>
+<!-- model.personal_finances.dim_accounts -->
+<g id="node31" class="node">
+<title>model.personal_finances.dim_accounts</title>
+<path fill="#fce8c8" stroke="#d98e1f" stroke-width="1.4" d="M1401.5,-786C1401.5,-786 1325.5,-786 1325.5,-786 1319.5,-786 1313.5,-780 1313.5,-774 1313.5,-774 1313.5,-762 1313.5,-762 1313.5,-756 1319.5,-750 1325.5,-750 1325.5,-750 1401.5,-750 1401.5,-750 1407.5,-750 1413.5,-756 1413.5,-762 1413.5,-762 1413.5,-774 1413.5,-774 1413.5,-780 1407.5,-786 1401.5,-786"/>
+<text text-anchor="middle" x="1363.5" y="-765.2" font-family="Helvetica,sans-Serif" font-size="11.00" fill="#5e3b00">dim_accounts</text>
+</g>
+<!-- model.personal_finances.int_accounts&#45;&gt;model.personal_finances.dim_accounts -->
+<g id="edge7" class="edge">
+<title>model.personal_finances.int_accounts&#45;&gt;model.personal_finances.dim_accounts</title>
+<path fill="none" stroke="#8a94a0" d="M1020.1,-769.76C1092.22,-769.39 1229.75,-768.69 1307.08,-768.29"/>
+<polygon fill="#8a94a0" stroke="#8a94a0" points="1307.47,-770.39 1313.46,-768.26 1307.45,-766.19 1307.47,-770.39"/>
+</g>
+<!-- model.personal_finances.int_accounts&#45;&gt;model.personal_finances.dim_savings_goals -->
+<g id="edge8" class="edge">
+<title>model.personal_finances.int_accounts&#45;&gt;model.personal_finances.dim_savings_goals</title>
+<path fill="none" stroke="#8a94a0" d="M1020.1,-756.61C1088.31,-737.22 1215.03,-701.2 1294,-678.76"/>
+<polygon fill="#8a94a0" stroke="#8a94a0" points="1294.87,-680.69 1300.07,-677.03 1293.72,-676.65 1294.87,-680.69"/>
+</g>
+<!-- model.personal_finances.int_budget_latest_month&#45;&gt;model.personal_finances.dim_savings_goals -->
+<g id="edge9" class="edge">
+<title>model.personal_finances.int_budget_latest_month&#45;&gt;model.personal_finances.dim_savings_goals</title>
+<path fill="none" stroke="#8a94a0" d="M1053.44,-608.98C1124.31,-620.41 1226.48,-636.89 1293.9,-647.77"/>
+<polygon fill="#8a94a0" stroke="#8a94a0" points="1293.65,-649.86 1299.91,-648.74 1294.32,-645.71 1293.65,-649.86"/>
+</g>
+<!-- model.personal_finances.int_budget_latest_month&#45;&gt;model.personal_finances.retirement_projection -->
+<g id="edge25" class="edge">
+<title>model.personal_finances.int_budget_latest_month&#45;&gt;model.personal_finances.retirement_projection</title>
+<path fill="none" stroke="#8a94a0" d="M1007.36,-577.88C1033.75,-562.87 1070.07,-539.75 1096.7,-513.2 1203.5,-406.73 1173.1,-331.44 1286.3,-231.8 1294.02,-225.01 1303.14,-219.07 1312.36,-214.02"/>
+<polygon fill="#8a94a0" stroke="#8a94a0" points="1313.46,-215.81 1317.78,-211.14 1311.5,-212.09 1313.46,-215.81"/>
+</g>
+<!-- model.personal_finances.int_budget -->
+<g id="node24" class="node">
+<title>model.personal_finances.int_budget</title>
+<path fill="#e6e0f5" stroke="#8068c2" stroke-width="1.4" d="M1002,-672C1002,-672 944,-672 944,-672 938,-672 932,-666 932,-660 932,-660 932,-648 932,-648 932,-642 938,-636 944,-636 944,-636 1002,-636 1002,-636 1008,-636 1014,-642 1014,-648 1014,-648 1014,-660 1014,-660 1014,-666 1008,-672 1002,-672"/>
+<text text-anchor="middle" x="973" y="-651.2" font-family="Helvetica,sans-Serif" font-size="11.00" fill="#2f2260">int_budget</text>
+</g>
+<!-- model.personal_finances.int_budget&#45;&gt;model.personal_finances.int_budget_latest_month -->
+<g id="edge28" class="edge">
+<title>model.personal_finances.int_budget&#45;&gt;model.personal_finances.int_budget_latest_month</title>
+<path fill="none" stroke="#8a94a0" d="M973,-635.97C973,-630.99 973,-625.52 973,-620.26"/>
+<polygon fill="#8a94a0" stroke="#8a94a0" points="975.1,-620.22 973,-614.22 970.9,-620.22 975.1,-620.22"/>
+</g>
+<!-- model.personal_finances.int_budget&#45;&gt;model.personal_finances.dim_dates -->
+<g id="edge15" class="edge">
+<title>model.personal_finances.int_budget&#45;&gt;model.personal_finances.dim_dates</title>
+<path fill="none" stroke="#8a94a0" d="M1014.27,-640.62C1028.45,-634.8 1043.84,-627.04 1056.2,-617.2 1173.19,-524.05 1137.11,-436.11 1257.8,-347.8 1275.21,-335.06 1297.4,-326.45 1316.94,-320.78"/>
+<polygon fill="#8a94a0" stroke="#8a94a0" points="1317.7,-322.75 1322.92,-319.12 1316.57,-318.71 1317.7,-322.75"/>
+</g>
+<!-- model.personal_finances.fct_budget -->
+<g id="node34" class="node">
+<title>model.personal_finances.fct_budget</title>
+<path fill="#fce8c8" stroke="#d98e1f" stroke-width="1.4" d="M1392.5,-619C1392.5,-619 1334.5,-619 1334.5,-619 1328.5,-619 1322.5,-613 1322.5,-607 1322.5,-607 1322.5,-595 1322.5,-595 1322.5,-589 1328.5,-583 1334.5,-583 1334.5,-583 1392.5,-583 1392.5,-583 1398.5,-583 1404.5,-589 1404.5,-595 1404.5,-595 1404.5,-607 1404.5,-607 1404.5,-613 1398.5,-619 1392.5,-619"/>
+<text text-anchor="middle" x="1363.5" y="-598.2" font-family="Helvetica,sans-Serif" font-size="11.00" fill="#5e3b00">fct_budget</text>
+</g>
+<!-- model.personal_finances.int_budget&#45;&gt;model.personal_finances.fct_budget -->
+<g id="edge18" class="edge">
+<title>model.personal_finances.int_budget&#45;&gt;model.personal_finances.fct_budget</title>
+<path fill="none" stroke="#8a94a0" d="M1014.05,-648.43C1087,-638.53 1238.79,-617.93 1316.07,-607.44"/>
+<polygon fill="#8a94a0" stroke="#8a94a0" points="1316.75,-609.46 1322.41,-606.58 1316.18,-605.3 1316.75,-609.46"/>
+</g>
+<!-- model.personal_finances.fct_budget_vs_actual -->
+<g id="node35" class="node">
+<title>model.personal_finances.fct_budget_vs_actual</title>
+<path fill="#fce8c8" stroke="#d98e1f" stroke-width="1.4" d="M1421,-503C1421,-503 1306,-503 1306,-503 1300,-503 1294,-497 1294,-491 1294,-491 1294,-479 1294,-479 1294,-473 1300,-467 1306,-467 1306,-467 1421,-467 1421,-467 1427,-467 1433,-473 1433,-479 1433,-479 1433,-491 1433,-491 1433,-497 1427,-503 1421,-503"/>
+<text text-anchor="middle" x="1363.5" y="-482.2" font-family="Helvetica,sans-Serif" font-size="11.00" fill="#5e3b00">fct_budget_vs_actual</text>
+</g>
+<!-- model.personal_finances.int_budget&#45;&gt;model.personal_finances.fct_budget_vs_actual -->
+<g id="edge19" class="edge">
+<title>model.personal_finances.int_budget&#45;&gt;model.personal_finances.fct_budget_vs_actual</title>
+<path fill="none" stroke="#8a94a0" d="M1014.31,-635.96C1072.8,-610.43 1183.13,-562.35 1277.3,-521.8 1289.61,-516.5 1302.93,-510.8 1315.32,-505.5"/>
+<polygon fill="#8a94a0" stroke="#8a94a0" points="1316.25,-507.39 1320.95,-503.1 1314.61,-503.53 1316.25,-507.39"/>
+</g>
+<!-- model.personal_finances.fct_budget_vs_actual_guilt_free -->
+<g id="node36" class="node">
+<title>model.personal_finances.fct_budget_vs_actual_guilt_free</title>
+<path fill="#fce8c8" stroke="#d98e1f" stroke-width="1.4" d="M1449.5,-445C1449.5,-445 1277.5,-445 1277.5,-445 1271.5,-445 1265.5,-439 1265.5,-433 1265.5,-433 1265.5,-421 1265.5,-421 1265.5,-415 1271.5,-409 1277.5,-409 1277.5,-409 1449.5,-409 1449.5,-409 1455.5,-409 1461.5,-415 1461.5,-421 1461.5,-421 1461.5,-433 1461.5,-433 1461.5,-439 1455.5,-445 1449.5,-445"/>
+<text text-anchor="middle" x="1363.5" y="-424.2" font-family="Helvetica,sans-Serif" font-size="11.00" fill="#5e3b00">fct_budget_vs_actual_guilt_free</text>
+</g>
+<!-- model.personal_finances.int_budget&#45;&gt;model.personal_finances.fct_budget_vs_actual_guilt_free -->
+<g id="edge21" class="edge">
+<title>model.personal_finances.int_budget&#45;&gt;model.personal_finances.fct_budget_vs_actual_guilt_free</title>
+<path fill="none" stroke="#8a94a0" d="M1014.26,-637.33C1027.85,-631.42 1042.88,-624.44 1056.2,-617.2 1165.66,-557.72 1182.93,-526.12 1290.8,-463.8 1300.21,-458.37 1310.51,-452.88 1320.33,-447.87"/>
+<polygon fill="#8a94a0" stroke="#8a94a0" points="1321.32,-449.72 1325.72,-445.13 1319.42,-445.97 1321.32,-449.72"/>
+</g>
+<!-- model.personal_finances.fct_monthly_paycheck_allocation -->
+<g id="node37" class="node">
+<title>model.personal_finances.fct_monthly_paycheck_allocation</title>
+<path fill="#fce8c8" stroke="#d98e1f" stroke-width="1.4" d="M1454,-387C1454,-387 1273,-387 1273,-387 1267,-387 1261,-381 1261,-375 1261,-375 1261,-363 1261,-363 1261,-357 1267,-351 1273,-351 1273,-351 1454,-351 1454,-351 1460,-351 1466,-357 1466,-363 1466,-363 1466,-375 1466,-375 1466,-381 1460,-387 1454,-387"/>
+<text text-anchor="middle" x="1363.5" y="-366.2" font-family="Helvetica,sans-Serif" font-size="11.00" fill="#5e3b00">fct_monthly_paycheck_allocation</text>
+</g>
+<!-- model.personal_finances.int_budget&#45;&gt;model.personal_finances.fct_monthly_paycheck_allocation -->
+<g id="edge23" class="edge">
+<title>model.personal_finances.int_budget&#45;&gt;model.personal_finances.fct_monthly_paycheck_allocation</title>
+<path fill="none" stroke="#8a94a0" d="M1014.01,-639.52C1028.01,-633.65 1043.36,-626.12 1056.2,-617.2 1163.96,-542.32 1152.07,-476.99 1262.3,-405.8 1272.13,-399.45 1283.2,-394.01 1294.32,-389.41"/>
+<polygon fill="#8a94a0" stroke="#8a94a0" points="1295.35,-391.26 1300.13,-387.08 1293.78,-387.36 1295.35,-391.26"/>
+</g>
+<!-- model.personal_finances.int_budget_2026_unpivoted&#45;&gt;model.personal_finances.int_budget -->
+<g id="edge30" class="edge">
+<title>model.personal_finances.int_budget_2026_unpivoted&#45;&gt;model.personal_finances.int_budget</title>
+<path fill="none" stroke="#8a94a0" d="M973,-693.97C973,-688.99 973,-683.52 973,-678.26"/>
+<polygon fill="#8a94a0" stroke="#8a94a0" points="975.1,-678.22 973,-672.22 970.9,-678.22 975.1,-678.22"/>
+</g>
+<!-- model.personal_finances.int_budget_fixed_costs -->
+<g id="node26" class="node">
+<title>model.personal_finances.int_budget_fixed_costs</title>
+<path fill="#e6e0f5" stroke="#8068c2" stroke-width="1.4" d="M1035,-394C1035,-394 911,-394 911,-394 905,-394 899,-388 899,-382 899,-382 899,-370 899,-370 899,-364 905,-358 911,-358 911,-358 1035,-358 1035,-358 1041,-358 1047,-364 1047,-370 1047,-370 1047,-382 1047,-382 1047,-388 1041,-394 1035,-394"/>
+<text text-anchor="middle" x="973" y="-373.2" font-family="Helvetica,sans-Serif" font-size="11.00" fill="#2f2260">int_budget_fixed_costs</text>
+</g>
+<!-- model.personal_finances.fct_budget_fixed_costs -->
+<g id="node39" class="node">
+<title>model.personal_finances.fct_budget_fixed_costs</title>
+<path fill="#fce8c8" stroke="#d98e1f" stroke-width="1.4" d="M1425.5,-271C1425.5,-271 1301.5,-271 1301.5,-271 1295.5,-271 1289.5,-265 1289.5,-259 1289.5,-259 1289.5,-247 1289.5,-247 1289.5,-241 1295.5,-235 1301.5,-235 1301.5,-235 1425.5,-235 1425.5,-235 1431.5,-235 1437.5,-241 1437.5,-247 1437.5,-247 1437.5,-259 1437.5,-259 1437.5,-265 1431.5,-271 1425.5,-271"/>
+<text text-anchor="middle" x="1363.5" y="-250.2" font-family="Helvetica,sans-Serif" font-size="11.00" fill="#5e3b00">fct_budget_fixed_costs</text>
+</g>
+<!-- model.personal_finances.int_budget_fixed_costs&#45;&gt;model.personal_finances.fct_budget_fixed_costs -->
+<g id="edge33" class="edge">
+<title>model.personal_finances.int_budget_fixed_costs&#45;&gt;model.personal_finances.fct_budget_fixed_costs</title>
+<path fill="none" stroke="#8a94a0" d="M1030.2,-357.98C1102.26,-335.29 1225.67,-296.41 1300.41,-272.87"/>
+<polygon fill="#8a94a0" stroke="#8a94a0" points="1301.05,-274.87 1306.15,-271.07 1299.79,-270.86 1301.05,-274.87"/>
+</g>
+<!-- model.personal_finances.fct_budget_vs_actual_fixed_costs -->
+<g id="node40" class="node">
+<title>model.personal_finances.fct_budget_vs_actual_fixed_costs</title>
+<path fill="#fce8c8" stroke="#d98e1f" stroke-width="1.4" d="M1454,-152C1454,-152 1273,-152 1273,-152 1267,-152 1261,-146 1261,-140 1261,-140 1261,-128 1261,-128 1261,-122 1267,-116 1273,-116 1273,-116 1454,-116 1454,-116 1460,-116 1466,-122 1466,-128 1466,-128 1466,-140 1466,-140 1466,-146 1460,-152 1454,-152"/>
+<text text-anchor="middle" x="1363.5" y="-131.2" font-family="Helvetica,sans-Serif" font-size="11.00" fill="#5e3b00">fct_budget_vs_actual_fixed_costs</text>
+</g>
+<!-- model.personal_finances.int_budget_fixed_costs&#45;&gt;model.personal_finances.fct_budget_vs_actual_fixed_costs -->
+<g id="edge34" class="edge">
+<title>model.personal_finances.int_budget_fixed_costs&#45;&gt;model.personal_finances.fct_budget_vs_actual_fixed_costs</title>
+<path fill="none" stroke="#8a94a0" d="M999.03,-357.83C1052.31,-320.93 1178.11,-235.36 1288.8,-171.8 1298.89,-166.01 1309.97,-160.14 1320.44,-154.81"/>
+<polygon fill="#8a94a0" stroke="#8a94a0" points="1321.44,-156.66 1325.85,-152.08 1319.55,-152.91 1321.44,-156.66"/>
+</g>
+<!-- model.personal_finances.int_budget_2026_fixed_costs_agg_category -->
+<g id="node27" class="node">
+<title>model.personal_finances.int_budget_2026_fixed_costs_agg_category</title>
+<path fill="#e6e0f5" stroke="#8068c2" stroke-width="1.4" d="M1091,-452C1091,-452 855,-452 855,-452 849,-452 843,-446 843,-440 843,-440 843,-428 843,-428 843,-422 849,-416 855,-416 855,-416 1091,-416 1091,-416 1097,-416 1103,-422 1103,-428 1103,-428 1103,-440 1103,-440 1103,-446 1097,-452 1091,-452"/>
+<text text-anchor="middle" x="973" y="-431.2" font-family="Helvetica,sans-Serif" font-size="11.00" fill="#2f2260">int_budget_2026_fixed_costs_agg_category</text>
+</g>
+<!-- model.personal_finances.int_budget_2026_fixed_costs_agg_category&#45;&gt;model.personal_finances.int_budget_fixed_costs -->
+<g id="edge36" class="edge">
+<title>model.personal_finances.int_budget_2026_fixed_costs_agg_category&#45;&gt;model.personal_finances.int_budget_fixed_costs</title>
+<path fill="none" stroke="#8a94a0" d="M973,-415.97C973,-410.99 973,-405.52 973,-400.26"/>
+<polygon fill="#8a94a0" stroke="#8a94a0" points="975.1,-400.22 973,-394.22 970.9,-400.22 975.1,-400.22"/>
+</g>
+<!-- model.personal_finances.int_budget_2026_fixed_costs_unpivoted&#45;&gt;model.personal_finances.int_budget_2026_fixed_costs_agg_category -->
+<g id="edge37" class="edge">
+<title>model.personal_finances.int_budget_2026_fixed_costs_unpivoted&#45;&gt;model.personal_finances.int_budget_2026_fixed_costs_agg_category</title>
+<path fill="none" stroke="#8a94a0" d="M973,-473.97C973,-468.99 973,-463.52 973,-458.26"/>
+<polygon fill="#8a94a0" stroke="#8a94a0" points="975.1,-458.22 973,-452.22 970.9,-458.22 975.1,-458.22"/>
+</g>
+<!-- model.personal_finances.int_cashflow_transactions_agg_month&#45;&gt;model.personal_finances.fct_budget_vs_actual -->
+<g id="edge20" class="edge">
+<title>model.personal_finances.int_cashflow_transactions_agg_month&#45;&gt;model.personal_finances.fct_budget_vs_actual</title>
+<path fill="none" stroke="#8a94a0" d="M988.02,-198.28C1027.93,-245.81 1141.89,-374.68 1262.3,-448.2 1272.72,-454.56 1284.41,-460.07 1296.05,-464.76"/>
+<polygon fill="#8a94a0" stroke="#8a94a0" points="1295.39,-466.76 1301.75,-466.99 1296.93,-462.84 1295.39,-466.76"/>
+</g>
+<!-- model.personal_finances.int_cashflow_transactions_agg_month&#45;&gt;model.personal_finances.fct_budget_vs_actual_guilt_free -->
+<g id="edge22" class="edge">
+<title>model.personal_finances.int_cashflow_transactions_agg_month&#45;&gt;model.personal_finances.fct_budget_vs_actual_guilt_free</title>
+<path fill="none" stroke="#8a94a0" d="M992.98,-198.14C1037.54,-237.77 1149.64,-333.14 1257.8,-390.2 1269.65,-396.45 1282.78,-402 1295.65,-406.78"/>
+<polygon fill="#8a94a0" stroke="#8a94a0" points="1295.18,-408.84 1301.53,-408.92 1296.61,-404.9 1295.18,-408.84"/>
+</g>
+<!-- model.personal_finances.int_cashflow_transactions_agg_month&#45;&gt;model.personal_finances.fct_monthly_paycheck_allocation -->
+<g id="edge24" class="edge">
+<title>model.personal_finances.int_cashflow_transactions_agg_month&#45;&gt;model.personal_finances.fct_monthly_paycheck_allocation</title>
+<path fill="none" stroke="#8a94a0" d="M1010.44,-198.12C1083.19,-233.33 1243.23,-310.79 1320.32,-348.1"/>
+<polygon fill="#8a94a0" stroke="#8a94a0" points="1319.85,-350.21 1326.17,-350.93 1321.68,-346.43 1319.85,-350.21"/>
+</g>
+<!-- model.personal_finances.int_cashflow_transactions_agg_month&#45;&gt;model.personal_finances.fct_budget_vs_actual_fixed_costs -->
+<g id="edge35" class="edge">
+<title>model.personal_finances.int_cashflow_transactions_agg_month&#45;&gt;model.personal_finances.fct_budget_vs_actual_fixed_costs</title>
+<path fill="none" stroke="#8a94a0" d="M1089.11,-166.32C1141.5,-160.15 1203.04,-152.9 1254.55,-146.83"/>
+<polygon fill="#8a94a0" stroke="#8a94a0" points="1255.06,-148.89 1260.78,-146.1 1254.57,-144.72 1255.06,-148.89"/>
+</g>
+<text x="124.5" y="-1053.0" text-anchor="middle" font-family="Helvetica,Arial,sans-serif" font-size="26" fill="#5F6368">Sources</text>
+<line x1="328.0" y1="-1085.0" x2="328.0" y2="30.0" stroke="#9AA0A6" stroke-width="1.5" stroke-dasharray="6,6"/>
+<text x="546.0" y="-1053.0" text-anchor="middle" font-family="Helvetica,Arial,sans-serif" font-size="26" fill="#5F6368">Staging</text>
+<line x1="764.0" y1="-1085.0" x2="764.0" y2="30.0" stroke="#9AA0A6" stroke-width="1.5" stroke-dasharray="6,6"/>
+<text x="973.0" y="-1053.0" text-anchor="middle" font-family="Helvetica,Arial,sans-serif" font-size="26" fill="#5F6368">Intermediate</text>
+<line x1="1182.0" y1="-1085.0" x2="1182.0" y2="30.0" stroke="#9AA0A6" stroke-width="1.5" stroke-dasharray="6,6"/>
+<text x="1363.5" y="-1053.0" text-anchor="middle" font-family="Helvetica,Arial,sans-serif" font-size="26" fill="#5F6368">Marts</text>
+</g>
+</svg>
+</div>
+<script>
+(function () {
+  const graph = document.getElementById('graph');
+  const svg = graph.querySelector('svg');
+  const info = document.getElementById('info');
+  const nodes = new Map();               // id -> {el, label, parents:[], children:[]}
+  const edges = [];                      // {el, from, to}
+
+  svg.querySelectorAll('g.node').forEach(el => {
+    const id = el.querySelector('title').textContent;
+    nodes.set(id, { el, label: el.querySelector('text').textContent, parents: [], children: [] });
+  });
+  svg.querySelectorAll('g.edge').forEach(el => {
+    const [from, to] = el.querySelector('title').textContent.split('->');
+    if (!nodes.has(from) || !nodes.has(to)) return;
+    edges.push({ el, from, to });
+    nodes.get(from).children.push(to);
+    nodes.get(to).parents.push(from);
+  });
+
+  function walk(start, key) {
+    const seen = new Set(), stack = [start];
+    while (stack.length) for (const n of nodes.get(stack.pop())[key]) if (!seen.has(n)) { seen.add(n); stack.push(n); }
+    return seen;
+  }
+
+  let selected = null;
+
+  function paint(id) {
+    if (!id) {
+      nodes.forEach(n => n.el.classList.remove('faded', 'selected'));
+      edges.forEach(e => e.el.classList.remove('faded', 'on'));
+      return;
+    }
+    const up = walk(id, 'parents'), down = walk(id, 'children');
+    nodes.forEach((n, nid) => {
+      n.el.classList.toggle('faded', !(nid === id || up.has(nid) || down.has(nid)));
+      n.el.classList.toggle('selected', nid === id);
+    });
+    edges.forEach(e => {
+      const on = (e.to === id || up.has(e.to)) || (e.from === id || down.has(e.from));
+      e.el.classList.toggle('on', on);
+      e.el.classList.toggle('faded', !on);
+    });
+    return { up, down };
+  }
+
+  function select(id) {
+    selected = id;
+    const r = paint(id);
+    if (!id) { info.textContent = 'Click a model to highlight its full upstream and downstream lineage.'; return; }
+    info.innerHTML = '<b>' + nodes.get(id).label + '</b> — ' + r.up.size + ' upstream, ' + r.down.size +
+                     ' downstream. Click the background or press Esc to reset.';
+  }
+
+  nodes.forEach((n, id) => {
+    n.el.addEventListener('click', ev => { ev.stopPropagation(); select(selected === id ? null : id); });
+    n.el.addEventListener('mouseenter', () => { if (!selected) paint(id); });
+    n.el.addEventListener('mouseleave', () => { if (!selected) paint(null); });
+  });
+  graph.addEventListener('click', () => select(null));
+  document.addEventListener('keydown', ev => { if (ev.key === 'Escape') select(null); });
+  document.getElementById('reset').addEventListener('click', () => select(null));
+
+  // search
+  const dl = document.getElementById('models'), search = document.getElementById('search');
+  const byLabel = new Map();
+  nodes.forEach((n, id) => { byLabel.set(n.label, id); const o = document.createElement('option'); o.value = n.label; dl.appendChild(o); });
+  search.addEventListener('change', () => {
+    const id = byLabel.get(search.value.trim());
+    if (!id) return;
+    select(id);
+    nodes.get(id).el.scrollIntoView({ block: 'center', inline: 'center', behavior: 'smooth' });
+  });
+
+  // zoom: the SVG is vector, so any width stays sharp
+  const vb = svg.viewBox.baseVal;
+  let scale = 1;
+  const fitScale = () => (graph.clientWidth - 32) / vb.width;
+  function setScale(s) { scale = Math.min(Math.max(s, 0.2), 6); svg.style.width = (vb.width * scale) + 'px'; }
+  document.getElementById('zin').addEventListener('click', () => setScale(scale * 1.25));
+  document.getElementById('zout').addEventListener('click', () => setScale(scale / 1.25));
+  document.getElementById('fit').addEventListener('click', () => setScale(fitScale()));
+  graph.addEventListener('wheel', ev => {
+    if (!(ev.ctrlKey || ev.metaKey)) return;
+    ev.preventDefault();
+    setScale(scale * (ev.deltaY < 0 ? 1.1 : 1 / 1.1));
+  }, { passive: false });
+  setScale(Math.min(fitScale(), 1.4));
+})();
+</script>
+</body>
+</html>
