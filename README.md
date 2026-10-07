@@ -42,7 +42,9 @@ This is the fastest way to see how the models are built:
 <details>
 <summary>dbt DAG (click to expand)</summary>
 
-![dbt-dag-screenshot](https://raw.githubusercontent.com/clayamakita/personal_finances/main/assets/dbt-dag.png)
+[![dbt lineage](docs/lineage.svg)](https://clayamakita.github.io/personal_finances_dbt/lineage.html)
+
+*Click the graph to explore it interactively.*
 
 </details>
 
