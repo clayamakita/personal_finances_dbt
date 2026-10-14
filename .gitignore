@@ -4,3 +4,7 @@ target/
 dbt_packages/
 logs/
 dbt_internal_packages/
+.user.yml
+.env
+*keyfile*.json
+*service-account*.json
