@@ -1,3 +1,9 @@
 packages:
   - package: dbt-labs/codegen
-    version: 0.14.1
+    version: [">=0.14.1", "<1.0.0" ]
+  - package: dbt-labs/dbt_utils
+    version: [">=1.4.1", "<2.0.0"]
+  - package: dbt-labs/audit_helper
+    version: [">=0.14.0", "<1.0.0"]
+  - package: dbt-labs/dbt_project_evaluator
+    version: [">=1.4.1", "<2.0.0"]
