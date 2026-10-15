@@ -6,10 +6,10 @@ with budget_2026 as (
 
 final as (
 
-    select 
-        budget_month_id, 
-        budget_type, 
-        budget_month, 
+    select
+        budget_month_id,
+        budget_type,
+        budget_month,
         budget_amount
     from budget_2026
 
