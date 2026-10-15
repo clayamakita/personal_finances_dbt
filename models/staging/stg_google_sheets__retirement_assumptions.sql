@@ -6,9 +6,9 @@ with source as (
 
 selected_columns as (
 
-    select 
-        current_age, 
-        retirement_age, 
+    select
+        current_age,
+        retirement_age,
         projected_interest_rate
     from source
 )

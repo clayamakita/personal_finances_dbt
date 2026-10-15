@@ -6,10 +6,10 @@ with budget as (
 
 final as (
 
-    select 
-        budget_fixed_costs_month_id, 
-        budget_category, 
-        budget_month, 
+    select
+        budget_fixed_costs_month_id,
+        budget_category,
+        budget_month,
         budget_amount
     from budget
 )
