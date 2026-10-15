@@ -28,7 +28,7 @@ models:
           - not_null
 
   - name: int_budget_2026_unpivoted
-    description: Unpivoted monthly budget targets for 2026. Each row represents the budgeted amount for one budget category in one calendar month. Excluded rows for the 'Budget' and 'Guilt-Free Total' categories since they are either an alternate allocation basis (Budget) or redundant with the individual guilt-free categories (Guilt-Free Total).
+    description: One row per budget type per month. Unpivoted monthly budget targets for 2026. Each row represents the budgeted amount for one budget category in one calendar month. Excluded rows for the 'Budget' and 'Guilt-Free Total' categories since they are either an alternate allocation basis (Budget) or redundant with the individual guilt-free categories (Guilt-Free Total).
     data_tests:
       - dbt_utils.unique_combination_of_columns:
           arguments:
@@ -75,7 +75,7 @@ models:
                 inclusive: true
 
   - name: int_budget
-    description: Union of all yearly unpivoted budget models. This model exists so that downstream models always point to a single, stable model regardless of how many years of budget data exist. When a new year's budget is added, add its unpivoted model as a new CTE and `union all` it into `final` here rather than changing any downstream references. Each row represents the budgeted amount for one budget category in one calendar month.
+    description: One row per budget type per month. Union of all yearly unpivoted budget models. This model exists so that downstream models always point to a single, stable model regardless of how many years of budget data exist. When a new year's budget is added, add its unpivoted model as a new CTE and `union all` it into `final` here rather than changing any downstream references. Each row represents the budgeted amount for one budget category in one calendar month.
     data_tests:
       - dbt_utils.unique_combination_of_columns:
           arguments:
@@ -122,7 +122,7 @@ models:
                 inclusive: true
 
   - name: int_budget_latest_month
-    description: Budget targets filtered down to a single month - the calendar month of the most recent transaction in stg_google_sheets__cashflow_transactions. This keeps "latest month" defined in one place, driven by actual transaction activity rather than the calendar date, so it stays correct even if transactions are entered late or the model is run mid-month.
+    description: One row per budget type, for the latest month only. Budget targets filtered down to a single month - the calendar month of the most recent transaction in stg_google_sheets__cashflow_transactions. This keeps "latest month" defined in one place, driven by actual transaction activity rather than the calendar date, so it stays correct even if transactions are entered late or the model is run mid-month.
     columns:
       - name: budget_month_id
         description: Surrogate key formed by concatenating a slugified `budget_type` (lowercased, with spaces and hyphens removed) with the `budget_month` date, e.g. `guiltfreepet_2026-01-01`. Uniquely identifies a budget_type/budget_month combination.
@@ -163,7 +163,7 @@ models:
                 inclusive: true
 
   - name: int_budget_2026_fixed_costs_unpivoted
-    description: Unpivoted 2026 monthly fixed costs budget breakdown. Each row represents a single budget line item, grouped by fixed costs category, with its budgeted amount in one calendar month. Some items represent a single line item within their category (e.g. Housing items like Rent, Internet, Home insurance), while others (e.g. Groceries Total, Transportation Total) represent a category-level total where the source doesn't break out individual items.
+    description: One row per budget item per month. Unpivoted 2026 monthly fixed costs budget breakdown. Each row represents a single budget line item, grouped by fixed costs category, with its budgeted amount in one calendar month. Some items represent a single line item within their category (e.g. Housing items like Rent, Internet, Home insurance), while others (e.g. Groceries Total, Transportation Total) represent a category-level total where the source doesn't break out individual items.
     data_tests:
       - dbt_utils.unique_combination_of_columns:
           arguments:
@@ -214,7 +214,7 @@ models:
                 inclusive: true
 
   - name: int_budget_2026_fixed_costs_agg_category
-    description: Unpivoted 2026 monthly fixed costs budget aggregated at the category level. Each row represents a fixed costs category, with its budgeted amount in one calendar month.
+    description: One row per fixed-cost category per month. Unpivoted 2026 monthly fixed costs budget aggregated at the category level. Each row represents a fixed costs category, with its budgeted amount in one calendar month.
     data_tests:
       - dbt_utils.unique_combination_of_columns:
           arguments:
@@ -260,7 +260,7 @@ models:
                 inclusive: true
 
   - name: int_budget_fixed_costs
-    description: Union of all yearly unpivoted fixed costs budget models. This model exists so that downstream models always point to a single, stable model regardless of how many years of budget data exist. When a new year's budget is added, add its unpivoted model as a new CTE and `union all` it into `final` here rather than changing any downstream references. Each row represents the budgeted amount for one fixed costs budget category in one calendar month.
+    description: One row per fixed-cost category per month. Union of all yearly unpivoted fixed costs budget models. This model exists so that downstream models always point to a single, stable model regardless of how many years of budget data exist. When a new year's budget is added, add its unpivoted model as a new CTE and `union all` it into `final` here rather than changing any downstream references. Each row represents the budgeted amount for one fixed costs budget category in one calendar month.
     data_tests:
       - dbt_utils.unique_combination_of_columns:
           arguments:
@@ -306,7 +306,7 @@ models:
                 inclusive: true
 
   - name: int_cashflow_transactions_agg_month
-    description: Cashflow transactions (income, expenses, transfers) aggregated at the month, type, and category level.
+    description: One row per type, category and month. Cashflow transactions (income, expenses, transfers) aggregated at the month, type, and category level.
     data_tests:
       - dbt_utils.unique_combination_of_columns:
           arguments:
@@ -356,7 +356,7 @@ models:
           - not_null
 
   - name: int_investments_current_position
-    description: Current investment holdings and their market value, as of the latest available price.
+    description: One row per ticker. Current investment holdings and their market value, as of the latest available price.
     columns:
       - name: investment_type
         description: Broad classification of the investment involved in the transaction (e.g., ETF, Stock).

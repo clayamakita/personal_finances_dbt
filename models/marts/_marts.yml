@@ -2,7 +2,7 @@ version: 2
 
 models:
   - name: dim_accounts
-    description: List of financial accounts with beginning/current balances, type, and category.
+    description: One row per account. List of financial accounts with beginning/current balances, type, and category.
     columns:
       - name: account_id
         description: Unique identifier for the account.
@@ -43,7 +43,7 @@ models:
           - not_null
 
   - name: dim_cashflow_categories
-    description: Dimension table of cashflow categories (e.g., Groceries, Housing, Paycheck), each associated with its parent cashflow type. Used to classify transactions at the category level and to join transaction data to budget data.
+    description: One row per type/category pair. Dimension table of cashflow categories (e.g., Groceries, Housing, Paycheck), each associated with its parent cashflow type. Used to classify transactions at the category level and to join transaction data to budget data.
     columns:
       - name: cashflow_category_id
         description: Unique identifier for the cashflow category.
@@ -77,7 +77,7 @@ models:
                   ]
 
   - name: dim_cashflow_types
-    description: Dimension table of high-level cashflow types (e.g., Fixed Costs, Income, Savings, Investments, Transfer, or Guilt-Free allowances). Used to classify transactions at the type level and to join transaction data to budget data.
+    description: One row per cashflow type. Dimension table of high-level cashflow types (e.g., Fixed Costs, Income, Savings, Investments, Transfer, or Guilt-Free allowances). Used to classify transactions at the type level and to join transaction data to budget data.
     columns:
       - name: cashflow_type_id
         description: Unique identifier for the cashflow type.
@@ -106,7 +106,7 @@ models:
                   ]
 
   - name: dim_dates
-    description: Date dimension providing one row per calendar day, used to support time-based analysis and joins across budget, cashflow, and investments data. The range spans from the start of the year containing the earliest date across all source models (budget, cashflow transactions, and investment transactions) through the end of the year containing the latest cashflow transaction date.
+    description: One row per calendar day. Date dimension providing one row per calendar day, used to support time-based analysis and joins across budget, cashflow, and investments data. The range spans from the start of the year containing the earliest date across all source models (budget, cashflow transactions, and investment transactions) through the end of the year containing the latest cashflow transaction date.
     columns:
       - name: date_id
         description: Unique identifier for the date.
@@ -155,7 +155,7 @@ models:
           - not_null
 
   - name: dim_investments
-    description: Dimension table listing the current position for each investment held, including quantity, latest price, current value, and an estimated annualized rate of return (XIRR). One row per ticker.
+    description: One row per ticker. Dimension table listing the current position for each investment held, including quantity, latest price, current value, and an estimated annualized rate of return (XIRR). One row per ticker.
     columns:
       - name: ticker
         description: Ticker symbol of the investment (e.g., XEQT, VFV, RY).
@@ -187,7 +187,7 @@ models:
         description: Annualized rate of return for the investment, calculated using XIRR (extended internal rate of return) over the investment's full transaction history plus its current value as a final cash flow dated today. Rounded to 4 decimal places (e.g., 0.1507 = 15.07%).
 
   - name: dim_savings_goals
-    description: Dimension table tracking savings goals, how much of each is currently funded, and a projected month by which each goal will be fully funded. Goals are funded in priority order (lowest goal_priority number first) - existing goals are funded first from each goal's associated account's current balance (waterfall by priority within account), and any goals not yet fully funded are then projected forward using the current month's total Savings budget, allocated across all outstanding goals in priority order. One row per goal.
+    description: One row per active goal. Dimension table tracking savings goals, how much of each is currently funded, and a projected month by which each goal will be fully funded. Goals are funded in priority order (lowest goal_priority number first) - existing goals are funded first from each goal's associated account's current balance (waterfall by priority within account), and any goals not yet fully funded are then projected forward using the current month's total Savings budget, allocated across all outstanding goals in priority order. One row per goal.
     columns:
       - name: goal_name
         description: Name of the savings goal (e.g., Laptop, Vacation 2027). Unique identifier of the table.
@@ -266,7 +266,7 @@ models:
         description: Calendar month (first day of month) in which the goal is projected to be fully funded, based on months_to_goal. Null if the goal is already Achieved.
 
   - name: fct_budget
-    description: Fact table of budgeted amounts by budget type and calendar month. This is the stable, single point of reference for all downstream consumers. Each row represents the budgeted amount for one budget type in one calendar month.
+    description: One row per budget type per month. Fact table of budgeted amounts by budget type and calendar month. This is the stable, single point of reference for all downstream consumers. Each row represents the budgeted amount for one budget type in one calendar month.
     data_tests:
       - dbt_utils.unique_combination_of_columns:
           arguments:
@@ -313,7 +313,7 @@ models:
                 inclusive: true
 
   - name: fct_budget_vs_actual
-    description: Fact table comparing budgeted amounts to actual spending/income by budget type and calendar month. variance_amount is signed so that positive always means "on track" or "ahead" and negative means "over" or "behind".
+    description: One row per budget type per month. Fact table comparing budgeted amounts to actual spending/income by budget type and calendar month. variance_amount is signed so that positive always means "on track" or "ahead" and negative means "over" or "behind".
     data_tests:
       - dbt_utils.unique_combination_of_columns:
           arguments:
@@ -374,7 +374,7 @@ models:
           - not_null
 
   - name: fct_budget_vs_actual_guilt_free
-    description: Fact table comparing budgeted amounts to actual spending for Guilt-Free categories only, with running (cumulative, year-to-date) totals alongside the monthly figures.
+    description: One row per Guilt-Free budget type per month. Fact table comparing budgeted amounts to actual spending for Guilt-Free categories only, with running (cumulative, year-to-date) totals alongside the monthly figures.
     data_tests:
       - dbt_utils.unique_combination_of_columns:
           arguments:
@@ -449,7 +449,7 @@ models:
           - not_null
 
   - name: fct_budget_fixed_costs
-    description: Fact table of budgeted amounts by fixed costs category and calendar month. This is the stable, single point of reference for all downstream consumers. Each row represents the budgeted amount for one fixed costs category in one calendar month.
+    description: One row per fixed-cost category per month. Fact table of budgeted amounts by fixed costs category and calendar month. This is the stable, single point of reference for all downstream consumers. Each row represents the budgeted amount for one fixed costs category in one calendar month.
     data_tests:
       - dbt_utils.unique_combination_of_columns:
           arguments:
@@ -495,7 +495,7 @@ models:
                 inclusive: true
 
   - name: fct_budget_vs_actual_fixed_costs
-    description: Fact table comparing budgeted amounts to actual spending for fixed costs categories by calendar month. variance_amount is signed so that positive always means "on track" and negative means "over".
+    description: One row per fixed-cost category per month. Fact table comparing budgeted amounts to actual spending for fixed costs categories by calendar month. variance_amount is signed so that positive always means "on track" and negative means "over".
     data_tests:
       - dbt_utils.unique_combination_of_columns:
           arguments:
@@ -555,7 +555,7 @@ models:
           - not_null
 
   - name: fct_cashflow_transactions
-    description: Fact table of all individual account transactions (income, expenses, transfers). This is the stable, single point of reference for all downstream consumers. Each row represents one transaction.
+    description: One row per transaction. Fact table of all individual account transactions (income, expenses, transfers). This is the stable, single point of reference for all downstream consumers. Each row represents one transaction.
     columns:
       - name: transaction_id
         description: Unique identifier for the transaction, manually assigned in Google Sheets.
@@ -624,7 +624,7 @@ models:
         description: Free-text notes about the transaction.
 
   - name: fct_investments_transactions
-    description: Fact table of all investment account transactions (buys, sells, dividends). This is the stable, single point of reference for all downstream consumers. Each row represents one investment transaction.
+    description: One row per investment transaction. Fact table of all investment account transactions (buys, sells, dividends). This is the stable, single point of reference for all downstream consumers. Each row represents one investment transaction.
     columns:
       - name: investment_transaction_id
         description: Unique identifier for the investment transaction.
@@ -701,7 +701,7 @@ models:
           - not_null
 
   - name: fct_monthly_paycheck_allocation
-    description: Fact table checking that paycheck income is being fully allocated each month across its intended destinations — Fixed Costs, Savings, Investments, and Guilt-Free spending — with room to catch unexpected income (e.g. a bonus or an extra paycheck) that hasn't yet been assigned a destination. Guilt-Free actuals are overridden to always equal the Guilt-Free budget_amount — by design, since guilt-free spending is meant to be auto-allocated at the budgeted amount each month (any underspend carries over rather than counting as a shortfall here). Each row represents one allocation_type in one calendar month.
+    description: One row per allocation type per month. Fact table checking that paycheck income is being fully allocated each month across its intended destinations — Fixed Costs, Savings, Investments, and Guilt-Free spending — with room to catch unexpected income (e.g. a bonus or an extra paycheck) that hasn't yet been assigned a destination. Guilt-Free actuals are overridden to always equal the Guilt-Free budget_amount — by design, since guilt-free spending is meant to be auto-allocated at the budgeted amount each month (any underspend carries over rather than counting as a shortfall here). Each row represents one allocation_type in one calendar month.
     data_tests:
       - dbt_utils.unique_combination_of_columns:
           arguments:
@@ -754,7 +754,7 @@ models:
           - not_null
 
   - name: retirement_projection
-    description: Single-row model projecting the future value of investment holdings at retirement, using compound interest. Combines current total investment market value, personal assumptions, and the current monthly Investments budget amount to project using a monthly-compounding future value formula with regular contributions.
+    description: A single row. Single-row model projecting the future value of investment holdings at retirement, using compound interest. Combines current total investment market value, personal assumptions, and the current monthly Investments budget amount to project using a monthly-compounding future value formula with regular contributions.
     columns:
       - name: current_value
         description: Total current market value of all investment holdings as of the latest available price, summed across all tickers.
