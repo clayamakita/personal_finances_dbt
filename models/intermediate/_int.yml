@@ -1,6 +1,32 @@
 version: 2
 
 models:
+  - name: int_accounts
+    description: One row per account. Combines each account's beginning balance with the sum of all its cashflow transactions to calculate the current balance in dbt. This calculated balance can be compared with the balance the sheet calculates itself (`current_balance_sheet` in staging).
+    columns:
+      - name: account_id
+        description: Unique identifier for the account.
+        data_tests: [unique, not_null]
+      - name: account_name
+        description: Account name, including the type and holder (e.g. Chequing Kenji).
+        data_tests: [unique, not_null]
+      - name: account_type
+        description: High-level classification of the account, Assets or Liabilities.
+        data_tests:
+          - not_null
+      - name: account_category
+        description: Functional grouping of the account (e.g. Chequing, Savings).
+        data_tests:
+          - not_null
+      - name: beginning_balance
+        description: Balance recorded when the account was first added to the file.
+        data_tests:
+          - not_null
+      - name: current_balance
+        description: beginning_balance plus the sum of all transaction amounts for the account. Accounts with no transactions equal their beginning balance.
+        data_tests:
+          - not_null
+
   - name: int_budget_2026_unpivoted
     description: Unpivoted monthly budget targets for 2026. Each row represents the budgeted amount for one budget category in one calendar month. Excluded rows for the 'Budget' and 'Guilt-Free Total' categories since they are either an alternate allocation basis (Budget) or redundant with the individual guilt-free categories (Guilt-Free Total).
     data_tests:
