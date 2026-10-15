@@ -22,11 +22,15 @@
                     percent_of_total
                 from (
                     {{ audit_helper.compare_relations(
-                        a_relation = ref(node.name),
+                        a_relation = api.Relation.create(
+                            database = node.database,
+                            schema = node.schema,
+                            identifier = node.alias
+                        ),
                         b_relation = api.Relation.create(
                             database = target.database,
                             schema = schema,
-                            identifier = node.name
+                            identifier = node.alias
                         ),
                         exclude_columns = excluded_columns.get(node.name, [])
                     ) }}
