@@ -313,7 +313,7 @@ models:
                 inclusive: true
 
   - name: fct_budget_vs_actual
-    description: Fact table comparing budgeted amounts to actual spending/income by budget type and calendar month. Variance Amount is signed so that positive always means "on track" or "ahead" and negative means "over" or "behind".
+    description: Fact table comparing budgeted amounts to actual spending/income by budget type and calendar month. variance_amount is signed so that positive always means "on track" or "ahead" and negative means "over" or "behind".
     data_tests:
       - dbt_utils.unique_combination_of_columns:
           arguments:
@@ -495,7 +495,7 @@ models:
                 inclusive: true
 
   - name: fct_budget_vs_actual_fixed_costs
-    description: Fact table comparing budgeted amounts to actual spending for fixed costs categories by calendar month. Variance Amount is signed so that positive always means "on track" and negative means "over".
+    description: Fact table comparing budgeted amounts to actual spending for fixed costs categories by calendar month. variance_amount is signed so that positive always means "on track" and negative means "over".
     data_tests:
       - dbt_utils.unique_combination_of_columns:
           arguments:
@@ -754,7 +754,7 @@ models:
           - not_null
 
   - name: retirement_projection
-    description: Single-row model projecting the future value of investment holdings at retirement, using compound interest. Combines current total investment market value, personal assumptions, and the current monthly Investments budget amount  to project using a monthly-compounding future value formula with regular contributions.
+    description: Single-row model projecting the future value of investment holdings at retirement, using compound interest. Combines current total investment market value, personal assumptions, and the current monthly Investments budget amount to project using a monthly-compounding future value formula with regular contributions.
     columns:
       - name: current_value
         description: Total current market value of all investment holdings as of the latest available price, summed across all tickers.

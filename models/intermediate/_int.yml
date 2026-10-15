@@ -179,7 +179,7 @@ models:
           - not_null
 
       - name: budget_amount
-        description: The budgeted dollar amount for this budget_type in this budget_month.
+        description: The budgeted dollar amount for this budget_item in this budget_month.
         data_tests:
           - not_null
           - dbt_utils.accepted_range:
@@ -225,7 +225,7 @@ models:
           - not_null
 
       - name: budget_amount
-        description: The budgeted dollar amount for this budget_type in this budget_month.
+        description: The budgeted dollar amount for this budget_category in this budget_month.
         data_tests:
           - not_null
           - dbt_utils.accepted_range:
@@ -271,7 +271,7 @@ models:
           - not_null
 
       - name: budget_amount
-        description: The budgeted dollar amount for this budget_type in this budget_month.
+        description: The budgeted dollar amount for this budget_category in this budget_month.
         data_tests:
           - not_null
           - dbt_utils.accepted_range:
@@ -320,7 +320,7 @@ models:
           - not_null
 
       - name: transaction_month
-        description: Date the transaction occurred.
+        description: First day of the calendar month in which the transactions occurred.
         data_tests:
           - not_null
 

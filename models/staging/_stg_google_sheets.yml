@@ -53,7 +53,7 @@ models:
           - not_null
 
       - name: budget_type
-        description: Label identifying the top-level buckets (e.g. "Income," "Fixed Costs," "Savings, "Investments"), individual discretionary "Guilt-Free" allowances per person or purpose (e.g. "Guilt-Free Mei," "Guilt-Free Kenji", "Guilt-Free Family," "Guilt-Free Pet") and a subtotal row ("Guilt-Free Total").
+        description: Label identifying the top-level buckets (e.g. "Income", "Fixed Costs", "Savings", "Investments"), individual discretionary "Guilt-Free" allowances per person or purpose (e.g. "Guilt-Free Mei", "Guilt-Free Kenji", "Guilt-Free Family", "Guilt-Free Pet") and a subtotal row ("Guilt-Free Total").
         data_tests:
           - unique
           - not_null
@@ -313,7 +313,7 @@ models:
           - not_null
 
       - name: cashflow_type
-        description: High-level cashflow category grouping (e.g., Fixed Costs, Income, Savings, Investments, Transfer, or an  Guilt-Free allowance).
+        description: High-level cashflow category grouping (e.g., Fixed Costs, Income, Savings, Investments, Transfer, or a Guilt-Free allowance).
         data_tests:
           - not_null
           - accepted_values:
@@ -466,7 +466,7 @@ models:
           - not_null
 
   - name: stg_google_sheets__retirement_assumptions
-    description: Staging mode for single-row table of assumptions used to project investments amount for retirement.
+    description: Staging model for single-row table of assumptions used to project investments amount for retirement.
     columns:
       - name: current_age
         description: Current age used as the starting point for the projection.
@@ -479,12 +479,12 @@ models:
           - not_null
 
       - name: projected_interest_rate
-        description: Assumed annual rate of return used to investment growth (e.g., 0.07 = 7%).
+        description: Assumed annual rate of return used to project investment growth (e.g., 0.07 = 7%).
         data_tests:
           - not_null
 
   - name: stg_google_sheets__savings_goals
-    description: Staging model for List of savings goals with initial target date and priority.
+    description: Staging model for the list of savings goals with initial target date and priority.
     columns:
       - name: goal_id
         description: Unique identifier for the savings goal.
