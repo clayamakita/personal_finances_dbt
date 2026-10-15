@@ -1,52 +1,52 @@
 version: 2
 
 models:
-  - name: dim_accounts 
+  - name: dim_accounts
     description: List of financial accounts with beginning/current balances, type, and category.
     columns:
-      - name: account_id 
-        description: Unique identifier for the account. 
+      - name: account_id
+        description: Unique identifier for the account.
         data_tests:
           - unique
           - not_null
 
-      - name: account_name 
+      - name: account_name
         description: Account name, often including the type of account (e.g. Chequing, Credit Card, Savings) and the account holder (e.g. Chequing Kenji, Savings Family).
         data_tests:
           - unique
           - not_null
 
-      - name: account_type 
+      - name: account_type
         description: High-level classification of the account — Assets or Liabilities.
         data_tests:
           - not_null
           - accepted_values:
-              arguments: 
-                values: ['Assets', 'Liabilities']
+              arguments:
+                values: ["Assets", "Liabilities"]
 
-      - name: account_category 
+      - name: account_category
         description: Functional grouping of the account (e.g. Chequing, Savings, Credit Card) used for reporting.
         data_tests:
           - not_null
           - accepted_values:
-              arguments: 
-                values: ['Chequing', 'Credit Card', 'Savings', 'Investments']
+              arguments:
+                values: ["Chequing", "Credit Card", "Savings", "Investments"]
 
-      - name: beginning_balance 
+      - name: beginning_balance
         description: Balance recorded when the account was first added to the file.
         data_tests:
           - not_null
 
-      - name: current_balance 
+      - name: current_balance
         description: Most recent known balance for the account. Based on Beginning Balance and all Transactions records.
         data_tests:
           - not_null
 
-  - name: dim_cashflow_categories 
+  - name: dim_cashflow_categories
     description: Dimension table of cashflow categories (e.g., Groceries, Housing, Paycheck), each associated with its parent cashflow type. Used to classify transactions at the category level and to join transaction data to budget data.
     columns:
       - name: cashflow_category_id
-        description: Unique identifier for the cashflow category. 
+        description: Unique identifier for the cashflow category.
         data_tests:
           - unique
           - not_null
@@ -62,26 +62,50 @@ models:
           - not_null
           - accepted_values:
               arguments:
-                values: ['Fixed Costs', 'Guilt-Free Family', 'Guilt-Free Kenji', 'Guilt-Free Mei', 'Guilt-Free Pet', 'Income', 'Investments', 'Savings', 'Savings Spending', 'Transfer']
+                values:
+                  [
+                    "Fixed Costs",
+                    "Guilt-Free Family",
+                    "Guilt-Free Kenji",
+                    "Guilt-Free Mei",
+                    "Guilt-Free Pet",
+                    "Income",
+                    "Investments",
+                    "Savings",
+                    "Savings Spending",
+                    "Transfer",
+                  ]
 
-  - name: dim_cashflow_types 
+  - name: dim_cashflow_types
     description: Dimension table of high-level cashflow types (e.g., Fixed Costs, Income, Savings, Investments, Transfer, or Guilt-Free allowances). Used to classify transactions at the type level and to join transaction data to budget data.
     columns:
-      - name: cashflow_type_id 
-        description: Unique identifier for the cashflow type. 
+      - name: cashflow_type_id
+        description: Unique identifier for the cashflow type.
         data_tests:
           - unique
           - not_null
 
-      - name: cashflow_type 
+      - name: cashflow_type
         description: High-level cashflow category grouping (e.g., Fixed Costs, Income, Savings, Investments, Transfer, or Guilt-Free allowance).
         data_tests:
           - not_null
           - accepted_values:
               arguments:
-                values: ['Fixed Costs', 'Guilt-Free Family', 'Guilt-Free Kenji', 'Guilt-Free Mei', 'Guilt-Free Pet', 'Income', 'Investments', 'Savings', 'Savings Spending', 'Transfer']
+                values:
+                  [
+                    "Fixed Costs",
+                    "Guilt-Free Family",
+                    "Guilt-Free Kenji",
+                    "Guilt-Free Mei",
+                    "Guilt-Free Pet",
+                    "Income",
+                    "Investments",
+                    "Savings",
+                    "Savings Spending",
+                    "Transfer",
+                  ]
 
-  - name: dim_dates 
+  - name: dim_dates
     description: Date dimension providing one row per calendar day, used to support time-based analysis and joins across budget, cashflow, and investments data. The range spans from the start of the year containing the earliest date across all source models (budget, cashflow transactions, and investment transactions) through the end of the year containing the latest cashflow transaction date.
     columns:
       - name: date_id
@@ -207,7 +231,7 @@ models:
           - not_null
           - accepted_values:
               arguments:
-                values: ['Achieved', 'In Progress', 'Not Started']
+                values: ["Achieved", "In Progress", "Not Started"]
 
       - name: goal_status_id
         description: Numeric grouping used to sequence goals for funding projections — 1 for Achieved goals, 2 for all others (In Progress or Not Started).
@@ -262,7 +286,17 @@ models:
           - not_null
           - accepted_values:
               arguments:
-                values: ['Income', 'Fixed Costs', 'Investments', 'Savings', 'Guilt-Free Family', 'Guilt-Free Kenji', 'Guilt-Free Mei', 'Guilt-Free Pet']
+                values:
+                  [
+                    "Income",
+                    "Fixed Costs",
+                    "Investments",
+                    "Savings",
+                    "Guilt-Free Family",
+                    "Guilt-Free Kenji",
+                    "Guilt-Free Mei",
+                    "Guilt-Free Pet",
+                  ]
 
       - name: budget_month
         description: The first day of the budgeted calendar month.
@@ -299,7 +333,17 @@ models:
           - not_null
           - accepted_values:
               arguments:
-                values: ['Income', 'Fixed Costs', 'Investments', 'Savings', 'Guilt-Free Family', 'Guilt-Free Kenji', 'Guilt-Free Mei', 'Guilt-Free Pet']
+                values:
+                  [
+                    "Income",
+                    "Fixed Costs",
+                    "Investments",
+                    "Savings",
+                    "Guilt-Free Family",
+                    "Guilt-Free Kenji",
+                    "Guilt-Free Mei",
+                    "Guilt-Free Pet",
+                  ]
 
       - name: budget_month
         description: The first day of the budgeted calendar month.
@@ -330,7 +374,7 @@ models:
           - not_null
 
   - name: fct_budget_vs_actual_guilt_free
-    description: Fact table comparing budgeted amounts to actual spending for Guilt-Free categories only, with running (cumulative, year-to-date) totals alongside the monthly figures. 
+    description: Fact table comparing budgeted amounts to actual spending for Guilt-Free categories only, with running (cumulative, year-to-date) totals alongside the monthly figures.
     data_tests:
       - dbt_utils.unique_combination_of_columns:
           arguments:
@@ -350,7 +394,13 @@ models:
           - not_null
           - accepted_values:
               arguments:
-                values: ['Guilt-Free Family', 'Guilt-Free Kenji', 'Guilt-Free Mei', 'Guilt-Free Pet']
+                values:
+                  [
+                    "Guilt-Free Family",
+                    "Guilt-Free Kenji",
+                    "Guilt-Free Mei",
+                    "Guilt-Free Pet",
+                  ]
 
       - name: budget_month
         description: The first day of the budgeted calendar month.
@@ -419,7 +469,16 @@ models:
           - not_null
           - accepted_values:
               arguments:
-                values: ['Groceries', 'Healthcare', 'Housing', 'Household Items', 'Miscellaneous', 'Pet', 'Transportation']
+                values:
+                  [
+                    "Groceries",
+                    "Healthcare",
+                    "Housing",
+                    "Household Items",
+                    "Miscellaneous",
+                    "Pet",
+                    "Transportation",
+                  ]
 
       - name: budget_month
         description: The first day of the budgeted calendar month.
@@ -456,7 +515,16 @@ models:
           - not_null
           - accepted_values:
               arguments:
-                values: ['Groceries', 'Healthcare', 'Housing', 'Household Items', 'Miscellaneous', 'Pet', 'Transportation']
+                values:
+                  [
+                    "Groceries",
+                    "Healthcare",
+                    "Housing",
+                    "Household Items",
+                    "Miscellaneous",
+                    "Pet",
+                    "Transportation",
+                  ]
 
       - name: budget_month
         description: The first day of the budgeted calendar month.
@@ -506,7 +574,18 @@ models:
           - not_null
           - accepted_values:
               arguments:
-                values: ['Fixed Costs', 'Income', 'Savings', 'Investments', 'Transfer', 'Guilt-Free Family', 'Guilt-Free Kenji', 'Guilt-Free Mei', 'Guilt-Free Pet']
+                values:
+                  [
+                    "Fixed Costs",
+                    "Income",
+                    "Savings",
+                    "Investments",
+                    "Transfer",
+                    "Guilt-Free Family",
+                    "Guilt-Free Kenji",
+                    "Guilt-Free Mei",
+                    "Guilt-Free Pet",
+                  ]
 
       - name: transaction_category
         description: Specific spending or income category within the type (e.g., Groceries, Housing, Paycheck, Deposit, Withdrawal).
@@ -564,7 +643,8 @@ models:
           - not_null
           - accepted_values:
               arguments:
-                values: ['Bond', 'ETF', 'GIC', 'Index Fund', 'Mutual Fund', 'Stock']
+                values:
+                  ["Bond", "ETF", "GIC", "Index Fund", "Mutual Fund", "Stock"]
 
       - name: investment_event
         description: Type of transaction event (e.g., Buy, Sell, Dividend).
@@ -572,7 +652,7 @@ models:
           - not_null
           - accepted_values:
               arguments:
-                values: ['Buy', 'Dividends', 'Sell']
+                values: ["Buy", "Dividends", "Sell"]
 
       - name: ticker
         description: Ticker symbol of the investment involved in the transaction (e.g., XEQT, VFV, RY).
@@ -636,7 +716,14 @@ models:
           - not_null
           - accepted_values:
               arguments:
-                values: ['Paycheck', 'Fixed Costs', 'Savings', 'Investments', 'Guilt-Free']
+                values:
+                  [
+                    "Paycheck",
+                    "Fixed Costs",
+                    "Savings",
+                    "Investments",
+                    "Guilt-Free",
+                  ]
 
       - name: budget_month
         description: The first day of the budgeted calendar month.
