@@ -1,9 +1,8 @@
-
-name: 'personal_finances'
-version: '1.0.0'
+name: "personal_finances"
+version: "1.0.0"
 config-version: 2
 
-profile: 'default'
+profile: "default"
 
 model-paths: ["models"]
 analysis-paths: ["analyses"]
@@ -22,11 +21,11 @@ models:
     +persist_docs:
       relation: true
       columns: true
-      
+
     staging:
       +materialized: view
 
-    intermediate: 
+    intermediate:
       +materialized: view
 
     marts:
@@ -34,3 +33,6 @@ models:
 
 on-run-start:
   - "{{ calculate_annualized_return() }}"
+
+vars:
+  project_timezone: "America/Toronto"
