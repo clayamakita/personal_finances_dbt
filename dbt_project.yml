@@ -19,6 +19,10 @@ clean-targets:
 
 models:
   personal_finances:
+    +persist_docs:
+      relation: true
+      columns: true
+      
     staging:
       +materialized: view
 
