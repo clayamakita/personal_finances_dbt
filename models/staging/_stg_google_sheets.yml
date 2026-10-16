@@ -2,7 +2,7 @@ version: 2
 
 models:
   - name: stg_google_sheets__accounts
-    description: List of financial accounts with beginning/current balances, type, and category.
+    description: One row per account. List of financial accounts with beginning/current balances, type, and category.
     columns:
       - name: account_id
         description: Unique identifier for the account. Added manually in Google Sheets.
@@ -41,10 +41,10 @@ models:
         description: Most recent known balance for the account. Calculated on the file, based on Beginning Balance and Transactions data.
 
       - name: _loaded_at
-        description: Timestamp when data was last successfully synced that specific row.
+        description: "{{ doc('_loaded_at') }}"
 
   - name: stg_google_sheets__budget_2026
-    description: Staging model for the 2026 monthly budget. Each row represents a budget type and its budgeted amount for each of the twelve months of 2026.
+    description: One row per budget type (wide - one column per month). Staging model for the 2026 monthly budget. Each row represents a budget type and its budgeted amount for each of the twelve months of 2026.
     columns:
       - name: budget_id
         description: Unique identifier for the budget type, sourced from the Google Sheets row number.
@@ -53,7 +53,7 @@ models:
           - not_null
 
       - name: budget_type
-        description: Label identifying the top-level buckets (e.g. "Income," "Fixed Costs," "Savings, "Investments"), individual discretionary "Guilt-Free" allowances per person or purpose (e.g. "Guilt-Free Mei," "Guilt-Free Kenji", "Guilt-Free Family," "Guilt-Free Pet") and a subtotal row ("Guilt-Free Total").
+        description: Label identifying the top-level buckets (e.g. "Income", "Fixed Costs", "Savings", "Investments"), individual discretionary "Guilt-Free" allowances per person or purpose (e.g. "Guilt-Free Mei", "Guilt-Free Kenji", "Guilt-Free Family", "Guilt-Free Pet") and a subtotal row ("Guilt-Free Total").
         data_tests:
           - unique
           - not_null
@@ -133,10 +133,10 @@ models:
           - not_null
 
       - name: _loaded_at
-        description: Timestamp when data was last successfully synced for that specific row.
+        description: "{{ doc('_loaded_at') }}"
 
   - name: stg_google_sheets__budget_2026_fixed_costs
-    description: Staging model for the 2026 monthly fixed costs budget breakdown. Each row represents a single budget line item, grouped by fixed costs category, with its budgeted amount for each of the twelve months of 2026.
+    description: One row per fixed-cost line item (wide - one column per month). Staging model for the 2026 monthly fixed costs budget breakdown. Each row represents a single budget line item, grouped by fixed costs category, with its budgeted amount for each of the twelve months of 2026.
     columns:
       - name: budget_fixed_costs_id
         description: Unique identifier for the budget line item, sourced from the Google Sheets row number.
@@ -227,10 +227,10 @@ models:
           - not_null
 
       - name: _loaded_at
-        description: Timestamp when data was last successfully synced for that specific row.
+        description: "{{ doc('_loaded_at') }}"
 
   - name: stg_google_sheets__cashflow_transactions
-    description: Staging model logging all account transactions (income, expenses, transfers).
+    description: One row per transaction. Staging model logging all account transactions (income, expenses, transfers).
     columns:
       - name: transaction_id
         description: Unique identifier for the transaction, manually assigned in Google Sheets.
@@ -299,12 +299,12 @@ models:
         description: Free-text notes about the transaction, if any.
 
       - name: _loaded_at
-        description: Timestamp when Fivetran last successfully synced this row's source data.
+        description: "{{ doc('_loaded_at') }}"
         data_tests:
           - not_null
 
   - name: stg_google_sheets__cashflow_type_category
-    description: Staging model listing all valid cashflow type and category combinations used to classify transactions.
+    description: One row per type/category pair. Staging model listing all valid cashflow type and category combinations used to classify transactions.
     columns:
       - name: type_category_id
         description: Unique identifier for the type/category pair. Row number from Google Sheets, produced by Fivetran.
@@ -313,7 +313,7 @@ models:
           - not_null
 
       - name: cashflow_type
-        description: High-level cashflow category grouping (e.g., Fixed Costs, Income, Savings, Investments, Transfer, or an  Guilt-Free allowance).
+        description: "{{ doc('cashflow_type') }}"
         data_tests:
           - not_null
           - accepted_values:
@@ -338,10 +338,10 @@ models:
           - not_null
 
       - name: _loaded_at
-        description: Timestamp when data was last successfully synced for that specific row.
+        description: "{{ doc('_loaded_at') }}"
 
   - name: stg_google_sheets__investments_prices
-    description: Staging model logging the latest available market price for each tracked investment.
+    description: One row per ticker. Staging model logging the latest available market price for each tracked investment.
     columns:
       - name: investment_price_id
         description: Unique identifier for the investment price record, manually assigned in Google Sheets.
@@ -379,12 +379,12 @@ models:
           - not_null
 
       - name: _loaded_at
-        description: Timestamp when data was last successfully synced for that specific row.
+        description: "{{ doc('_loaded_at') }}"
         data_tests:
           - not_null
 
   - name: stg_google_sheets__investments_transactions
-    description: Staging model logging all investment transactions (buys, sells, dividends).
+    description: One row per investment transaction. Staging model logging all investment transactions (buys, sells, dividends).
     columns:
       - name: investment_transaction_id
         description: Unique identifier for the investment transaction, manually assigned in Google Sheets.
@@ -461,12 +461,12 @@ models:
           - not_null
 
       - name: _loaded_at
-        description: Timestamp when data was last successfully synced for that specific row.
+        description: "{{ doc('_loaded_at') }}"
         data_tests:
           - not_null
 
   - name: stg_google_sheets__retirement_assumptions
-    description: Staging mode for single-row table of assumptions used to project investments amount for retirement.
+    description: A single row. Staging model for single-row table of assumptions used to project investments amount for retirement.
     columns:
       - name: current_age
         description: Current age used as the starting point for the projection.
@@ -479,12 +479,12 @@ models:
           - not_null
 
       - name: projected_interest_rate
-        description: Assumed annual rate of return used to investment growth (e.g., 0.07 = 7%).
+        description: Assumed annual rate of return used to project investment growth (e.g., 0.07 = 7%).
         data_tests:
           - not_null
 
   - name: stg_google_sheets__savings_goals
-    description: Staging model for List of savings goals with initial target date and priority.
+    description: One row per goal. Staging model for the list of savings goals with initial target date and priority.
     columns:
       - name: goal_id
         description: Unique identifier for the savings goal.
@@ -512,10 +512,10 @@ models:
         description: Date the goal was actually achieved, if completed.
 
       - name: _loaded_at
-        description: Timestamp when data was last successfully synced for that specific row.
+        description: "{{ doc('_loaded_at') }}"
 
   - name: stg_google_sheets__savings_goals_details
-    description: Staging model for itemized amount breakdown for each savings goal.
+    description: One row per goal line item. Staging model for itemized amount breakdown for each savings goal.
     columns:
       - name: goal_detail_id
         description: Unique identifier for the savings goals details. Added manually in Google Sheets.
@@ -548,6 +548,6 @@ models:
                 inclusive: true
 
       - name: _loaded_at
-        description: Timestamp when data was last successfully synced for that specific row.
+        description: "{{ doc('_loaded_at') }}"
         data_tests:
           - not_null
