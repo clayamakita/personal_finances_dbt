@@ -3,7 +3,7 @@ version: 2
 sources:
   - name: google_sheets
     description: Raw data replicated from Google Sheets file. Synced via Fivetran.
-    database: personal-finances-501019
+    database: "{{ var('source_database', target.database) }}"
     schema: src_google_sheets
     tables:
       - name: accounts
