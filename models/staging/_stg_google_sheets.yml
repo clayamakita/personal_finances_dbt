@@ -41,7 +41,7 @@ models:
         description: Most recent known balance for the account. Calculated on the file, based on Beginning Balance and Transactions data.
 
       - name: _loaded_at
-        description: Timestamp when data was last successfully synced that specific row.
+        description: "{{ doc('_loaded_at') }}"
 
   - name: stg_google_sheets__budget_2026
     description: One row per budget type (wide - one column per month). Staging model for the 2026 monthly budget. Each row represents a budget type and its budgeted amount for each of the twelve months of 2026.
@@ -133,7 +133,7 @@ models:
           - not_null
 
       - name: _loaded_at
-        description: Timestamp when data was last successfully synced for that specific row.
+        description: "{{ doc('_loaded_at') }}"
 
   - name: stg_google_sheets__budget_2026_fixed_costs
     description: One row per fixed-cost line item (wide - one column per month). Staging model for the 2026 monthly fixed costs budget breakdown. Each row represents a single budget line item, grouped by fixed costs category, with its budgeted amount for each of the twelve months of 2026.
@@ -227,7 +227,7 @@ models:
           - not_null
 
       - name: _loaded_at
-        description: Timestamp when data was last successfully synced for that specific row.
+        description: "{{ doc('_loaded_at') }}"
 
   - name: stg_google_sheets__cashflow_transactions
     description: One row per transaction. Staging model logging all account transactions (income, expenses, transfers).
@@ -299,7 +299,7 @@ models:
         description: Free-text notes about the transaction, if any.
 
       - name: _loaded_at
-        description: Timestamp when Fivetran last successfully synced this row's source data.
+        description: "{{ doc('_loaded_at') }}"
         data_tests:
           - not_null
 
@@ -313,7 +313,7 @@ models:
           - not_null
 
       - name: cashflow_type
-        description: High-level cashflow category grouping (e.g., Fixed Costs, Income, Savings, Investments, Transfer, or a Guilt-Free allowance).
+        description: "{{ doc('cashflow_type') }}"
         data_tests:
           - not_null
           - accepted_values:
@@ -338,7 +338,7 @@ models:
           - not_null
 
       - name: _loaded_at
-        description: Timestamp when data was last successfully synced for that specific row.
+        description: "{{ doc('_loaded_at') }}"
 
   - name: stg_google_sheets__investments_prices
     description: One row per ticker. Staging model logging the latest available market price for each tracked investment.
@@ -379,7 +379,7 @@ models:
           - not_null
 
       - name: _loaded_at
-        description: Timestamp when data was last successfully synced for that specific row.
+        description: "{{ doc('_loaded_at') }}"
         data_tests:
           - not_null
 
@@ -461,7 +461,7 @@ models:
           - not_null
 
       - name: _loaded_at
-        description: Timestamp when data was last successfully synced for that specific row.
+        description: "{{ doc('_loaded_at') }}"
         data_tests:
           - not_null
 
@@ -512,7 +512,7 @@ models:
         description: Date the goal was actually achieved, if completed.
 
       - name: _loaded_at
-        description: Timestamp when data was last successfully synced for that specific row.
+        description: "{{ doc('_loaded_at') }}"
 
   - name: stg_google_sheets__savings_goals_details
     description: One row per goal line item. Staging model for itemized amount breakdown for each savings goal.
@@ -548,6 +548,6 @@ models:
                 inclusive: true
 
       - name: _loaded_at
-        description: Timestamp when data was last successfully synced for that specific row.
+        description: "{{ doc('_loaded_at') }}"
         data_tests:
           - not_null

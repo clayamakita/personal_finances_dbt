@@ -57,7 +57,7 @@ models:
           - not_null
 
       - name: cashflow_type
-        description: High-level cashflow category grouping (e.g., Fixed Costs, Income, Savings, Investments, Transfer, or Guilt-Free allowance).
+        description: "{{ doc('cashflow_type') }}"
         data_tests:
           - not_null
           - accepted_values:
@@ -86,7 +86,7 @@ models:
           - not_null
 
       - name: cashflow_type
-        description: High-level cashflow category grouping (e.g., Fixed Costs, Income, Savings, Investments, Transfer, or Guilt-Free allowance).
+        description: "{{ doc('cashflow_type') }}"
         data_tests:
           - not_null
           - accepted_values:
@@ -275,13 +275,13 @@ models:
               - budget_month
     columns:
       - name: budget_month_id
-        description: Surrogate key formed by concatenating a slugified `budget_type` (lowercased, with spaces and hyphens removed) with the `budget_month` date, e.g. `guiltfreepet_2026-01-01`. Uniquely identifies a budget_type/budget_month combination.
+        description: "{{ doc('budget_month_id') }}"
         data_tests:
           - unique
           - not_null
 
       - name: budget_type
-        description: The budget category, e.g. Savings, Investments, Fixed Costs, Income, or one of the individual Guilt-Free categories.
+        description: "{{ doc('budget_type') }}"
         data_tests:
           - not_null
           - accepted_values:
@@ -299,12 +299,12 @@ models:
                   ]
 
       - name: budget_month
-        description: The first day of the budgeted calendar month.
+        description: "{{ doc('budget_month') }}"
         data_tests:
           - not_null
 
       - name: budget_amount
-        description: The budgeted dollar amount for this budget_type in this budget_month.
+        description: "{{ doc('budget_amount_by_type') }}"
         data_tests:
           - not_null
           - dbt_utils.accepted_range:
@@ -322,13 +322,13 @@ models:
               - budget_month
     columns:
       - name: budget_month_id
-        description: Surrogate key formed by concatenating a slugified `budget_type` (lowercased, with spaces and hyphens removed) with the `budget_month` date, e.g. `guiltfreepet_2026-01-01`. Uniquely identifies a budget_type/budget_month combination.
+        description: "{{ doc('budget_month_id') }}"
         data_tests:
           - unique
           - not_null
 
       - name: budget_type
-        description: The budget category, e.g. Savings, Investments, Fixed Costs, Income, or one of the individual Guilt-Free categories.
+        description: "{{ doc('budget_type') }}"
         data_tests:
           - not_null
           - accepted_values:
@@ -346,12 +346,12 @@ models:
                   ]
 
       - name: budget_month
-        description: The first day of the budgeted calendar month.
+        description: "{{ doc('budget_month') }}"
         data_tests:
           - not_null
 
       - name: budget_amount
-        description: The budgeted dollar amount for this budget_type in this budget_month.
+        description: "{{ doc('budget_amount_by_type') }}"
         data_tests:
           - not_null
           - dbt_utils.accepted_range:
@@ -383,7 +383,7 @@ models:
               - budget_month
     columns:
       - name: budget_month_id
-        description: Surrogate key formed by concatenating a slugified `budget_type` (lowercased, with spaces and hyphens removed) with the `budget_month` date, e.g. `guiltfreepet_2026-01-01`. Uniquely identifies a budget_type/budget_month combination.
+        description: "{{ doc('budget_month_id') }}"
         data_tests:
           - unique
           - not_null
@@ -403,12 +403,12 @@ models:
                   ]
 
       - name: budget_month
-        description: The first day of the budgeted calendar month.
+        description: "{{ doc('budget_month') }}"
         data_tests:
           - not_null
 
       - name: budget_amount
-        description: The budgeted dollar amount for this budget_type in this budget_month.
+        description: "{{ doc('budget_amount_by_type') }}"
         data_tests:
           - not_null
           - dbt_utils.accepted_range:
@@ -481,12 +481,12 @@ models:
                   ]
 
       - name: budget_month
-        description: The first day of the budgeted calendar month.
+        description: "{{ doc('budget_month') }}"
         data_tests:
           - not_null
 
       - name: budget_amount
-        description: The budgeted dollar amount for this budget_category in this budget_month.
+        description: "{{ doc('budget_amount_by_category') }}"
         data_tests:
           - not_null
           - dbt_utils.accepted_range:
@@ -527,12 +527,12 @@ models:
                   ]
 
       - name: budget_month
-        description: The first day of the budgeted calendar month.
+        description: "{{ doc('budget_month') }}"
         data_tests:
           - not_null
 
       - name: budget_amount
-        description: The budgeted dollar amount for this budget_category in this budget_month.
+        description: "{{ doc('budget_amount_by_category') }}"
         data_tests:
           - not_null
           - dbt_utils.accepted_range:
@@ -726,7 +726,7 @@ models:
                   ]
 
       - name: budget_month
-        description: The first day of the budgeted calendar month.
+        description: "{{ doc('budget_month') }}"
         data_tests:
           - not_null
 
