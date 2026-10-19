@@ -35,7 +35,6 @@ joined_budget_actual as (
         on
             budget.budget_type = actual.transaction_type
             and budget.budget_month = actual.transaction_month
-    where budget.budget_type <> 'Budget'
 
 )
 

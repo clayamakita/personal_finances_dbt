@@ -21,9 +21,6 @@ aggregated_budget as (
         budget_month,
         sum( budget_amount ) as budget_amount
     from budget
-    where
-        budget_type <> 'Guilt-Free Total'
-        and budget_type <> 'Budget'
     group by 1, 2
 
 ),

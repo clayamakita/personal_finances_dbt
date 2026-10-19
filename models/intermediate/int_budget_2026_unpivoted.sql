@@ -18,8 +18,7 @@ added_key as (
         budget_month,
         budget_amount
     from unpivoted
-    where budget_type not in ( 'Budget', 'Guilt-Free Total' )
-    -- budget is a value used instead of the income to allocate the expenses differently in the source
+    where budget_type <> 'Guilt-Free Total' 
     -- guilt free total is redundant with the separate guilt free categories
 
 )
