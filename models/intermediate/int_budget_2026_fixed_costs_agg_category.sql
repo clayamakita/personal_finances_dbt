@@ -18,9 +18,7 @@ aggregated_category as (
 added_key as (
 
     select
-        lower( replace( budget_category, ' ', '' ) )
-        || '_'
-        || cast( budget_month as string ) as budget_fixed_costs_month_id,
+        {{ slug_key(['budget_category'], 'budget_month') }} as budget_fixed_costs_month_id,
         budget_category,
         budget_month,
         budget_amount
