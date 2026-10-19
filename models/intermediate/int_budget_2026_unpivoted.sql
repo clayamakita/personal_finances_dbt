@@ -7,7 +7,6 @@ with budget as (
 unpivoted as (
 
     {{ unpivot_budget_months('budget', 2026, ['budget_type']) }}
-    where budget_type is not null
 
 ),
 
