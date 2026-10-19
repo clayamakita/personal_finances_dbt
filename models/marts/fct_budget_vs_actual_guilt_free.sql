@@ -34,7 +34,7 @@ joined_budget_actual_guilt_free as (
         on
             budget.budget_type = actual.transaction_type
             and budget.budget_month = actual.transaction_month
-    where budget.budget_type like 'Guilt-Free%'
+    where {{ is_guilt_free('budget.budget_type') }}
 
 ),
 

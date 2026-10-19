@@ -29,11 +29,7 @@ joined_budget_actual as (
         budget.budget_month,
         budget.budget_amount,
         coalesce( actual.actual_amount, 0 ) as actual_amount,
-        case
-            when budget_type in ( 'Income', 'Investments', 'Savings' )
-                then coalesce( actual.actual_amount, 0 ) - budget.budget_amount
-            else budget.budget_amount - coalesce( actual.actual_amount, 0 )
-        end as variance_amount
+        {{ signed_variance('budget_type', 'budget.budget_amount', 'coalesce(actual.actual_amount, 0)') }} as variance_amount
     from budget
     left join actual_agg_type as actual
         on
