@@ -24,9 +24,7 @@ unpivoted as (
 added_key as (
 
     select
-        lower( replace( replace( budget_type, '-', '' ), ' ', '' ) )
-        || '_'
-        || cast( budget_month as string ) as budget_month_id,
+        {{ slug_key(['budget_type'], 'budget_month') }} as budget_month_id,
         budget_type,
         budget_month,
         budget_amount

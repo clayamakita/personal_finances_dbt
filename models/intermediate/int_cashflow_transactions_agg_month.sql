@@ -19,10 +19,7 @@ aggregated_month as (
 added_key as (
 
     select
-        lower( replace( replace( transaction_type, '-', '' ), ' ', '' ) ) || '_'
-        || lower( replace( transaction_category, ' ', '' ) ) || '_'
-        || cast( transaction_month as string )
-            as transaction_month_id,
+        {{ slug_key(['transaction_type', 'transaction_category'], 'transaction_month') }} as transaction_month_id,
         transaction_type,
         transaction_category,
         transaction_month,
