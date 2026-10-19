@@ -297,11 +297,23 @@ models:
                     "Guilt-Free Mei",
                     "Guilt-Free Pet",
                   ]
+          - relationships:
+              arguments:
+                to: ref('dim_cashflow_types')
+                field: cashflow_type
+              config:
+                severity: warn
 
       - name: budget_month
         description: "{{ doc('budget_month') }}"
         data_tests:
           - not_null
+          - relationships:
+              arguments:
+                to: ref('dim_dates')
+                field: calendar_date
+              config:
+                severity: warn
 
       - name: budget_amount
         description: "{{ doc('budget_amount_by_type') }}"
@@ -344,11 +356,23 @@ models:
                     "Guilt-Free Mei",
                     "Guilt-Free Pet",
                   ]
+          - relationships:
+              arguments:
+                to: ref('dim_cashflow_types')
+                field: cashflow_type
+              config:
+                severity: warn
 
       - name: budget_month
         description: "{{ doc('budget_month') }}"
         data_tests:
           - not_null
+          - relationships:
+              arguments:
+                to: ref('dim_dates')
+                field: calendar_date
+              config:
+                severity: warn
 
       - name: budget_amount
         description: "{{ doc('budget_amount_by_type') }}"
@@ -401,11 +425,23 @@ models:
                     "Guilt-Free Mei",
                     "Guilt-Free Pet",
                   ]
+          - relationships:
+              arguments:
+                to: ref('dim_cashflow_types')
+                field: cashflow_type
+              config:
+                severity: warn
 
       - name: budget_month
         description: "{{ doc('budget_month') }}"
         data_tests:
           - not_null
+          - relationships:
+              arguments:
+                to: ref('dim_dates')
+                field: calendar_date
+              config:
+                severity: warn
 
       - name: budget_amount
         description: "{{ doc('budget_amount_by_type') }}"
@@ -484,6 +520,12 @@ models:
         description: "{{ doc('budget_month') }}"
         data_tests:
           - not_null
+          - relationships:
+              arguments:
+                to: ref('dim_dates')
+                field: calendar_date
+              config:
+                severity: warn
 
       - name: budget_amount
         description: "{{ doc('budget_amount_by_category') }}"
@@ -530,6 +572,12 @@ models:
         description: "{{ doc('budget_month') }}"
         data_tests:
           - not_null
+          - relationships:
+              arguments:
+                to: ref('dim_dates')
+                field: calendar_date
+              config:
+                severity: warn
 
       - name: budget_amount
         description: "{{ doc('budget_amount_by_category') }}"
@@ -567,6 +615,12 @@ models:
         description: Account the transaction occurred in (e.g., Chequing Joint Account, Credit Card Kenji).
         data_tests:
           - not_null
+          - relationships:
+              arguments:
+                to: ref('dim_accounts')
+                field: account_name
+              config:
+                severity: warn
 
       - name: transaction_type
         description: High-level cashflow category grouping (e.g., Fixed Costs, Income, Savings, Investments, Transfer, or an individual Guilt-Free allowance).
@@ -586,6 +640,12 @@ models:
                     "Guilt-Free Mei",
                     "Guilt-Free Pet",
                   ]
+          - relationships:
+              arguments:
+                to: ref('dim_cashflow_types')
+                field: cashflow_type
+              config:
+                severity: warn
 
       - name: transaction_category
         description: Specific spending or income category within the type (e.g., Groceries, Housing, Paycheck, Deposit, Withdrawal).
@@ -636,6 +696,12 @@ models:
         description: Investment account the transaction belongs to (e.g., TFSA Kenji, TFSA Mei).
         data_tests:
           - not_null
+          - relationships:
+              arguments:
+                to: ref('dim_accounts')
+                field: account_name
+              config:
+                severity: warn
 
       - name: investment_type
         description: Broad classification of the investment involved in the transaction (e.g., ETF, Stock).
@@ -658,6 +724,12 @@ models:
         description: Ticker symbol of the investment involved in the transaction (e.g., XEQT, VFV, RY).
         data_tests:
           - not_null
+          - relationships:
+              arguments:
+                to: ref('dim_investments')
+                field: ticker
+              config:
+                severity: warn
 
       - name: investment_name
         description: Full name of the investment involved in the transaction (e.g., iShares Core Equity ETF Portfolio, Royal Bank of Canada).
