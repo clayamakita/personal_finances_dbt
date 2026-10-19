@@ -4,23 +4,23 @@ with source as (
 
 ),
 
-cleaned_columns as (
+final as (
 
     select
-        investment_transaction_id,
-        account as account_name,
-        type as investment_type,
-        event as investment_event,
-        ticker,
-        investment_name,
+        cast( investment_transaction_id as string ) as investment_transaction_id,
+        cast( account as string ) as account_name,
+        cast( type as string ) as investment_type,
+        cast( event as string ) as investment_event,
+        cast( ticker as string ) as ticker,
+        cast( investment_name as string ) as investment_name,
         cast( qty as numeric ) as quantity,
         cast( price as numeric ) as price,
         cast( total_value as numeric ) as total_value,
         cast( coalesce( dividends, 0 ) as numeric ) as dividends,
         cast( net_qty as numeric ) as net_quantity,
         {{ parse_sheet_date('date') }} as event_date,
-        _fivetran_synced as _loaded_at
+        cast( _fivetran_synced as timestamp ) as _loaded_at
     from source
 )
 
-select * from cleaned_columns
+select * from final

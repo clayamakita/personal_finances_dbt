@@ -4,12 +4,12 @@ with source as (
 
 ),
 
-cleaned_columns as (
+final as (
 
     select
-        _row as budget_fixed_costs_id,
-        category as budget_category,
-        item as budget_item,
+        cast( _row as int64 ) as budget_fixed_costs_id,
+        cast( category as string ) as budget_category,
+        cast( item as string ) as budget_item,
         cast( january_2026 as numeric ) as january_2026,
         cast( february_2026 as numeric ) as february_2026,
         cast( march_2026 as numeric ) as march_2026,
@@ -22,7 +22,7 @@ cleaned_columns as (
         cast( october_2026 as numeric ) as october_2026,
         cast( november_2026 as numeric ) as november_2026,
         cast( december_2026 as numeric ) as december_2026,
-        _fivetran_synced as _loaded_at
+        cast( _fivetran_synced as timestamp ) as _loaded_at
     from source
     where not (
         category is null
@@ -42,4 +42,4 @@ cleaned_columns as (
     )
 )
 
-select * from cleaned_columns
+select * from final

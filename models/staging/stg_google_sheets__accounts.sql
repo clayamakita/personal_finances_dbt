@@ -4,18 +4,18 @@ with source as (
 
 ),
 
-cleaned_columns as (
+final as (
 
     select
-        account_id,
-        account as account_name,
-        account_type,
-        account_category,
+        cast( account_id as string ) as account_id,
+        cast( account as string ) as account_name,
+        cast( account_type as string ) as account_type,
+        cast( account_category as string ) as account_category,
         cast( coalesce( beginning_balance, 0 ) as numeric ) as beginning_balance,
         cast( coalesce( current_balance, 0 ) as numeric ) as current_balance_sheet,
-        _fivetran_synced as _loaded_at
+        cast( _fivetran_synced as timestamp ) as _loaded_at
     from source
 
 )
 
-select * from cleaned_columns
+select * from final

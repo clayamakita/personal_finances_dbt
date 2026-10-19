@@ -4,13 +4,14 @@ with source as (
 
 ),
 
-selected_columns as (
+final as (
 
     select
-        current_age,
-        retirement_age,
-        projected_interest_rate
+        cast( current_age as int64 ) as current_age,
+        cast( retirement_age as int64 ) as retirement_age,
+        cast( projected_interest_rate as float64 ) as projected_interest_rate, 
+        cast( _fivetran_synced as timestamp ) as _loaded_at
     from source
 )
 
-select * from selected_columns
+select * from final
