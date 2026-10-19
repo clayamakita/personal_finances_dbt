@@ -7,12 +7,12 @@ with source as (
 cleaned_columns as (
 
     select
-        goal_id,
-        goal_name,
-        priority as goal_priority,
+        cast( goal_id as string ) as goal_id,
+        cast( goal_name as string ) as goal_name,
+        cast( priority as int64 ) as goal_priority,
         {{ parse_sheet_date('initial_target_date') }} as initial_target_date,
         {{ parse_sheet_date('actual_date') }} as actual_date,
-        _fivetran_synced as _loaded_at
+        cast( _fivetran_synced as timestamp ) as _loaded_at
     from source
 
 )

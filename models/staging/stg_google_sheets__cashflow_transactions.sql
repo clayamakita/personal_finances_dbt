@@ -7,18 +7,18 @@ with source as (
 cleaned_columns as (
 
     select
-        transaction_id,
-        account as account_name,
-        type as transaction_type,
-        category as transaction_category,
-        `where` as transaction_location,
-        item as transaction_item,
+        cast( transaction_id as string ) as transaction_id,
+        cast( account as string ) as account_name,
+        cast( type as string ) as transaction_type,
+        cast( category as string ) as transaction_category,
+        cast( `where` as string ) as transaction_location,
+        cast( item as string ) as transaction_item,
         cast( amount as numeric ) as transaction_amount,
-        qty as quantity,
-        unit,
+        cast( qty as float64 ) as quantity,
+        cast( unit as string ) as unit,
         {{ parse_sheet_date('date') }} as transaction_date,
-        notes,
-        _fivetran_synced as _loaded_at
+        cast( notes as string ) as notes,
+        cast( _fivetran_synced as timestamp ) as _loaded_at
     from source
 )
 

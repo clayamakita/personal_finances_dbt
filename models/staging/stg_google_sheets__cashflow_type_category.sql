@@ -7,10 +7,10 @@ with source as (
 cleaned_columns as (
 
     select
-        _row as type_category_id,
-        type as cashflow_type,
-        category as cashflow_category,
-        _fivetran_synced as _loaded_at
+        cast( _row as int64 ) as type_category_id,
+        cast( type as string ) as cashflow_type,
+        cast( category as string ) as cashflow_category,
+        cast( _fivetran_synced as timestamp ) as _loaded_at
     from source
 
 )

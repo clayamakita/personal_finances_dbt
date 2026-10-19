@@ -7,13 +7,13 @@ with source as (
 cleaned_columns as (
 
     select
-        investment_price_id,
-        ticker,
-        investment_name,
+        cast( investment_price_id as string ) as investment_price_id,
+        cast( ticker as string ) as ticker,
+        cast( investment_name as string ) as investment_name,
         cast( live_price as numeric ) as latest_price,
-        time_delay,
-        last_trade_time as latest_trade_time,
-        _fivetran_synced as _loaded_at
+        cast( time_delay as int64 ) as time_delay,
+        cast( last_trade_time as datetime ) as latest_trade_time,
+        cast( _fivetran_synced as timestamp ) as _loaded_at
     from source
 
 )

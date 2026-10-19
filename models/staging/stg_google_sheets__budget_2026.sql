@@ -7,8 +7,8 @@ with source as (
 cleaned_columns as (
 
     select
-        _row as budget_id,
-        type as budget_type,
+        cast( _row as int64 ) as budget_id,
+        cast( type as string ) as budget_type,
         cast( coalesce( january_2026, 0 ) as numeric ) as january_2026,
         cast( coalesce( february_2026, 0 ) as numeric ) as february_2026,
         cast( coalesce( march_2026, 0 ) as numeric ) as march_2026,
@@ -21,7 +21,7 @@ cleaned_columns as (
         cast( coalesce( october_2026, 0 ) as numeric ) as october_2026,
         cast( coalesce( november_2026, 0 ) as numeric ) as november_2026,
         cast( coalesce( december_2026, 0 ) as numeric ) as december_2026,
-        _fivetran_synced as _loaded_at
+        cast( _fivetran_synced as timestamp ) as _loaded_at
     from source
     where not (
         type is null
