@@ -483,6 +483,11 @@ models:
         data_tests:
           - not_null
 
+      - name: _loaded_at
+        description: "{{ doc('_loaded_at') }}"
+        data_tests:
+          - not_null
+
   - name: stg_google_sheets__savings_goals
     description: One row per goal. Staging model for the list of savings goals with initial target date and priority.
     columns:
