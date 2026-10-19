@@ -4,7 +4,7 @@ with source as (
 
 ),
 
-cleaned_columns as (
+final as (
 
     select
         cast( transaction_id as string ) as transaction_id,
@@ -22,4 +22,4 @@ cleaned_columns as (
     from source
 )
 
-select * from cleaned_columns
+select * from final

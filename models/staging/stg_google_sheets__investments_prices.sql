@@ -4,7 +4,7 @@ with source as (
 
 ),
 
-cleaned_columns as (
+final as (
 
     select
         cast( investment_price_id as string ) as investment_price_id,
@@ -18,4 +18,4 @@ cleaned_columns as (
 
 )
 
-select * from cleaned_columns
+select * from final

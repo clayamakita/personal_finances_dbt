@@ -3,7 +3,7 @@ with source as (
     select * from {{ source('google_sheets', 'savings_goals_details') }}
 ),
 
-cleaned_columns as (
+final as (
 
     select
         cast( goal_detail_id as string ) as goal_detail_id,
@@ -15,4 +15,4 @@ cleaned_columns as (
     from source
 )
 
-select * from cleaned_columns
+select * from final

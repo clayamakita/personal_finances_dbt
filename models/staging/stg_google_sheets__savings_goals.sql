@@ -4,7 +4,7 @@ with source as (
 
 ),
 
-cleaned_columns as (
+final as (
 
     select
         cast( goal_id as string ) as goal_id,
@@ -17,4 +17,4 @@ cleaned_columns as (
 
 )
 
-select * from cleaned_columns
+select * from final

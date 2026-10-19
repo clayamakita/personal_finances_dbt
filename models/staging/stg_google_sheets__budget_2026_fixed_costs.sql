@@ -4,7 +4,7 @@ with source as (
 
 ),
 
-cleaned_columns as (
+final as (
 
     select
         cast( _row as int64 ) as budget_fixed_costs_id,
@@ -42,4 +42,4 @@ cleaned_columns as (
     )
 )
 
-select * from cleaned_columns
+select * from final

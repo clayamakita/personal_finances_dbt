@@ -4,7 +4,7 @@ with source as (
 
 ),
 
-selected_columns as (
+final as (
 
     select
         cast( current_age as int64 ) as current_age,
@@ -13,4 +13,4 @@ selected_columns as (
     from source
 )
 
-select * from selected_columns
+select * from final
