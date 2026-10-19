@@ -15,15 +15,12 @@ aggregated_budget as (
     select
         case
             when budget_type = 'Income' then 'Paycheck'
-            when budget_type like 'Guilt-Free%' then 'Guilt-Free'
+            when {{ is_guilt_free('budget_type') }} then 'Guilt-Free'
             else budget_type
         end as allocation_type,
         budget_month,
         sum( budget_amount ) as budget_amount
     from budget
-    where
-        budget_type <> 'Guilt-Free Total'
-        and budget_type <> 'Budget'
     group by 1, 2
 
 ),
@@ -45,7 +42,7 @@ aggregated_transactions as (
         case
             when transaction_type = 'Income' and transaction_category = 'Paycheck' then 'Paycheck'
             when transaction_type in ( 'Fixed Costs', 'Savings', 'Investments' ) then transaction_type
-            when transaction_type like 'Guilt-Free%' then 'Guilt-Free'
+            when {{ is_guilt_free('transaction_type') }} then 'Guilt-Free'
             else 'Other'
         end as allocation_type,
         transaction_month,
@@ -79,11 +76,7 @@ final as (
         budget.budget_month,
         budget.budget_amount,
         coalesce( transactions.allocation_amount, 0 ) as allocation_amount,
-        case
-            when budget.allocation_type in ( 'Paycheck', 'Investments', 'Savings' )
-                then coalesce( transactions.allocation_amount, 0 ) - budget.budget_amount
-            else budget.budget_amount - coalesce( transactions.allocation_amount, 0 )
-        end as allocation_variance
+        {{ signed_variance('budget.allocation_type', 'budget.budget_amount', 'coalesce(transactions.allocation_amount, 0)') }} as allocation_variance
     from aggregated_budget as budget
     left join adjusted_aggregated_transactions as transactions
         on
