@@ -10,8 +10,8 @@ cleaned_columns as (
         goal_id,
         goal_name,
         priority as goal_priority,
-        safe.parse_date( '%d/%b/%Y', initial_target_date ) as initial_target_date,
-        safe.parse_date( '%d/%b/%Y', actual_date ) as actual_date,
+        {{ parse_sheet_date('initial_target_date') }} as initial_target_date,
+        {{ parse_sheet_date('actual_date') }} as actual_date,
         _fivetran_synced as _loaded_at
     from source
 

@@ -18,7 +18,7 @@ cleaned_columns as (
         cast( total_value as numeric ) as total_value,
         cast( coalesce( dividends, 0 ) as numeric ) as dividends,
         cast( net_qty as numeric ) as net_quantity,
-        safe.parse_date( '%d/%b/%Y', date ) as event_date,
+        {{ parse_sheet_date('date') }} as event_date,
         _fivetran_synced as _loaded_at
     from source
 )

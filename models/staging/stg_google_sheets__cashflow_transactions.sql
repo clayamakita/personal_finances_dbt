@@ -16,7 +16,7 @@ cleaned_columns as (
         cast( amount as numeric ) as transaction_amount,
         qty as quantity,
         unit,
-        safe.parse_date( '%d/%b/%Y', date ) as transaction_date,
+        {{ parse_sheet_date('date') }} as transaction_date,
         notes,
         _fivetran_synced as _loaded_at
     from source
