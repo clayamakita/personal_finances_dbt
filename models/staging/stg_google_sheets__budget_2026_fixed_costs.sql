@@ -24,7 +24,22 @@ cleaned_columns as (
         cast( december_2026 as numeric ) as december_2026,
         _fivetran_synced as _loaded_at
     from source
-
+    where not (
+        category is null
+        and item is null
+        and january_2026 is null
+        and february_2026 is null
+        and march_2026 is null
+        and april_2026 is null
+        and may_2026 is null
+        and june_2026 is null
+        and july_2026 is null
+        and august_2026 is null
+        and september_2026 is null
+        and october_2026 is null
+        and november_2026 is null
+        and december_2026 is null
+    )
 )
 
 select * from cleaned_columns
