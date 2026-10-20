@@ -28,7 +28,7 @@ goals_amount as (
         goals.goal_name,
         goals.goal_priority,
         details.account_name,
-        sum( goal_amount ) as goal_amount
+        sum( details.goal_amount ) as goal_amount
     from goals
     left join goals_details as details on goals.goal_name = details.goal_name
     where goals.goal_priority is not null
@@ -59,12 +59,7 @@ goals_accounts_balance as (
 goals_amount_saved as (
 
     select
-        goal_name,
-        goal_priority,
-        goal_amount,
-        running_goal_amount,
-        account_name,
-        account_current_balance,
+        *,
         account_current_balance - ( running_goal_amount - goal_amount ) as account_balance_before,
         case
             when account_current_balance - ( running_goal_amount - goal_amount ) <= 0 then 0
@@ -74,18 +69,13 @@ goals_amount_saved as (
             )
         end as goal_amount_saved
     from goals_accounts_balance
+
 ),
 
 goals_status as (
 
     select
-        goal_name,
-        goal_priority,
-        goal_amount,
-        running_goal_amount,
-        account_name,
-        account_current_balance,
-        goal_amount_saved,
+        *,
         case
             when goal_amount_saved = goal_amount then 'Achieved'
             when goal_amount_saved > 0 then 'In Progress'
@@ -100,6 +90,7 @@ goals_status as (
             else goal_amount - goal_amount_saved
         end as goal_amount_needed
     from goals_amount_saved
+
 ),
 
 latest_budget_savings as (
@@ -116,16 +107,7 @@ latest_budget_savings as (
 goals_remaining_needed as (
 
     select
-        goal_name,
-        goal_priority,
-        goal_amount,
-        running_goal_amount,
-        account_name,
-        account_current_balance,
-        goal_amount_saved,
-        goal_status,
-        goal_status_id,
-        goal_amount_needed,
+        *,
         sum( goal_amount_needed )
             over (
                 order by goal_status_id, goal_priority
@@ -143,18 +125,7 @@ goals_remaining_needed as (
 goals_months_until_saved as (
 
     select
-        goal_name,
-        goal_priority,
-        goal_amount,
-        running_goal_amount,
-        account_name,
-        account_current_balance,
-        goal_amount_saved,
-        goal_status,
-        goal_status_id,
-        goal_amount_needed,
-        running_goal_amount_needed,
-        budget_savings_amount,
+        *,
         case
             when goal_amount_needed = 0 then 0
             else ceil( safe_divide( running_goal_amount_needed, budget_savings_amount ) ) + 1
@@ -173,19 +144,7 @@ latest_month as (
 goals_funding_month as (
 
     select
-        goal_name,
-        goal_priority,
-        goal_amount,
-        running_goal_amount,
-        account_name,
-        account_current_balance,
-        goal_amount_saved,
-        goal_status,
-        goal_status_id,
-        goal_amount_needed,
-        running_goal_amount_needed,
-        budget_savings_amount,
-        months_to_goal,
+        *,
         case
             when months_to_goal = 0 then null
             else date_add(
