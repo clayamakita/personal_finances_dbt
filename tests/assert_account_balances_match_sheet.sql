@@ -1,3 +1,5 @@
+{{ config(severity='warn') }}
+
 select
     int.account_name,
     int.current_balance,

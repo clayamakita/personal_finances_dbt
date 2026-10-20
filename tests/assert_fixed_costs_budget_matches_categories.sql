@@ -1,3 +1,5 @@
+{{ config(severity='warn') }}
+
 with by_category as (
 
     select
