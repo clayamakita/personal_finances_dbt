@@ -316,6 +316,10 @@ models:
         description: "{{ doc('is_future_month') }}"
         data_tests:
           - not_null
+          - accepted_values:
+              arguments:
+                values: [true, false]
+                quote: false
 
       - name: budget_amount
         description: "{{ doc('budget_amount_by_type') }}"
@@ -390,6 +394,10 @@ models:
         description: "{{ doc('is_future_month') }}"
         data_tests:
           - not_null
+          - accepted_values:
+              arguments:
+                values: [true, false]
+                quote: false
 
       - name: budget_amount
         description: "{{ doc('budget_amount_by_type') }}"
@@ -519,6 +527,10 @@ models:
         description: "{{ doc('is_future_month') }}"
         data_tests:
           - not_null
+          - accepted_values:
+              arguments:
+                values: [true, false]
+                quote: false
 
       - name: budget_amount
         description: "{{ doc('budget_amount_by_category') }}"
@@ -726,6 +738,10 @@ models:
         description: "{{ doc('is_future_month') }}"
         data_tests:
           - not_null
+          - accepted_values:
+              arguments:
+                values: [true, false]
+                quote: false
 
       - name: budget_amount
         description: The total budgeted dollar amount for this allocation_type in this budget_month (e.g. all four Guilt-Free categories combined for the 'Guilt-Free' allocation_type).
