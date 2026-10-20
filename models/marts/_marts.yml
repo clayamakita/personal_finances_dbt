@@ -20,17 +20,11 @@ models:
         description: High-level classification of the account — Assets or Liabilities.
         data_tests:
           - not_null
-          - accepted_values:
-              arguments:
-                values: ["Assets", "Liabilities"]
 
       - name: account_category
         description: Functional grouping of the account (e.g. Chequing, Savings, Credit Card) used for reporting.
         data_tests:
           - not_null
-          - accepted_values:
-              arguments:
-                values: ["Chequing", "Credit Card", "Savings", "Investments"]
 
       - name: beginning_balance
         description: Balance recorded when the account was first added to the file.
@@ -60,21 +54,6 @@ models:
         description: "{{ doc('cashflow_type') }}"
         data_tests:
           - not_null
-          - accepted_values:
-              arguments:
-                values:
-                  [
-                    "Fixed Costs",
-                    "Guilt-Free Family",
-                    "Guilt-Free Kenji",
-                    "Guilt-Free Mei",
-                    "Guilt-Free Pet",
-                    "Income",
-                    "Investments",
-                    "Savings",
-                    "Savings Spending",
-                    "Transfer",
-                  ]
 
   - name: dim_cashflow_types
     description: One row per cashflow type. Dimension table of high-level cashflow types (e.g., Fixed Costs, Income, Savings, Investments, Transfer, or Guilt-Free allowances). Used to classify transactions at the type level and to join transaction data to budget data.
@@ -89,21 +68,6 @@ models:
         description: "{{ doc('cashflow_type') }}"
         data_tests:
           - not_null
-          - accepted_values:
-              arguments:
-                values:
-                  [
-                    "Fixed Costs",
-                    "Guilt-Free Family",
-                    "Guilt-Free Kenji",
-                    "Guilt-Free Mei",
-                    "Guilt-Free Pet",
-                    "Income",
-                    "Investments",
-                    "Savings",
-                    "Savings Spending",
-                    "Transfer",
-                  ]
 
   - name: dim_dates
     description: One row per calendar day. Date dimension providing one row per calendar day, used to support time-based analysis and joins across budget, cashflow, and investments data. The range spans from the start of the year containing the earliest date across all source models (budget, cashflow transactions, and investment transactions) through the end of the year containing the latest cashflow transaction date.
@@ -284,19 +248,6 @@ models:
         description: "{{ doc('budget_type') }}"
         data_tests:
           - not_null
-          - accepted_values:
-              arguments:
-                values:
-                  [
-                    "Income",
-                    "Fixed Costs",
-                    "Investments",
-                    "Savings",
-                    "Guilt-Free Family",
-                    "Guilt-Free Kenji",
-                    "Guilt-Free Mei",
-                    "Guilt-Free Pet",
-                  ]
           - relationships:
               arguments:
                 to: ref('dim_cashflow_types')
@@ -343,19 +294,6 @@ models:
         description: "{{ doc('budget_type') }}"
         data_tests:
           - not_null
-          - accepted_values:
-              arguments:
-                values:
-                  [
-                    "Income",
-                    "Fixed Costs",
-                    "Investments",
-                    "Savings",
-                    "Guilt-Free Family",
-                    "Guilt-Free Kenji",
-                    "Guilt-Free Mei",
-                    "Guilt-Free Pet",
-                  ]
           - relationships:
               arguments:
                 to: ref('dim_cashflow_types')
@@ -503,18 +441,6 @@ models:
         description: High-level spending fixed costs category (e.g. Housing, Groceries, Transportation, Pet, Healthcare, Miscellaneous).
         data_tests:
           - not_null
-          - accepted_values:
-              arguments:
-                values:
-                  [
-                    "Groceries",
-                    "Healthcare",
-                    "Housing",
-                    "Household Items",
-                    "Miscellaneous",
-                    "Pet",
-                    "Transportation",
-                  ]
 
       - name: budget_month
         description: "{{ doc('budget_month') }}"
@@ -626,20 +552,6 @@ models:
         description: High-level cashflow category grouping (e.g., Fixed Costs, Income, Savings, Investments, Transfer, or an individual Guilt-Free allowance).
         data_tests:
           - not_null
-          - accepted_values:
-              arguments:
-                values:
-                  [
-                    "Fixed Costs",
-                    "Income",
-                    "Savings",
-                    "Investments",
-                    "Transfer",
-                    "Guilt-Free Family",
-                    "Guilt-Free Kenji",
-                    "Guilt-Free Mei",
-                    "Guilt-Free Pet",
-                  ]
           - relationships:
               arguments:
                 to: ref('dim_cashflow_types')
@@ -707,18 +619,11 @@ models:
         description: Broad classification of the investment involved in the transaction (e.g., ETF, Stock).
         data_tests:
           - not_null
-          - accepted_values:
-              arguments:
-                values:
-                  ["Bond", "ETF", "GIC", "Index Fund", "Mutual Fund", "Stock"]
 
       - name: investment_event
         description: Type of transaction event (e.g., Buy, Sell, Dividend).
         data_tests:
           - not_null
-          - accepted_values:
-              arguments:
-                values: ["Buy", "Dividends", "Sell"]
 
       - name: ticker
         description: Ticker symbol of the investment involved in the transaction (e.g., XEQT, VFV, RY).

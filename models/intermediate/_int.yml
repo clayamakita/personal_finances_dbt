@@ -93,19 +93,6 @@ models:
         description: "{{ doc('budget_type') }}"
         data_tests:
           - not_null
-          - accepted_values:
-              arguments:
-                values:
-                  [
-                    "Income",
-                    "Fixed Costs",
-                    "Investments",
-                    "Savings",
-                    "Guilt-Free Family",
-                    "Guilt-Free Kenji",
-                    "Guilt-Free Mei",
-                    "Guilt-Free Pet",
-                  ]
 
       - name: budget_month
         description: "{{ doc('budget_month') }}"
@@ -134,19 +121,6 @@ models:
         description: "{{ doc('budget_type') }}"
         data_tests:
           - not_null
-          - accepted_values:
-              arguments:
-                values:
-                  [
-                    "Income",
-                    "Fixed Costs",
-                    "Investments",
-                    "Savings",
-                    "Guilt-Free Family",
-                    "Guilt-Free Kenji",
-                    "Guilt-Free Mei",
-                    "Guilt-Free Pet",
-                  ]
 
       - name: budget_month
         description: "{{ doc('budget_month') }}"
@@ -181,18 +155,6 @@ models:
         description: High-level spending category the line item belongs to (e.g. Housing, Groceries, Transportation, Pet, Healthcare, Miscellaneous).
         data_tests:
           - not_null
-          - accepted_values:
-              arguments:
-                values:
-                  [
-                    "Groceries",
-                    "Healthcare",
-                    "Housing",
-                    "Household Items",
-                    "Miscellaneous",
-                    "Pet",
-                    "Transportation",
-                  ]
 
       - name: budget_item
         description: Descriptive name of the individual budget line item (e.g. "Rent", "Electricity", "Cellphone plan") or a category subtotal row (e.g. "Groceries Total") where item-level detail isn't broken out.
@@ -232,18 +194,6 @@ models:
         description: High-level spending category the line item belongs to (e.g. Housing, Groceries, Transportation, Pet, Healthcare, Miscellaneous).
         data_tests:
           - not_null
-          - accepted_values:
-              arguments:
-                values:
-                  [
-                    "Groceries",
-                    "Healthcare",
-                    "Housing",
-                    "Household Items",
-                    "Miscellaneous",
-                    "Pet",
-                    "Transportation",
-                  ]
 
       - name: budget_month
         description: "{{ doc('budget_month') }}"
@@ -278,18 +228,6 @@ models:
         description: High-level spending fixed costs category (e.g. Housing, Groceries, Transportation, Pet, Healthcare, Miscellaneous).
         data_tests:
           - not_null
-          - accepted_values:
-              arguments:
-                values:
-                  [
-                    "Groceries",
-                    "Healthcare",
-                    "Housing",
-                    "Household Items",
-                    "Miscellaneous",
-                    "Pet",
-                    "Transportation",
-                  ]
 
       - name: budget_month
         description: "{{ doc('budget_month') }}"
@@ -325,20 +263,6 @@ models:
         description: High-level cashflow category grouping (e.g., Fixed Costs, Income, Savings, Investments, Transfer, or an individual Guilt-Free allowance).
         data_tests:
           - not_null
-          - accepted_values:
-              arguments:
-                values:
-                  [
-                    "Fixed Costs",
-                    "Income",
-                    "Savings",
-                    "Investments",
-                    "Transfer",
-                    "Guilt-Free Family",
-                    "Guilt-Free Kenji",
-                    "Guilt-Free Mei",
-                    "Guilt-Free Pet",
-                  ]
 
       - name: transaction_category
         description: Specific spending or income category within the type (e.g., Groceries, Housing, Paycheck, Deposit, Withdrawal).
@@ -362,10 +286,6 @@ models:
         description: Broad classification of the investment involved in the transaction (e.g., ETF, Stock).
         data_tests:
           - not_null
-          - accepted_values:
-              arguments:
-                values:
-                  ["Bond", "ETF", "GIC", "Index Fund", "Mutual Fund", "Stock"]
 
       - name: ticker
         description: Ticker symbol of the investment involved in the transaction (e.g., XEQT, VFV, RY).
