@@ -291,6 +291,7 @@ models:
         description: Ticker symbol of the investment involved in the transaction (e.g., XEQT, VFV, RY).
         data_tests:
           - not_null
+          - unique
 
       - name: investment_name
         description: Full name of the investment involved in the transaction (e.g., iShares Core Equity ETF Portfolio, Royal Bank of Canada).
