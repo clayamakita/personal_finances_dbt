@@ -42,8 +42,10 @@ select
     goals_amount.goal_name,
     goals_amount.goal_priority,
     goals_amount.goal_amount,
-    sum( goals_amount.goal_amount )
-        over ( partition by goals_amount.account_name order by goals_amount.goal_priority )
+    sum( goals_amount.goal_amount ) over ( 
+        partition by goals_amount.account_name 
+        order by goals_amount.goal_priority 
+        rows between unbounded preceding and current row )
         as running_goal_amount,
     goals_amount.account_name,
     accounts.current_balance as account_current_balance
@@ -111,23 +113,27 @@ where budget_type = 'Savings'
 
 goals_remaining_needed as (
 
-select
-goal_name,
-goal_priority,
-goal_amount,
-running_goal_amount,
-account_name,
-account_current_balance,
-goal_amount_saved,
-goal_status,
-goal_status_id,
-goal_amount_needed,
-sum( goal_amount_needed ) over ( order by goal_status_id, goal_priority ) as running_goal_amount_needed,
-case
-    when goal_amount_needed = 0 then 0
-    else ( select budget_amount from latest_budget_savings )
-end as budget_savings_amount
-from goals_status
+    select
+        goal_name,
+        goal_priority,
+        goal_amount,
+        running_goal_amount,
+        account_name,
+        account_current_balance,
+        goal_amount_saved,
+        goal_status,
+        goal_status_id,
+        goal_amount_needed,
+        sum( goal_amount_needed ) over ( 
+            order by goal_status_id, goal_priority
+            rows between unbounded preceding and current row )
+            as running_goal_amount_needed,
+        case
+            when goal_amount_needed = 0 then 0
+            else ( select budget_amount from latest_budget_savings )
+    end as budget_savings_amount
+    from goals_status
+
 ),
 
 goals_months_until_saved as (
