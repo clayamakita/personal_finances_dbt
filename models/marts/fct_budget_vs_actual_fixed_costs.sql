@@ -10,6 +10,13 @@ actual as (
 
 ),
 
+actual_latest_month as (
+
+    select date_trunc( max( transaction_month ), month ) as latest_month
+    from actual
+
+),
+
 actual_agg_category_fixed_costs as (
 
     select
@@ -27,14 +34,14 @@ joined_budget_fixed_costs_actual as (
         budget.budget_fixed_costs_month_id,
         budget.budget_category,
         budget.budget_month,
+        budget.budget_month > ( select latest_month from actual_latest_month ) as is_future_month,
         budget.budget_amount,
         coalesce( actual.actual_amount, 0 ) as actual_amount,
         budget.budget_amount - coalesce( actual.actual_amount, 0 ) as variance_amount
     from budget_fixed_costs as budget
     left join actual_agg_category_fixed_costs as actual
-        on
-            budget.budget_category = actual.transaction_category
-            and budget.budget_month = actual.transaction_month
+        on budget.budget_category = actual.transaction_category
+        and budget.budget_month = actual.transaction_month
 
 )
 

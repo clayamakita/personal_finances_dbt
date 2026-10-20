@@ -312,6 +312,15 @@ models:
               config:
                 severity: warn
 
+      - name: is_future_month
+        description: "{{ doc('is_future_month') }}"
+        data_tests:
+          - not_null
+          - accepted_values:
+              arguments:
+                values: [true, false]
+                quote: false
+
       - name: budget_amount
         description: "{{ doc('budget_amount_by_type') }}"
         data_tests:
@@ -336,7 +345,7 @@ models:
           - not_null
 
   - name: fct_budget_vs_actual_guilt_free
-    description: One row per Guilt-Free budget type per month. Fact table comparing budgeted amounts to actual spending for Guilt-Free categories only, with running (cumulative, year-to-date) totals alongside the monthly figures.
+    description: One row per Guilt-Free budget type per month. Fact table comparing budgeted amounts to actual spending for Guilt-Free categories only, with running totals alongside the monthly figures. Amount is cumulative since the first month in the data (unspent budget carries over across years).
     data_tests:
       - dbt_utils.unique_combination_of_columns:
           arguments:
@@ -380,6 +389,15 @@ models:
                 field: calendar_date
               config:
                 severity: warn
+
+      - name: is_future_month
+        description: "{{ doc('is_future_month') }}"
+        data_tests:
+          - not_null
+          - accepted_values:
+              arguments:
+                values: [true, false]
+                quote: false
 
       - name: budget_amount
         description: "{{ doc('budget_amount_by_type') }}"
@@ -504,6 +522,15 @@ models:
                 field: calendar_date
               config:
                 severity: warn
+
+      - name: is_future_month
+        description: "{{ doc('is_future_month') }}"
+        data_tests:
+          - not_null
+          - accepted_values:
+              arguments:
+                values: [true, false]
+                quote: false
 
       - name: budget_amount
         description: "{{ doc('budget_amount_by_category') }}"
@@ -706,6 +733,15 @@ models:
         description: "{{ doc('budget_month') }}"
         data_tests:
           - not_null
+
+      - name: is_future_month
+        description: "{{ doc('is_future_month') }}"
+        data_tests:
+          - not_null
+          - accepted_values:
+              arguments:
+                values: [true, false]
+                quote: false
 
       - name: budget_amount
         description: The total budgeted dollar amount for this allocation_type in this budget_month (e.g. all four Guilt-Free categories combined for the 'Guilt-Free' allocation_type).
