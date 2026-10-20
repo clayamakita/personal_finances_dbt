@@ -159,6 +159,13 @@ from goals_remaining_needed
 
 ),
 
+latest_month as (
+
+    select distinct budget_month
+    from latest_budget
+
+),
+
 goals_funding_month as (
 
 select
@@ -178,7 +185,7 @@ months_to_goal,
 case
     when months_to_goal = 0 then null
     else date_add(
-        date_trunc( current_date( 'America/Toronto' ), month ),
+        ( select budget_month from latest_month ),
         interval cast( months_to_goal as integer ) month
     )
 end as funding_month
