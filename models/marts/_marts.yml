@@ -151,7 +151,7 @@ models:
         description: Annualized rate of return for the investment, calculated using XIRR (extended internal rate of return) over the investment's full transaction history plus its current value as a final cash flow dated today. Rounded to 4 decimal places (e.g., 0.1507 = 15.07%).
 
   - name: dim_savings_goals
-    description: One row per active goal. Dimension table tracking savings goals, how much of each is currently funded, and a projected month by which each goal will be fully funded. Goals are funded in priority order (lowest goal_priority number first) - existing goals are funded first from each goal's associated account's current balance (waterfall by priority within account), and any goals not yet fully funded are then projected forward using the current month's total Savings budget, allocated across all outstanding goals in priority order. One row per goal.
+    description: One row per active goal. Dimension table tracking savings goals, how much of each is currently funded, and a projected month by which each goal will be fully funded. Goals are funded in priority order (lowest goal_priority number first) - existing goals are funded first from each goal's associated account's current balance (waterfall by priority within account). Any goals not yet fully funded are then projected forward using the latest month's total Savings budget, allocated across all outstanding goals in priority order. with a one month buffer to cover the current partial month.
     columns:
       - name: goal_name
         description: Name of the savings goal (e.g., Laptop, Vacation 2027). Unique identifier of the table.
@@ -217,17 +217,17 @@ models:
           - not_null
 
       - name: budget_savings_amount
-        description: Total budgeted Savings amount for the current month, taken from the latest available budget. 0 if the goal is already Achieved.
+        description: Total budgeted Savings amount for the latest month, taken from the latest available budget. 0 if the goal is already Achieved.
         data_tests:
           - not_null
 
       - name: months_to_goal
-        description: Projected number of months, from the current month, until this goal is fully funded, assuming the full monthly Savings budget is applied to goals in priority order. Includes a 1-month buffer added to the calculated figure to account for the current partial month. 0 if the goal is already Achieved.
+        description: Projected number of months, from the latest month, until this goal is fully funded, assuming the full monthly Savings budget is applied to goals in priority order. Includes a 1-month buffer added to the calculated figure to account for the current partial month. 0 if the goal is already Achieved.
         data_tests:
           - not_null
 
       - name: funding_month
-        description: Calendar month (first day of month) in which the goal is projected to be fully funded, based on months_to_goal. Null if the goal is already Achieved.
+        description: Calendar month (first day of month) in which the goal is projected to be fully funded, based on the latest month (most recent month in cashflow transactions) plus months_to_goal. Null if the goal is already Achieved.
 
   - name: fct_budget
     description: One row per budget type per month. Fact table of budgeted amounts by budget type and calendar month. This is the stable, single point of reference for all downstream consumers. Each row represents the budgeted amount for one budget type in one calendar month.

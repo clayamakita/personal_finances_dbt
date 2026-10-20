@@ -506,6 +506,9 @@ models:
       - name: goal_priority
         description: Ranking of the goal relative to others, where a lower number means higher priority. Goals already achieved have no priority.
         data_tests:
+          - unique:
+              config:
+                where: "actual_date is null"
           - not_null:
               config:
                 where: "actual_date is null"
