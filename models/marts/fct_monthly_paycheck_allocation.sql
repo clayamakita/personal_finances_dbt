@@ -25,17 +25,6 @@ aggregated_budget as (
 
 ),
 
-budget_guilt_free as (
-
-    select
-        allocation_type,
-        budget_month,
-        budget_amount
-    from aggregated_budget
-    where allocation_type like 'Guilt-Free'
-
-),
-
 aggregated_transactions as (
 
     select
@@ -52,38 +41,30 @@ aggregated_transactions as (
 
 ),
 
-adjusted_aggregated_transactions as (
-
-    select
-        transactions.allocation_type,
-        transactions.transaction_month,
-        case
-            when transactions.allocation_type = 'Guilt-Free' then guilt_free.budget_amount
-            else transactions.allocation_amount
-        end as allocation_amount
-    from aggregated_transactions as transactions
-    left join budget_guilt_free as guilt_free
-        on
-            transactions.allocation_type = guilt_free.allocation_type
-            and transactions.transaction_month = guilt_free.budget_month
-    where transactions.allocation_type <> 'Other'
-),
-
-final as (
+adjusted_guilt_free as (
 
     select
         budget.allocation_type,
         budget.budget_month,
         budget.budget_amount,
-        coalesce( transactions.allocation_amount, 0 ) as allocation_amount,
-        {{ signed_variance('budget.allocation_type', 'budget.budget_amount', 'coalesce(transactions.allocation_amount, 0)') }} as allocation_variance
+        case
+            when budget.allocation_type = 'Guilt-Free' then budget.budget_amount
+            else coalesce( transactions.allocation_amount, 0 )
+        end as allocation_amount
     from aggregated_budget as budget
-    left join adjusted_aggregated_transactions as transactions
-        on
-            budget.allocation_type = transactions.allocation_type
-            and budget.budget_month = transactions.transaction_month
+    left join aggregated_transactions as transactions
+        on budget.allocation_type = transactions.allocation_type
+        and budget.budget_month = transactions.transaction_month
+
+),
+
+final as (
+
+    select
+        *,
+        {{ signed_variance('allocation_type', 'budget_amount', 'allocation_amount') }} as allocation_variance
+    from adjusted_guilt_free
 
 )
 
 select * from final
-order by 2, 1
