@@ -25,3 +25,7 @@ High-level cashflow category grouping (e.g., Fixed Costs, Income, Savings, Inves
 {% docs _loaded_at %}
 Timestamp when data was last successfully synced that specific row.
 {% enddocs %}
+
+{% docs is_future_month %}
+Boolean flag to show which months are in the future considering the transaction's latest month. Can be used as a filter, so future months aren't shown as "underspent".
+{% enddocs %}

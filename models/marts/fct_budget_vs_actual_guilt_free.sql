@@ -10,6 +10,13 @@ actual as (
 
 ),
 
+actual_latest_month as (
+
+    select date_trunc( max( transaction_month ), month ) as latest_month
+    from actual
+
+),
+
 actual_agg_month_guilt_free as (
 
     select
@@ -27,13 +34,13 @@ joined_budget_actual_guilt_free as (
         budget.budget_month_id,
         budget.budget_type,
         budget.budget_month,
+        budget.budget_month > ( select latest_month from actual_latest_month ) as is_future_month,
         budget.budget_amount,
         coalesce( actual.actual_amount, 0 ) as actual_amount
     from budget
     left join actual_agg_month_guilt_free as actual
-        on
-            budget.budget_type = actual.transaction_type
-            and budget.budget_month = actual.transaction_month
+        on budget.budget_type = actual.transaction_type
+        and budget.budget_month = actual.transaction_month
     where {{ is_guilt_free('budget.budget_type') }}
 
 ),
@@ -44,6 +51,7 @@ added_running_amount as (
         budget_month_id,
         budget_type,
         budget_month,
+        is_future_month,
         budget_amount,
         actual_amount,
         sum( budget_amount ) over ( partition by budget_type order by budget_month ) as running_budget_amount,
@@ -57,6 +65,7 @@ added_variance_amount as (
         budget_month_id,
         budget_type,
         budget_month,
+        is_future_month,
         budget_amount,
         actual_amount,
         running_budget_amount,

@@ -25,6 +25,13 @@ aggregated_budget as (
 
 ),
 
+transactions_latest_month as (
+
+    select date_trunc( max( transaction_month ), month ) as latest_month
+    from transactions
+
+),
+
 aggregated_transactions as (
 
     select
@@ -46,6 +53,7 @@ adjusted_guilt_free as (
     select
         budget.allocation_type,
         budget.budget_month,
+        budget.budget_month > ( select latest_month from transactions_latest_month ) as is_future_month,
         budget.budget_amount,
         case
             when budget.allocation_type = 'Guilt-Free' then budget.budget_amount
