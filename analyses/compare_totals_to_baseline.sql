@@ -5,7 +5,8 @@
 {% set baseline_schema = 'analytics' %} {# used while layered = false #}
 {% set skip_models = [] %}
 {% set excluded_columns = {
-    'dim_investments': ['latest_price', 'current_value']
+    'dim_investments': ['latest_price', 'current_value', 'annualized_return_rate'],
+    'retirement_projection': ['current_value', 'future_value']
 } %}
 {% set numeric_types = ['INT64', 'INTEGER', 'FLOAT64', 'FLOAT', 'NUMERIC', 'DECIMAL', 'BIGNUMERIC', 'BIGDECIMAL'] %}
 
