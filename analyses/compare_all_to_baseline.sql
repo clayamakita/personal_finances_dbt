@@ -5,7 +5,8 @@
 {% set baseline_schema = 'analytics' %} {# used while layered = false #}
 {% set skip_models = [] %}              {# e.g. models that don't exist in the baseline yet #}
 {% set excluded_columns = {
-    'dim_investments': ['latest_price', 'current_value']
+    'dim_investments': ['latest_price', 'current_value', 'annualized_return_rate'],
+    'retirement_projection': ['current_value', 'future_value']
 } %}                                    {# price- or date-driven columns, per model #}
 
 {% set queries = [] %}
