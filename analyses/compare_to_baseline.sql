@@ -1,7 +1,7 @@
 {# Compares one model in your dev dataset with the same model built by the baseline job.
    Edit the four settings below, then click Preview. #}
-{% set model_name = 'dim_accounts' %}
-{% set primary_key = 'account_id' %}
+{% set model_name = 'dim_investments' %}
+{% set primary_key = 'ticker' %}
 {% set baseline_schema = 'analytics' %}
 {% set excluded_columns = [] %}         {# e.g. ['latest_price', 'current_value'] for price- or date-driven columns #}
 
@@ -13,5 +13,6 @@
         identifier = model_name
     ),
     exclude_columns = excluded_columns,
-    primary_key = primary_key
+    primary_key = primary_key,
+    summarize = false
 ) }}
