@@ -72,7 +72,7 @@ tests/                     singular tests (reconciliation, business rules)
 | Count / units | `quantity`, `total_quantity` (never `qty`) | |
 | Rate | `<thing>_rate`, stored as a decimal (0.07 = 7%) | `annualized_return_rate` |
 | Running total | prefix `running_` | `running_budget_amount` |
-| Boolean | `is_` / `has_` prefix | `is_closed_month` |
+| Boolean | `is_` / `has_` prefix | `is_future_month` |
 | Metadata | leading underscore | `_loaded_at` |
 
 - Use `date`, not `timestamp`, wherever time of day doesn't matter.
@@ -94,7 +94,7 @@ These apply to every model and are the main reason this section exists: the same
 4. **Rounding:** do not round in staging or intermediate. Round only in marts, and only for presentation (2 decimals for money, 4 for rates).
 5. **Time zone:** one project variable (`var('project_timezone')`, default `America/Toronto`) used for every `current_date()` call. Never call `current_date()` directly: use the `today()` macro, which wraps it with the project timezone (and can be overridden in unit tests).
 6. **"Latest month"** is defined in one place only (`int_budget_latest_month`, driven by the latest transaction month). Other models consume it; they don't redefine it.
-7. **Future months:** budgeted months with no transactions yet are not "underspent". Comparison facts should carry an `is_closed_month` flag (or exclude open months).
+7. **Future months:** budgeted months with no transactions yet are not "underspent". Comparison facts should carry an `is_future_month` flag (or exclude future months). The current, partial month stays visible.
 8. **Calendar:** every month/year-level join uses `dim_dates` or a first-of-month `DATE`, never strings.
 9. **Income:** all income, including bonuses and extra paychecks, is recorded with category `Paycheck`. A bonus then shows up as a positive Paycheck variance in `fct_monthly_paycheck_allocation`, and a test fails if income is recorded under any other category.
 10. **Guilt-Free carry-over:** unspent Guilt-Free budget carries over across months and years, so Guilt-Free running totals are cumulative since the first month in the data and never reset.
@@ -107,6 +107,7 @@ Enforced with `sqlfluff` (dialect `bigquery`): the Lint and Fix buttons in the d
 
 - Lowercase keywords and functions. Lowercase `as`.
 - 4-space indent. No trailing whitespace. One column per line, leading definitions aligned.
+- A space just inside every bracket: `cast( coalesce( x, 0 ) as numeric )`, `count( * )`, `in ( 1, 2 )`. Enforced by the `layout` sections in `.sqlfluff` (`start_bracket` and `end_bracket`).
 - Standard shape: **import CTEs → logic CTEs → `final`**.
   - Import CTEs: `select * from {{ ref(...) }}` (or `source()` in staging), one per upstream model, named for the model.
   - Logic CTEs: one transformation each, named for what it does (`aggregated_month`, `added_key`).
@@ -271,6 +272,7 @@ When a new year's budget sheet is added (e.g. 2027):
 5. Confirm `dim_dates` covers the year, since its range comes from the data.
 6. Run the reconciliation tests. Check there are no duplicate `budget_type` + `budget_month` combinations across years.
 7. Update descriptions that mention a specific year.
+8. If the sheets are fed by the data generator script, move its `END_DATE` to the end of the new year.
 
 ---
 
@@ -282,7 +284,7 @@ Existing code that doesn't yet meet this guide. Group into PRs by theme.
 - [ ] `fct_monthly_paycheck_allocation`: test that all income is categorized `Paycheck`; apply the Guilt-Free override in `final`; fix `like 'Guilt-Free'`; drop dead filters and `order by`
 - [ ] `dim_cashflow_types`: replace the `row_number()` key with `slug_key`
 - [ ] `dim_savings_goals`: use `rows between unbounded preceding and current row`; add `unique` test on priority; align "now" with `int_budget_latest_month`; document the `+ 1` buffer and sequential-funding assumption
-- [ ] Comparison facts: `is_closed_month` flag; correct the guilt-free "year-to-date" wording (running totals carry over across years)
+- [ ] Comparison facts: `is_future_month` flag; correct the guilt-free "year-to-date" wording (running totals carry over across years)
 - [ ] `fct_budget_vs_actual_fixed_costs`: reconciliation and `relationships` tests so unbudgeted spend isn't dropped silently
 - [ ] `int_accounts`: `relationships` test from transaction accounts; add to `_int.yml`
 - [ ] `int_investments_current_position`: `unique` test on `ticker`; confirm Dividends handling
